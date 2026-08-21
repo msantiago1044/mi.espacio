@@ -2657,9 +2657,9 @@ footer {
     opacity: 0;
 }
 
-.timeline-content.reveal-on-scroll.revealed {
-    transform: translateX(0);
-    opacity: 1;
+.timeline-item .timeline-content.reveal-on-scroll.revealed {
+    transform: translateX(0) !important;
+    opacity: 1 !important;
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -3020,6 +3020,11 @@ footer {
     .timeline-item:nth-child(even) .timeline-content.reveal-on-scroll {
         transform: translateY(20px);
         opacity: 0;
+    }
+
+    .timeline-item .timeline-content.reveal-on-scroll.revealed {
+        transform: translateY(0) !important;
+        opacity: 1 !important;
     }
 
     .metrics-grid {

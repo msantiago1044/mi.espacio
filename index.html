@@ -1918,12 +1918,14 @@
                 const drawer = document.getElementById('articleDrawer');
                 const body = document.getElementById('drawer-body');
                 if (!drawer || !body) return;
+                drawer.classList.add('open');
                 drawer.setAttribute('aria-hidden', 'false');
                 document.body.style.overflow = 'hidden';
                 body.innerHTML = '<div class="blog-loading">Cargando artículo...</div>';
 
                 try {
-                    const res = await fetch(`articles/${slug}.json`);
+                    // Use a query parameter cache buster to bypass old service workers
+                    const res = await fetch(`articles/${slug}.json?cb=${Date.now()}`);
                     if (!res.ok) throw new Error('Not found');
                     const art = await res.json();
                     const readMin = art.reading_time || meta?.reading_time || '?';
@@ -1936,22 +1938,48 @@
                     </div>
                     <div class="drawer-body-content" style="margin-top:var(--space-2xl);line-height:1.85;font-size:var(--font-size-base)">${renderMarkdown(art.content || art.excerpt || '')}</div>
                     ${art.tags ? `<div style="margin-top:var(--space-2xl);display:flex;gap:8px;flex-wrap:wrap">${art.tags.map(t => `<span style="font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--color-border);color:var(--color-text-muted)">${t}</span>`).join('')}</div>` : ''}`;
-                } catch {
-                    body.innerHTML = '<p style="color:var(--color-text-muted);text-align:center;padding:var(--space-2xl)">No se pudo cargar el artículo.</p>';
+
+                    // Dynamic TOC integration
+                    const drawerToc = document.getElementById('drawer-toc');
+                    if (drawerToc) {
+                        drawerToc.innerHTML = '';
+                        if (art.toc && art.toc.length) {
+                            const tocLabel = document.createElement('span');
+                            tocLabel.className = 'toc-label';
+                            tocLabel.textContent = 'En este artículo';
+                            drawerToc.appendChild(tocLabel);
+                            art.toc.forEach((item, i) => {
+                                const a = document.createElement('a');
+                                a.href = `#toc-${i}`;
+                                a.className = 'toc-link';
+                                a.textContent = item;
+                                a.addEventListener('click', e => {
+                                    e.preventDefault();
+                                    const target = body.querySelector(`#toc-${i}`);
+                                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                });
+                                drawerToc.appendChild(a);
+                            });
+                        }
+                    }
+                } catch (err) {
+                    body.innerHTML = '<p style="color:var(--color-text-muted);text-align:center;padding:var(--space-2xl)">No se pudo cargar el artículo. (' + err.message + ')</p>';
                 }
             }
 
             function renderMarkdown(md) {
-                // Minimal Markdown → HTML (headings, bold, italic, code, paragraphs)
+                // Minimal Markdown → HTML with auto-incrementing heading IDs matching TOC index
+                let h2Count = 0;
+                let h3Count = 0;
                 return md
-                    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-                    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+                    .replace(/^## (.+)$/gm, (m, label) => `<h3 id="toc-${h2Count++}">${label}</h3>`)
+                    .replace(/^### (.+)$/gm, (m, label) => `<h4 id="toc-sec-${h3Count++}">${label}</h4>`)
                     .replace(/^# (.+)$/gm, '<h1>$1</h1>')
                     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
                     .replace(/\*(.+?)\*/g, '<em>$1</em>')
                     .replace(/`([^`]+)`/g, '<code style="font-family:var(--font-mono);background:var(--color-surface);padding:2px 6px;border-radius:4px;font-size:0.9em">$1</code>')
                     .replace(/\n\n/g, '</p><p>')
-                    .replace(/^(?!<[h123]|<\/p|<p)(.+)$/gm, '<p>$1</p>');
+                    .replace(/^(?!<[h1234]|<\/p|<p)(.+)$/gm, '<p>$1</p>');
             }
 
             // Wire up drawer close (in case existing logic not loaded)
@@ -1959,8 +1987,18 @@
                 const drawer = document.getElementById('articleDrawer');
                 const closeBtn = drawer?.querySelector('.drawer-close-btn');
                 if (!closeBtn) return;
-                closeBtn.addEventListener('click', () => { drawer.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; });
-                drawer?.addEventListener('click', e => { if (e.target === drawer) { drawer.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; } });
+                closeBtn.addEventListener('click', () => {
+                    drawer.classList.remove('open');
+                    drawer.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                });
+                drawer?.addEventListener('click', e => {
+                    if (e.target === drawer) {
+                        drawer.classList.remove('open');
+                        drawer.setAttribute('aria-hidden', 'true');
+                        document.body.style.overflow = '';
+                    }
+                });
             }
             wireDrawerClose();
 
@@ -1969,12 +2007,12 @@
 
             async function init() {
                 try {
-                    const res = await fetch(ARTICLES_INDEX);
+                    const res = await fetch(`${ARTICLES_INDEX}?cb=${Date.now()}`);
                     if (!res.ok) throw new Error();
                     const index = await res.json();
                     const slugs = Array.isArray(index) ? index : (index.slugs || []);
-                    // Fetch all article metadata
-                    const metas = await Promise.allSettled(slugs.map(slug => fetch(`articles/${slug}.json`).then(r => r.json())));
+                    // Fetch all article metadata bypassing caching
+                    const metas = await Promise.allSettled(slugs.map(slug => fetch(`articles/${slug}.json?cb=${Date.now()}`).then(r => r.json())));
                     allArticles = metas.filter(r => r.status === 'fulfilled').map(r => r.value).sort((a, b) => new Date(b.date) - new Date(a.date));
                     if (blogLoading) blogLoading.remove();
                     renderBlogGrid(allArticles);
@@ -2135,9 +2173,13 @@
                 }
             }
 
+            const zoom = d3.zoom().scaleExtent([0.4, 3]).on('zoom', e => g.attr('transform', e.transform));
             const svg = d3.select('#knowledge-graph').append('svg')
                 .attr('viewBox', `0 0 ${W} ${H}`)
-                .call(d3.zoom().scaleExtent([0.4, 3]).on('zoom', e => g.attr('transform', e.transform)));
+                .call(zoom);
+
+            // Allow page scroll over the graph by releasing wheel event
+            svg.on("wheel.zoom", null);
 
             const g = svg.append('g');
 
