@@ -2100,7 +2100,13 @@
     <script>
         function buildKnowledgeGraph(articles) {
             const container = document.getElementById('knowledge-graph');
-            if (!container || typeof d3 === 'undefined') return;
+            if (!container) return;
+
+            if (typeof d3 === 'undefined') {
+                window.addEventListener('load', () => buildKnowledgeGraph(articles), { once: true });
+                setTimeout(() => { if (typeof d3 !== 'undefined') buildKnowledgeGraph(articles); }, 800);
+                return;
+            }
 
             const W = container.clientWidth || 900;
             const H = container.clientHeight || 480;
