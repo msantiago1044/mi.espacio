@@ -1,4 +1,4 @@
-const CACHE_NAME = 'marcelo-blog-v4.0';
+const CACHE_NAME = 'marcelo-blog-v4.1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',

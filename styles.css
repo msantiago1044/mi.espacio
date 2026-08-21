@@ -2648,17 +2648,18 @@ footer {
 
 /* Alternating reveal */
 .timeline-item:nth-child(odd) .timeline-content.reveal-on-scroll {
-    transform: perspective(900px) rotateY(12deg) translateX(30px) translateZ(-40px);
-    transform-origin: right center;
+    transform: translateX(30px);
+    opacity: 0;
 }
 
 .timeline-item:nth-child(even) .timeline-content.reveal-on-scroll {
-    transform: perspective(900px) rotateY(-12deg) translateX(-30px) translateZ(-40px);
-    transform-origin: left center;
+    transform: translateX(-30px);
+    opacity: 0;
 }
 
 .timeline-content.reveal-on-scroll.revealed {
-    transform: perspective(900px) rotateY(0) translateX(0) translateZ(0);
+    transform: translateX(0);
+    opacity: 1;
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -3009,15 +3010,16 @@ footer {
     }
 
     .timeline-content {
-        width: 100%;
-        margin-left: calc(var(--space-lg) * 2 + var(--space-xl)) !important;
+        width: calc(100% - 48px) !important;
+        margin-left: 48px !important;
         margin-right: 0 !important;
+        box-sizing: border-box;
     }
 
     .timeline-item:nth-child(odd) .timeline-content.reveal-on-scroll,
     .timeline-item:nth-child(even) .timeline-content.reveal-on-scroll {
-        transform: perspective(900px) rotateY(-8deg) translateX(-20px) translateZ(-30px);
-        transform-origin: left center;
+        transform: translateY(20px);
+        opacity: 0;
     }
 
     .metrics-grid {

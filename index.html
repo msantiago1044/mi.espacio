@@ -80,7 +80,7 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     <!-- D3.js para Grafo de Conocimiento -->
-    <script src="https://d3js.org/d3.v7.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css?v=3.0.0">
 
@@ -1906,7 +1906,7 @@
             }
 
             function openArticleFromData(art) {
-                if (typeof openarticle === 'function') {
+                if (typeof openArticleBySlug === 'function') {
                     // Delegate to existing drawer logic via synthetic slug
                     openArticleBySlug(art.slug, art);
                 }
@@ -1970,8 +1970,9 @@
                     const res = await fetch(ARTICLES_INDEX);
                     if (!res.ok) throw new Error();
                     const index = await res.json();
+                    const slugs = Array.isArray(index) ? index : (index.slugs || []);
                     // Fetch all article metadata
-                    const metas = await Promise.allSettled(index.map(slug => fetch(`articles/${slug}.json`).then(r => r.json())));
+                    const metas = await Promise.allSettled(slugs.map(slug => fetch(`articles/${slug}.json`).then(r => r.json())));
                     allArticles = metas.filter(r => r.status === 'fulfilled').map(r => r.value).sort((a, b) => new Date(b.date) - new Date(a.date));
                     if (blogLoading) blogLoading.remove();
                     renderBlogGrid(allArticles);
