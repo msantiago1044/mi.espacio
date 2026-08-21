@@ -2648,13 +2648,13 @@ footer {
 
 /* Alternating reveal */
 .timeline-item:nth-child(odd) .timeline-content.reveal-on-scroll {
-    transform: translateX(30px);
-    opacity: 0;
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .timeline-item:nth-child(even) .timeline-content.reveal-on-scroll {
-    transform: translateX(-30px);
-    opacity: 0;
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .timeline-item .timeline-content.reveal-on-scroll.revealed {
@@ -3018,8 +3018,8 @@ footer {
 
     .timeline-item:nth-child(odd) .timeline-content.reveal-on-scroll,
     .timeline-item:nth-child(even) .timeline-content.reveal-on-scroll {
-        transform: translateY(20px);
-        opacity: 0;
+        transform: translateY(0);
+        opacity: 1;
     }
 
     .timeline-item .timeline-content.reveal-on-scroll.revealed {
