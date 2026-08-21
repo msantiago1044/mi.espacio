@@ -1,23 +1,22 @@
-// P12: Service Worker — offline-first con cache estratégico
-const CACHE_NAME = 'marcelo-blog-v3';
+const CACHE_NAME = 'marcelo-blog-v4.0';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
+  '/404.html',
   '/styles.css',
-  '/manifest.json'
+  '/manifest.json',
+  '/articles/index.json'
 ];
 
-// Instalar: pre-cachear assets estáticos
-self.addEventListener('install', event => {
-  event.waitUntil(
+self.addEventListener('install', e => {
+  e.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
   );
   self.skipWaiting();
 });
 
-// Activar: limpiar caches viejos
-self.addEventListener('activate', event => {
-  event.waitUntil(
+self.addEventListener('activate', e => {
+  e.waitUntil(
     caches.keys().then(keys =>
       Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
     )
@@ -25,38 +24,45 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch: cache-first para assets, network-first para API
-self.addEventListener('fetch', event => {
-  const { request } = event;
-  const url = new URL(request.url);
+self.addEventListener('fetch', e => {
+  const url = new URL(e.request.url);
 
-  // APIs de GitHub y Google: network-first (datos frescos)
-  if (url.hostname.includes('api.github.com') || url.hostname.includes('googleapis.com')) {
-    event.respondWith(
-      fetch(request)
-        .then(res => {
-          const clone = res.clone();
-          caches.open(CACHE_NAME).then(c => c.put(request, clone));
-          return res;
-        })
-        .catch(() => caches.match(request))
-    );
-    return;
-  }
-
-  // Assets estáticos: cache-first
-  if (request.method === 'GET') {
-    event.respondWith(
-      caches.match(request).then(cached => {
+  // Cache-first for assets & article JSONs
+  if (
+    url.pathname.startsWith('/articles/') ||
+    url.pathname.endsWith('.css') ||
+    url.pathname.endsWith('.js') ||
+    url.pathname.endsWith('.json') ||
+    url.pathname.endsWith('.png') ||
+    url.pathname.endsWith('.jpg') ||
+    url.pathname.endsWith('.webp')
+  ) {
+    e.respondWith(
+      caches.match(e.request).then(cached => {
         if (cached) return cached;
-        return fetch(request).then(res => {
-          if (res && res.status === 200) {
-            const clone = res.clone();
-            caches.open(CACHE_NAME).then(c => c.put(request, clone));
-          }
+        return fetch(e.request).then(res => {
+          if (!res || res.status !== 200 || res.type !== 'basic') return res;
+          const clone = res.clone();
+          caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
           return res;
         });
       })
     );
+    return;
   }
+
+  // Network-first for HTML pages, fallback to 404
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).catch(() =>
+        caches.match('/404.html').then(r => r || caches.match('/index.html'))
+      )
+    );
+    return;
+  }
+
+  // Default: network with cache fallback
+  e.respondWith(
+    fetch(e.request).catch(() => caches.match(e.request))
+  );
 });

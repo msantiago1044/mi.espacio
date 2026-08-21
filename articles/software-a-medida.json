@@ -1,0 +1,22 @@
+{
+    "slug": "software-a-medida",
+    "title": "Software Corporativo Hecho a Medida",
+    "category": "Arquitectura",
+    "tags": [
+        "arquitectura",
+        "software",
+        "diseño",
+        "gobernanza",
+        "devops"
+    ],
+    "date": "2026-08-03",
+    "reading_time": 4,
+    "cover": "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80",
+    "excerpt": "Por qué las suites empaquetadas fallan frente a problemas no estándar. Filosofía de diseño de software a medida de alto impacto operativo.",
+    "toc": [
+        "El mito del software empaquetado",
+        "Costos ocultos del one-size-fits-all",
+        "Filosofía de diseño a medida"
+    ],
+    "content": "## El mito del software empaquetado\n\nLas grandes suites empresariales (SAP, Oracle, Salesforce) fueron diseñadas para el promedio de los casos, no para tu caso específico. El resultado inevitable es uno de dos: **tú te adaptas al software** o **el software queda subutilizado**.\n\nAmbos escenarios son costosos. El primero distorsiona procesos que funcionan bien. El segundo es dinero invertido sin retorno.\n\n## Costos ocultos del one-size-fits-all\n\nCuando sumas licencias anuales, personalizaciones de consultores certificados, capacitaciones y las horas de productividad perdida durante la adaptación, el software \"económico\" termina siendo el más caro.\n\nEl software a medida, correctamente diseñado, tiene:\n\n- **Cero licencias recurrentes** por funcionalidades que no usas\n- **Mantenimiento predecible** porque el código es tuyo\n- **Adaptación instantánea** cuando cambian tus procesos\n\n## Filosofía de diseño a medida\n\nNo se trata de reinventar la rueda. Se trata de construir exactamente la rueda que necesitas para el terreno específico que recorres.\n\nEl proceso comienza con **escucha profunda**: mapear los procesos reales (no los procesos ideales del manual), identificar los cuellos de botella y diseñar una solución que resuelva el problema verdadero, no el problema declarado."
+}
