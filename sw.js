@@ -1,4 +1,4 @@
-const CACHE_NAME = 'marcelo-blog-v4.1';
+const CACHE_NAME = 'marcelo-blog-v4.2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -27,12 +27,26 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
 
-  // Cache-first for assets & article JSONs
+  // Network-first for dynamic article content and indexes
   if (
-    url.pathname.startsWith('/articles/') ||
+    url.pathname.includes('/articles/') ||
+    url.pathname.endsWith('.json')
+  ) {
+    e.respondWith(
+      fetch(e.request).then(res => {
+        if (!res || res.status !== 200) return res;
+        const clone = res.clone();
+        caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
+        return res;
+      }).catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
+  // Cache-first for static assets
+  if (
     url.pathname.endsWith('.css') ||
     url.pathname.endsWith('.js') ||
-    url.pathname.endsWith('.json') ||
     url.pathname.endsWith('.png') ||
     url.pathname.endsWith('.jpg') ||
     url.pathname.endsWith('.webp')
@@ -51,7 +65,7 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Network-first for HTML pages, fallback to 404
+  // Network-first for HTML pages navigation, fallback to 404
   if (e.request.mode === 'navigate') {
     e.respondWith(
       fetch(e.request).catch(() =>
