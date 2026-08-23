@@ -482,6 +482,9 @@ h3 {
     line-height: 1.1;
     font-weight: 400;
     letter-spacing: -0.03em;
+    /* Fixed height = 3 lines max, content clipped. Badges always at same Y position. */
+    height: 3.5em;
+    overflow: hidden;
 }
 
 .hero-statement h2 em {
