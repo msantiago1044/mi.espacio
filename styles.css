@@ -120,6 +120,8 @@ body {
     cursor: none;
     /* hidden: replaced by P3 custom cursor */
     transition: background-color 400ms var(--ease-out), color 400ms var(--ease-out);
+    /* Prevent browser scroll-anchor from jumping when kinetic headline changes height */
+    overflow-anchor: none;
 }
 
 @media (pointer: coarse) {
@@ -480,13 +482,16 @@ h3 {
     line-height: 1.1;
     font-weight: 400;
     letter-spacing: -0.03em;
+    /* Fixed height prevents layout reflow when text phrase changes length */
+    min-height: 4.5em;
 }
 
 .hero-statement h2 em {
     color: var(--color-accent);
     font-style: italic;
     display: inline-block;
-    min-width: 12ch;
+    /* Wide enough for longest phrase to avoid line-wrap changes */
+    min-width: 20ch;
 }
 
 /* P8: GitHub badges */
