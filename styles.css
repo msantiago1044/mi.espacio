@@ -107,6 +107,8 @@
 
 html {
     scroll-behavior: smooth;
+    /* MUST be on html — it's the actual page scroll container in most browsers */
+    overflow-anchor: none;
 }
 
 body {
@@ -495,6 +497,10 @@ h3 {
     white-space: nowrap;
     overflow: hidden;
     transition: opacity 280ms ease;
+    /* CSS Containment: isolates repaints — glitch textContent writes cannot trigger
+       ancestor layout recalculations or scroll anchor adjustments */
+    contain: strict;
+    height: 1.2em;
 }
 
 /* P8: GitHub badges */
