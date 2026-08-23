@@ -895,17 +895,28 @@
             const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
 
             if (!isTouchDevice) {
+                let haloRafId = null;
+
+                function animHalo() {
+                    const dx = mx - hx;
+                    const dy = my - hy;
+                    if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+                        hx = mx; hy = my;
+                        halo.style.transform = `translate(${hx}px, ${hy}px)`;
+                        haloRafId = null;
+                        return;
+                    }
+                    hx += dx * 0.1;
+                    hy += dy * 0.1;
+                    halo.style.transform = `translate(${hx}px, ${hy}px)`;
+                    haloRafId = requestAnimationFrame(animHalo);
+                }
+
                 document.addEventListener('mousemove', e => {
                     mx = e.clientX; my = e.clientY;
                     cursor.style.transform = `translate(${mx}px, ${my}px)`;
+                    if (!haloRafId) haloRafId = requestAnimationFrame(animHalo);
                 }, { passive: true });
-
-                (function animHalo() {
-                    hx += (mx - hx) * 0.1;
-                    hy += (my - hy) * 0.1;
-                    halo.style.transform = `translate(${hx}px, ${hy}px)`;
-                    requestAnimationFrame(animHalo);
-                })();
 
                 document.addEventListener('mousedown', () => cursor.classList.add('pressing'));
                 document.addEventListener('mouseup', () => cursor.classList.remove('pressing'));
