@@ -490,12 +490,10 @@ h3 {
 .hero-statement h2 em {
     color: var(--color-accent);
     font-style: italic;
-    /* Fixed width = NEVER changes document layout regardless of text length */
-    display: inline-block;
-    width: 32ch;
-    overflow: hidden;
+    /* display:block puts em on its own line — no inline-width pressure on right column */
+    display: block;
     white-space: nowrap;
-    vertical-align: bottom;
+    overflow: hidden;
     transition: opacity 280ms ease;
 }
 
