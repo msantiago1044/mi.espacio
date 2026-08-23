@@ -749,12 +749,14 @@ h3 {
     line-height: 1.7;
     scrollbar-width: thin;
     scrollbar-color: rgba(6, 182, 212, .3) transparent;
+    color: #e2e8f0 !important;
 }
 
 .terminal-line {
     white-space: pre-wrap;
     word-break: break-word;
     margin-bottom: 2px;
+    color: #e2e8f0 !important;
 }
 
 .terminal-input-line {
@@ -765,20 +767,20 @@ h3 {
 }
 
 .terminal-prompt {
-    color: #64748b;
+    color: #94a3b8 !important;
     white-space: nowrap;
     flex-shrink: 0;
 }
 
 .prompt-path {
-    color: var(--color-accent);
+    color: var(--color-accent) !important;
 }
 
 .terminal-input {
     background: transparent;
     border: none;
     outline: none;
-    color: var(--color-text);
+    color: #f1f5f9 !important;
     font-family: var(--font-mono);
     font-size: 13px;
     flex: 1;
@@ -2740,6 +2742,37 @@ footer {
     margin-bottom: var(--space-sm);
     display: block;
     opacity: 0.6;
+}
+
+/* Botón Contrátame en Navbar */
+.hire-nav-btn {
+    background: var(--color-accent) !important;
+    color: var(--color-bg) !important;
+    border: 1px solid var(--color-accent) !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: background var(--duration-hover), transform var(--duration-feedback) !important;
+    box-shadow: 0 2px 8px rgba(6, 182, 212, 0.2) !important;
+    font-size: var(--font-size-xs) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .hire-nav-btn:hover {
+        background: var(--color-accent-hover) !important;
+        border-color: var(--color-accent-hover) !important;
+        color: var(--color-bg) !important;
+        box-shadow: 0 4px 12px rgba(6, 182, 212, 0.35) !important;
+    }
+}
+
+.hire-nav-btn svg {
+    stroke: var(--color-bg) !important;
 }
 
 /* ════════════════════════════════════════════════════════════════
