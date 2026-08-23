@@ -84,7 +84,7 @@
     <!-- D3.js para Grafo de Conocimiento -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css?v=4.3.0">
+    <link rel="stylesheet" href="styles.css?v=4.4.0">
 
     <noscript>
         <style>
@@ -1074,21 +1074,17 @@
             let phraseIdx = 0;
             const glitchChars = '█▓▒░#@&%$';
 
-            function glitchIn(el, newText) {
-                let iters = 0;
-                const orig = newText.split('');
-                const interval = setInterval(() => {
-                    el.textContent = orig.map((c, i) =>
-                        i < iters ? c : (c === ' ' ? ' ' : glitchChars[Math.floor(Math.random() * glitchChars.length)])
-                    ).join('');
-                    iters++;
-                    if (iters > orig.length) clearInterval(interval);
-                }, 30);
+            function fadeSwap(el, newText) {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.textContent = newText;
+                    el.style.opacity = '1';
+                }, 290);
             }
 
             setInterval(() => {
                 phraseIdx = (phraseIdx + 1) % phrases.length;
-                glitchIn(kineticWord, phrases[phraseIdx]);
+                fadeSwap(kineticWord, phrases[phraseIdx]);
             }, 3500);
 
             // ═══════════════════════════════════════════════════════════════

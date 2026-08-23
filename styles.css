@@ -482,16 +482,18 @@ h3 {
     line-height: 1.1;
     font-weight: 400;
     letter-spacing: -0.03em;
-    /* Fixed height prevents layout reflow when text phrase changes length */
-    min-height: 4.5em;
 }
 
 .hero-statement h2 em {
     color: var(--color-accent);
     font-style: italic;
+    /* Fixed width = NEVER changes document layout regardless of text length */
     display: inline-block;
-    /* Wide enough for longest phrase to avoid line-wrap changes */
-    min-width: 20ch;
+    width: 32ch;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: bottom;
+    transition: opacity 280ms ease;
 }
 
 /* P8: GitHub badges */
