@@ -84,7 +84,7 @@
     <!-- D3.js para Grafo de Conocimiento -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css?v=4.1.0">
+    <link rel="stylesheet" href="styles.css?v=4.2.0">
 
     <noscript>
         <style>
@@ -994,8 +994,8 @@
                     particles.forEach(p => {
                         const dx = mouseGX - p.x, dy = mouseGY - p.y;
                         const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 150) { p.vx += dx / dist * 0.015; p.vy += dy / dist * 0.015; }
-                        p.vx *= 0.99; p.vy *= 0.99;
+                        if (dist > 30 && dist < 150) { p.vx += dx / dist * 0.008; p.vy += dy / dist * 0.008; }
+                        p.vx *= 0.96; p.vy *= 0.96;
                         p.x += p.vx; p.y += p.vy;
                         if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
                         if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
