@@ -302,11 +302,12 @@ header {
     flex-wrap: wrap;
 }
 
-/* Hidden in desktop nav — only visible inside the hamburger dropdown */
-.hamburger-only {
-    display: none;
+/* Hamburger-only items: hidden on desktop, shown inside hamburger dropdown */
+@media (min-width: 901px) {
+    .hamburger-only {
+        display: none;
+    }
 }
-
 
 .nav-links a {
     color: var(--color-text-muted);
@@ -2095,12 +2096,6 @@ footer {
 
     .nav-links.nav-open {
         display: flex;
-    }
-
-    /* Reveal hamburger-only items inside the dropdown */
-    .nav-links .hamburger-only {
-        display: block;
-        width: 100%;
     }
 
     @keyframes nav-slide-down {
