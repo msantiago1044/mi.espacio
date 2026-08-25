@@ -1761,15 +1761,16 @@
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const navLinks = document.getElementById('nav-links');
             function closeNavMobile() {
-                if (window.innerWidth <= 700) {
-                    navLinks.classList.remove('nav-open');
-                    hamburgerBtn.classList.remove('active');
-                    hamburgerBtn.setAttribute('aria-expanded', 'false');
-                }
+                if (!hamburgerBtn || !navLinks) return;
+                navLinks.classList.remove('nav-open');
+                navLinks.style.display = '';        // revert to CSS (= none at ≤900px)
+                hamburgerBtn.classList.remove('active');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
             }
-            if (hamburgerBtn) {
+            if (hamburgerBtn && navLinks) {
                 hamburgerBtn.addEventListener('click', () => {
                     const isOpen = navLinks.classList.toggle('nav-open');
+                    navLinks.style.display = isOpen ? 'flex' : ''; // inline style wins over any cached CSS
                     hamburgerBtn.classList.toggle('active', isOpen);
                     hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
                     playClick();
