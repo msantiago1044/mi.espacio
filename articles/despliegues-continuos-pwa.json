@@ -1,0 +1,23 @@
+{
+    "slug": "despliegues-continuos-pwa",
+    "title": "Despliegues Continuos Seguros & PWAs Corporativas",
+    "category": "DevOps",
+    "tags": [
+        "ci-cd",
+        "pwa",
+        "devops",
+        "automatización",
+        "seguridad",
+        "offline-first"
+    ],
+    "date": "2026-08-04",
+    "reading_time": 6,
+    "cover": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
+    "excerpt": "Estrategias modernas de CI/CD para arquitecturas híbridas y despliegues de PWAs seguras con offline-first de nivel empresarial.",
+    "toc": [
+        "CI/CD en entornos críticos",
+        "PWAs offline-first",
+        "Seguridad en el pipeline"
+    ],
+    "content": "## CI/CD en entornos críticos\n\nUn pipeline de integración y despliegue continuo mal diseñado introduce más riesgo del que mitiga. La clave está en la **estrategia de rollback automático**: si el deploy falla health checks en producción, el sistema vuelve solo a la versión anterior.\n\nEsto requiere:\n- Tests de smoke en staging que repliquen condiciones de producción\n- Feature flags para activar funcionalidades gradualmente\n- Canary releases con métricas de error rate en tiempo real\n\n## PWAs offline-first\n\nUna PWA corporativa no es simplemente un sitio web instalable. Es una aplicación que:\n\n1. **Funciona sin conexión** mediante Service Workers y estrategias de caché inteligentes\n2. **Sincroniza datos** cuando la conectividad se restaura, sin pérdida de estado\n3. **Se actualiza silenciosamente** en segundo plano sin interrumpir al usuario\n\nEl Service Worker actúa como un proxy programable que intercepta requests y decide qué sirve desde caché y qué necesita red.\n\n## Seguridad en el pipeline\n\nCada artefacto generado en el pipeline debe pasar por análisis de dependencias (SAST/DAST), verificación de firmas y escaneo de secretos expuestos.\n\nLa seguridad no es una fase final — es una propiedad emergente de un pipeline bien diseñado."
+}

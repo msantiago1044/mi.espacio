@@ -1,24 +1,151 @@
+<!--
+ ███╗   ███╗ █████╗ ██████╗  ██████╗███████╗██╗      ██████╗
+ ████╗ ████║██╔══██╗██╔══██╗██╔════╝██╔════╝██║     ██╔═══██╗
+ ██╔████╔██║███████║██████╔╝██║     █████╗  ██║     ██║   ██║
+ ██║╚██╔╝██║██╔══██║██╔══██╗██║     ██╔══╝  ██║     ██║   ██║
+ ██║ ╚═╝ ██║██║  ██║██║  ██║╚██████╗███████╗███████╗╚██████╔╝
+ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚══════╝ ╚═════╝
+
+ מרצלו · Marcelo Barraza · Ingeniero de Sistemas
+ "La entropía del sistema aumenta — el código la ordena."
+ "Construir sostenible es construir para siempre."
+
+ github.com/msantiago1044
+ Blog: msantiago1044.github.io/mi.espacio
+-->
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marcelo Barraza — Pensamiento y Sistemas</title>
-    <link rel="stylesheet" href="styles.css?v=2.0.0">
-    <!-- Progressive Enhancement: Ensure instant layout visibility if JavaScript is disabled -->
+    <meta name="description"
+        content="Blog de Marcelo Barraza, Ingeniero de Sistemas especialista en arquitectura empresarial, automatización resiliente y cibernética corporativa.">
+    <meta name="author" content="Marcelo Barraza">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Marcelo Barraza — Pensamiento y Sistemas">
+    <meta property="og:description"
+        content="Ensayos sobre arquitectura de software, automatización, DevOps y sistemas de misión crítica.">
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/msantiago1044">
+    <meta property="og:url" content="https://msantiago1044.github.io/mi.espacio/">
+    <meta property="og:locale" content="es_CO">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Marcelo Barraza — Pensamiento y Sistemas">
+    <meta name="twitter:description"
+        content="Ensayos sobre arquitectura de software, automatización, DevOps y sistemas de misión crítica.">
+    <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/msantiago1044">
+
+    <!-- P20: JSON-LD Schema.org Person + Blog -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://msantiago1044.github.io/mi.espacio/#person",
+          "name": "Marcelo Barraza",
+          "jobTitle": "Arquitecto de Sistemas / Ingeniero de Software",
+          "url": "https://msantiago1044.github.io/mi.espacio/",
+          "email": "marcelobarrazasantiago@gmail.com",
+          "sameAs": [
+            "https://github.com/msantiago1044",
+            "https://www.linkedin.com/in/marcelo-a-barraza-s-55959b172/"
+          ],
+          "knowsAbout": ["Arquitectura de Software","DevOps","ISO 27001","Python","Docker","Kubernetes","n8n","Cibernética Industrial"]
+        },
+        {
+          "@type": "Blog",
+          "@id": "https://msantiago1044.github.io/mi.espacio/#blog",
+          "name": "Marcelo Barraza — Pensamiento y Sistemas",
+          "author": { "@id": "https://msantiago1044.github.io/mi.espacio/#person" },
+          "description": "Ensayos sobre arquitectura de software, automatización y sistemas de misión crítica",
+          "inLanguage": "es"
+        }
+      ]
+    }
+    </script>
+
+    <!-- P12: PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#030712">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=3">
+    <link rel="shortcut icon" type="image/svg+xml" href="favicon.svg?v=3">
+    <link rel="apple-touch-icon" href="https://avatars.githubusercontent.com/u/msantiago1044?v=3">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Code+Pro:wght@400;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <!-- D3.js para Grafo de Conocimiento -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css?v=5.1.0">
+
     <noscript>
         <style>
             .reveal-on-scroll {
                 opacity: 1 !important;
                 transform: none !important;
             }
+
             .fade-image {
                 opacity: 1 !important;
             }
+
+            #custom-cursor,
+            #cursor-halo {
+                display: none;
+            }
         </style>
     </noscript>
+    <!-- Force timeline cards loading and kill legacy caches -->
+    <style>
+        .timeline-content.reveal-on-scroll {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    </style>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(regs => {
+                for (let r of regs) r.unregister();
+            }).catch(() => { });
+        }
+        if ('caches' in window) {
+            caches.keys().then(keys => {
+                for (let k of keys) caches.delete(k).catch(() => { });
+            }).catch(() => { });
+        }
+    </script>
 </head>
+
 <body>
+    <!-- P3: Custom cursor -->
+    <div id="custom-cursor"></div>
+    <div id="cursor-halo"></div>
+
+    <!-- P10: Command Palette (Cmd+K) -->
+    <div id="cmd-palette" role="dialog" aria-modal="true" aria-label="Buscar" hidden>
+        <div id="cmd-backdrop"></div>
+        <div id="cmd-box">
+            <div id="cmd-input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M21 21l-4.35-4.35" />
+                </svg>
+                <input id="cmd-input" type="text" placeholder="Buscar artículos, secciones..." autocomplete="off"
+                    spellcheck="false">
+                <kbd>ESC</kbd>
+            </div>
+            <div id="cmd-results"></div>
+        </div>
+    </div>
+
     <header>
         <div class="scroll-progress-container">
             <div class="scroll-progress-bar"></div>
@@ -26,142 +153,637 @@
         <nav class="navbar">
             <div class="container">
                 <div class="logo-group">
-                    <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path d="M50 15 L85 35 L85 65 L50 85 L15 65 L15 35 Z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-                        <path d="M50 15 L50 85" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
-                        <path d="M15 35 L85 65" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
-                        <path d="M15 65 L85 35" stroke="currentColor" stroke-width="2" stroke-dasharray="4 4"/>
-                        <circle cx="50" cy="50" r="12" fill="var(--color-accent)" stroke="currentColor" stroke-width="3"/>
-                        <path d="M50 28 L50 38 M50 62 L50 72 M28 50 L38 50 M62 50 L72 50" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                    <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"
+                        aria-label="Logo Pensamiento y Sistemas">
+                        <defs>
+                            <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#06b6d4" />
+                                <stop offset="50%" stop-color="#6366f1" />
+                                <stop offset="100%" stop-color="#ec4899" />
+                            </linearGradient>
+                            <filter id="logo-glow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="3" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
+                        <!-- Capa 1: Hexágono contenedor con gradiente -->
+                        <path d="M50 10 L85 30 L85 70 L50 90 L15 70 L15 30 Z" stroke="url(#logo-grad)" stroke-width="3"
+                            stroke-linejoin="round" />
+                        <!-- Capa 2: Órbitas/Anillos concéntricos -->
+                        <circle cx="50" cy="50" r="28" stroke="rgba(6, 182, 212, 0.2)" stroke-width="1.5" />
+                        <circle cx="50" cy="50" r="18" stroke="rgba(99, 102, 241, 0.3)" stroke-width="1.5"
+                            stroke-dasharray="4 3" />
+                        <!-- Capa 3: Nodo/Núcleo central cibernético pulsante -->
+                        <circle cx="50" cy="50" r="8" fill="url(#logo-grad)" filter="url(#logo-glow)" />
+                        <!-- Capa 4: Líneas de circuito conectores -->
+                        <path d="M50 10 L50 25 M50 75 L50 90 M15 30 L32 40 M85 70 L68 60 M15 70 L32 60 M85 30 L68 40"
+                            stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round" />
                     </svg>
                     <div class="logo-text">
                         <h1 class="logo">Marcelo Barraza</h1>
-                        <span class="logo-sub">Cybernetic Systems & Enterprise Architecture</span>
+                        <span class="logo-sub">Cybernetic Systems &amp; Enterprise Architecture</span>
                     </div>
                 </div>
-                <ul class="nav-links">
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#blog">Ensayos</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#inicio" onclick="closeNavMobile()">Inicio</a></li>
+                    <li><a href="#blog" onclick="closeNavMobile()">Ensayos</a></li>
+                    <li><a href="#timeline" onclick="closeNavMobile()">Timeline</a></li>
+                    <li><a href="#metricas" onclick="closeNavMobile()">Métricas</a></li>
+                    <li><a href="#stack" onclick="closeNavMobile()">Stack</a></li>
+                    <li><a href="#contacto" onclick="closeNavMobile()">Contacto</a></li>
+                    <li class="hamburger-only"><a href="servicios.html" onclick="closeNavMobile()">Servicios</a></li>
+                    <li class="hamburger-only"><a href="404.html" onclick="closeNavMobile()">404</a></li>
                 </ul>
+                <div class="nav-actions">
+                    <!-- P4: Theme toggle -->
+                    <button id="theme-toggle" aria-label="Cambiar tema" title="Cambiar tema claro/oscuro">
+                        <svg id="icon-dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                        </svg>
+                        <svg id="icon-light" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" style="display:none">
+                            <circle cx="12" cy="12" r="5" />
+                            <line x1="12" y1="1" x2="12" y2="3" />
+                            <line x1="12" y1="21" x2="12" y2="23" />
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                            <line x1="1" y1="12" x2="3" y2="12" />
+                            <line x1="21" y1="12" x2="23" y2="12" />
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                        </svg>
+                    </button>
+                    <!-- P17: Sound toggle -->
+                    <button id="sound-toggle" aria-label="Activar sonido" title="Sonido de interacción">
+                        <svg id="icon-sound-off" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                            <line x1="23" y1="9" x2="17" y2="15" />
+                            <line x1="17" y1="9" x2="23" y2="15" />
+                        </svg>
+                        <svg id="icon-sound-on" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" style="display:none">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                        </svg>
+                    </button>
+                    <!-- P10: Search shortcut hint -->
+                    <button id="search-btn" aria-label="Buscar (Ctrl+K)" title="Buscar (Ctrl+K)">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="M21 21l-4.35-4.35" />
+                        </svg>
+                        <kbd>K</kbd>
+                    </button>
+                    <!-- Contrátame button → servicios.html -->
+                    <a href="servicios.html" class="hire-nav-btn" id="hire-toggle-btn" aria-label="Ver servicios">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <path
+                                d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+                        </svg>
+                        Contrátame
+                    </a>
+                    <!-- Hamburger menu (mobile) -->
+                    <button id="hamburger-btn" class="hamburger-btn" aria-label="Abrir menú" aria-expanded="false"
+                        title="Menú">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
             </div>
         </nav>
     </header>
 
     <main>
-        <!-- Ambient decorative aura backdrop -->
-        <div class="ambient-aura"></div>
+        <!-- P1: WebGL canvas de partículas -->
+        <canvas id="particle-canvas" aria-hidden="true"></canvas>
 
         <!-- Sección Hero Editorial -->
         <section id="inicio" class="hero reveal-on-scroll">
             <div class="container">
-                <div class="hero-grid">
-                    <div class="hero-statement">
-                        <h2>Explorando la intersección entre <em>arquitectura de software</em>, cultura técnica y robustez.</h2>
-                        <div class="hero-image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80" alt="Minimalist abstract digital graphic structure" class="hero-image fade-image">
+                <!-- NORMAL MODE -->
+                <div class="hero-normal">
+                    <div class="hero-grid">
+                        <div class="hero-statement">
+                            <!-- P2: Tipografía kinética -->
+                            <h2 id="kinetic-headline">
+                                <span class="kinetic-static">Explorando la intersección entre </span>
+                                <em id="kinetic-word">arquitectura de software</em>
+                                <span class="kinetic-static">, cultura técnica y robustez.</span>
+                            </h2>
+                            <!-- P8: GitHub badges dinámicos -->
+                            <div class="github-badges" id="github-badges">
+                                <span class="badge-item loading" id="badge-repos">⚡ repos</span>
+                                <span class="badge-item loading" id="badge-followers">◈ seguidores</span>
+                                <span class="badge-item loading" id="badge-stars">★ estrellas</span>
+                            </div>
+                            <div class="hero-image-wrapper">
+                                <img src="assets/egypt.jpg"
+                                    alt="Marcelo Barraza frente a la Gran Pirámide de Guiza, Egipto"
+                                    class="hero-image fade-image">
+                            </div>
                         </div>
-                    </div>
-                    <div class="hero-bio">
-                        <div class="profile-card">
-                            <div class="profile-image-container">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&h=400&q=80" alt="Marcelo Barraza" class="profile-image fade-image">
-                                <div class="profile-badge">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                    </svg>
-                                    <span>Verificado</span>
+                        <div class="hero-bio">
+                            <div class="profile-card">
+                                <div class="profile-image-container">
+                                    <img src="assets/profile.png" alt="Marcelo Barraza"
+                                        class="profile-image fade-image">
+                                    <div class="profile-badge">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                            <polyline points="22 4 12 14.01 9 11.01" />
+                                        </svg>
+                                        <span>Verificado</span>
+                                    </div>
+                                </div>
+                                <div class="profile-details">
+                                    <span class="profile-role">Arquitecto Principal</span>
+                                    <p class="profile-description">Ingeniero de Sistemas de Misión Crítica. Especialista
+                                        certificado en optimización de infraestructuras globales, automatización
+                                        resiliente
+                                        y arquitecturas empresariales de alta disponibilidad.</p>
                                 </div>
                             </div>
-                            <div class="profile-details">
-                                <span class="profile-role">Arquitecto Principal</span>
-                                <p class="profile-description">Ingeniero de Sistemas de Misión Crítica. Especialista certificado en optimización de infraestructuras globales, automatización resiliente y arquitecturas empresariales de alta disponibilidad.</p>
+                            <!-- P15: GitHub contribution heatmap -->
+                            <div class="contrib-heatmap-wrap reveal-on-scroll">
+                                <span class="contrib-label">Eventos públicos GitHub — últimos 6 meses</span>
+                                <div id="contrib-heatmap"></div>
                             </div>
+                            <a href="#blog" class="hero-cta">Explorar ensayos <span class="arrow">→</span></a>
+                            <a href="https://github.com/msantiago1044?tab=repositories" target="_blank" rel="noopener"
+                                class="hero-cta">Explorar repos <span class="arrow">→</span></a>
                         </div>
-                        <a href="#blog" class="hero-cta">Explorar ensayos <span class="arrow">→</span></a>
+                    </div>
+                </div>
+                <!-- HIRE ME MODE -->
+                <div class="hero-hire" hidden>
+                    <div class="hire-grid">
+                        <div class="hire-profile">
+                            <div class="hire-identity">
+                                <img src="assets/profile.png" alt="Marcelo Barraza" class="hire-photo">
+                                <div>
+                                    <div class="hire-name">Marcelo Barraza</div>
+                                    <div class="hire-role">Arquitecto de Sistemas · Ingeniero de Software</div>
+                                </div>
+                            </div>
+                            <div class="hire-services">
+                                <h4>Servicios disponibles</h4>
+                                <div class="hire-services-list">
+                                    <span class="hire-service-tag">Automatización</span>
+                                    <span class="hire-service-tag">Arquitectura Backend</span>
+                                    <span class="hire-service-tag">PWAs</span>
+                                    <span class="hire-service-tag">IoT / ESP32</span>
+                                    <span class="hire-service-tag">Consultoría técnica</span>
+                                    <span class="hire-service-tag">Auditoría de sistemas</span>
+                                    <span class="hire-service-tag">Topografía digital</span>
+                                    <span class="hire-service-tag">Modelado 3D</span>
+                                </div>
+                            </div>
+                            <a href="https://wa.me/573162977910?text=Hola%20Marcelo%2C%20vi%20tu%20blog%20y%20me%20interesa%20contratar%20tus%20servicios"
+                                class="hire-wa-btn" target="_blank" rel="noopener">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                                </svg>
+                                Chatear por WhatsApp
+                            </a>
+                        </div>
+                        <div class="hire-form-wrap">
+                            <div class="hire-form-title">Cuéntame tu proyecto</div>
+                            <form class="hire-form" id="hire-form" novalidate>
+                                <div>
+                                    <label class="hire-form-label" for="hire-type">Tipo de proyecto</label>
+                                    <select id="hire-type" name="type" required>
+                                        <option value="">Selecciona...</option>
+                                        <option>Automatización</option>
+                                        <option>PWA / Aplicación Web</option>
+                                        <option>Consultoría técnica</option>
+                                        <option>IoT / Hardware</option>
+                                        <option>Auditoría de sistemas</option>
+                                        <option>Otro</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="hire-form-label" for="hire-desc">Descripción breve</label>
+                                    <textarea id="hire-desc" name="description"
+                                        placeholder="Describe qué necesitas construir o resolver..."
+                                        required></textarea>
+                                </div>
+                                <div class="hire-form-row">
+                                    <div>
+                                        <label class="hire-form-label" for="hire-budget">Presupuesto estimado</label>
+                                        <select id="hire-budget" name="budget">
+                                            <option value="">Selecciona...</option>
+                                            <option>&lt;$500 USD</option>
+                                            <option>$500 – $2,000 USD</option>
+                                            <option>$2,000 – $5,000 USD</option>
+                                            <option>+$5,000 USD</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="hire-form-label" for="hire-deadline">Plazo</label>
+                                        <select id="hire-deadline" name="deadline">
+                                            <option value="">Selecciona...</option>
+                                            <option>Urgente (&lt;2 semanas)</option>
+                                            <option>1 mes</option>
+                                            <option>3 meses</option>
+                                            <option>Flexible</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit" class="hire-submit-btn">Enviar solicitud →</button>
+                            </form>
+                            <div class="hire-form-success" id="hire-success" hidden>✅ Solicitud recibida. Te contacto a
+                                la brevedad por WhatsApp o email.</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Sección de Blog Asimétrica -->
+        <!-- P14: Terminal interactiva -->
+        <section id="terminal-section" class="terminal-section reveal-on-scroll">
+            <div class="container">
+                <div class="terminal-window">
+                    <div class="terminal-titlebar">
+                        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                        <span class="terminal-title">marcelo@systems ~ zsh</span>
+                    </div>
+                    <div class="terminal-body" id="terminal-body">
+                        <div class="terminal-output" id="terminal-output"></div>
+                        <div class="terminal-input-line">
+                            <span class="terminal-prompt">marcelo@systems <span class="prompt-path">~</span> $ </span>
+                            <input type="text" id="terminal-input" class="terminal-input" autocomplete="off"
+                                spellcheck="false" aria-label="Terminal input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Blog — Dinámica desde JSON -->
         <section id="blog" class="blog-section reveal-on-scroll">
             <div class="container">
                 <h3>Sistemas y Automatizaciones de Misión Crítica</h3>
-                
-                <div class="blog-grid">
-                    <!-- Artículo Destacado (Principal) -->
-                    <article class="featured-post">
-                        <div class="featured-image-container">
-                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80" alt="Symmetry and structures in modern engineering" class="featured-image fade-image">
-                            <button class="bookmark-btn" aria-label="Guardar artículo">
-                                <svg class="bookmark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        <span class="post-category">Cibernética Industrial / Certificación ISO</span>
-                        <h4>Cibernética y Digitalización de Procesos bajo Normativa ISO (Bureau Veritas)</h4>
-                        <span class="post-date">Publicado el 6 de agosto, 2026</span>
-                        <p>La digitalización de procesos industriales exige una gobernanza técnica implacable. Abordamos cómo estructurar la cibernética corporativa mediante la integración de la normativa ISO 27001 e ISO 9001, auditadas por Bureau Veritas. Descubre el diseño de flujos resilientes, trazabilidad inmutable de operaciones y mitigación de fallos en sistemas socio-técnicos complejos.</p>
-                        <button class="read-more-btn" data-article="cybernetics">Seguir leyendo <span class="arrow">→</span></button>
-                    </article>
+                <div class="blog-grid" id="blog-grid">
+                    <div class="blog-loading" id="blog-loading">Cargando artículos...</div>
+                </div>
+            </div>
+        </section>
 
-                    <!-- Feed Lateral de otras publicaciones -->
-                    <div class="posts-feed">
-                        <h4 class="feed-title">Artículos Técnicos</h4>
+        <!-- Sección de Archivo -->
+        <section id="archivo" class="archive-section reveal-on-scroll" hidden>
+            <div class="container">
+                <h3>Archivo de Artículos</h3>
+                <div class="archive-grid" id="archive-grid"></div>
+                <div class="archive-pagination" id="archive-pagination"></div>
+            </div>
+        </section>
 
-                        <article class="feed-post reveal-on-scroll">
-                            <div class="feed-image-wrapper">
-                                <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=400&q=80" alt="Python and automation coding" class="feed-thumbnail fade-image">
-                            </div>
-                            <div class="feed-content">
-                                <span class="post-date">5 de agosto, 2026</span>
-                                <h5>Hiper-automatización Resiliente: Python & n8n</h5>
-                                <p>Orquestación avanzada de flujos empresariales integrando scripts robustos de Python con la flexibilidad visual y transaccional de n8n.</p>
-                                <button class="read-more-btn" data-article="automation">Leer <span class="arrow">→</span></button>
-                            </div>
-                        </article>
-
-                        <article class="feed-post reveal-on-scroll">
-                            <div class="feed-image-wrapper">
-                                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=400&q=80" alt="Modern engineering space DevOps" class="feed-thumbnail fade-image">
-                            </div>
-                            <div class="feed-content">
-                                <span class="post-date">4 de agosto, 2026</span>
-                                <h5>Despliegues Continuos Seguros & PWAs Corporativas</h5>
-                                <p>Estrategias modernas de CI/CD para arquitecturas híbridas y despliegues de PWAs seguras con offline-first de nivel empresarial.</p>
-                                <button class="read-more-btn" data-article="deployments">Leer <span class="arrow">→</span></button>
-                            </div>
-                        </article>
-
-                        <article class="feed-post reveal-on-scroll">
-                            <div class="feed-image-wrapper">
-                                <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=400&q=80" alt="Security concrete engineering" class="feed-thumbnail fade-image">
-                            </div>
-                            <div class="feed-content">
-                                <span class="post-date">3 de agosto, 2026</span>
-                                <h5>Software Corporativo Hecho a Medida</h5>
-                                <p>Por qué las suites empaquetadas fallan frente a problemas no estándar. Filosofía de diseño de software a medida de alto impacto operativo.</p>
-                                <button class="read-more-btn" data-article="custom-software">Leer <span class="arrow">→</span></button>
-                            </div>
-                        </article>
+        <!-- MEJORA 6: Métricas Dashboard -->
+        <section id="metricas" class="metrics-section reveal-on-scroll">
+            <div class="container">
+                <h3>En números</h3>
+                <p class="section-sub">Datos calculados en tiempo real</p>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <span class="metric-icon">⚡</span>
+                        <span class="metric-number" data-target="exp" id="metric-exp">0</span>
+                        <span class="metric-label">Años de<br>experiencia</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-icon">📦</span>
+                        <span class="metric-number" data-target="repos" id="metric-repos">0</span>
+                        <span class="metric-label">Repos<br>públicos</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-icon">◈</span>
+                        <span class="metric-number" data-target="followers" id="metric-followers">0</span>
+                        <span class="metric-label">Seguidores<br>GitHub</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-icon">📝</span>
+                        <span class="metric-number" data-target="articles" id="metric-articles">0</span>
+                        <span class="metric-label">Artículos<br>publicados</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-icon">🛠️</span>
+                        <span class="metric-number" data-count="18" id="metric-tech">0</span>
+                        <span class="metric-label">Tecnologías<br>dominadas</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-icon">🌎</span>
+                        <span class="metric-number" data-count="5" id="metric-countries">0</span>
+                        <span class="metric-label">Países<br>(Fontana)</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Sección de Contacto Asimétrica -->
+        <!-- MEJORA 5: Timeline de Carrera -->
+        <section id="timeline" class="timeline-section reveal-on-scroll">
+            <div class="container">
+                <h3>Trayectoria</h3>
+                <p class="section-sub">13 años construyendo sistemas que importan</p>
+                <div class="timeline-wrap" id="timeline-wrap">
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">2013</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                </svg></div>
+                            <div class="timeline-company">OSM Ingeniería &amp; Topografía SAS</div>
+                            <div class="timeline-title">Inicio como cartógrafo y topógrafo</div>
+                            <div class="timeline-desc">Primeros pasos profesionales en levantamientos topográficos,
+                                cartografía digital y gestión de datos geoespaciales a nivel regional.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">2017</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                                    <path d="M8 12h8M12 8v8" />
+                                </svg></div>
+                            <div class="timeline-company">Desarrollo independiente</div>
+                            <div class="timeline-title">Desarrollo web con WordPress</div>
+                            <div class="timeline-desc">Primeros proyectos digitales. Construcción de sitios y
+                                plataformas web para empresas locales, iniciando la transición hacia el desarrollo de
+                                software.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">2020</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" />
+                                </svg></div>
+                            <div class="timeline-company">PROCIMEC Ingeniería SAS</div>
+                            <div class="timeline-title">Automatizaciones CAD, GPR subterráneo &amp; Modelado 3D</div>
+                            <div class="timeline-desc">Implementación de tecnología GPR (Ground Penetrating Radar) para
+                                detección de infraestructura subterránea, automatizaciones CAD y modelado BIM avanzado.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">2022</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                    <circle cx="12" cy="12" r="3" />
+                                </svg></div>
+                            <div class="timeline-company">Dynamo Autodesk</div>
+                            <div class="timeline-title">Automatización de diseño paramétrico</div>
+                            <div class="timeline-desc">Desarrollo de scripts y rutinas en Dynamo para automatización de
+                                flujos de diseño arquitectónico y estructural en proyectos de ingeniería civil.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">2023</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg></div>
+                            <div class="timeline-company">Unity Technologies</div>
+                            <div class="timeline-title">Visualización 3D en Realidad Aumentada</div>
+                            <div class="timeline-desc">Desarrollo de aplicaciones de Realidad Aumentada en Unity para
+                                proyectos de visualización de infraestructura y presentaciones técnicas interactivas.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">2024</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                                    <path
+                                        d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                                </svg></div>
+                            <div class="timeline-company">UNAD · Barranquilla</div>
+                            <div class="timeline-title">Monitor académico · Coordinación zonal</div>
+                            <div class="timeline-desc">Apoyo académico a estudiantes de Ingeniería de Sistemas de la
+                                UNAD en la zona Barranquilla, coordinando tutorías y orientación curricular.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">2025</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                                    <path d="M8 21h8M12 17v4" />
+                                </svg></div>
+                            <div class="timeline-company">Global SolutionIT</div>
+                            <div class="timeline-title">Infraestructura CCTV · Servidor Isabella 4.0</div>
+                            <div class="timeline-desc">Diseño e implementación de infraestructura de videovigilancia
+                                empresarial. Administración del servidor Isabella 4.0 (Linux CentOS) para operaciones
+                                críticas.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">2025</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                </svg></div>
+                            <div class="timeline-company">Proyecto de grado ASOPRAL</div>
+                            <div class="timeline-title">PWA comercial con Oracle APEX, Python &amp; Node.js</div>
+                            <div class="timeline-desc">Desarrollo integral de plataforma web progresiva para ASOPRAL
+                                integrando Oracle APEX como backend, Python para procesamiento de datos y Node.js como
+                                capa de servicios.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">2026</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                </svg></div>
+                            <div class="timeline-company">UNAD Colombia</div>
+                            <div class="timeline-title">Grado con Honores · Ingeniería de Sistemas</div>
+                            <div class="timeline-desc">Graduación con Honores de la Universidad Nacional Abierta y a
+                                Distancia (UNAD), con promedio académico ≥ 4.5/5.0 durante toda la carrera.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">2026</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg></div>
+                            <div class="timeline-company">Fontana Digital</div>
+                            <div class="timeline-title">CEO &amp; Fundador · Startup de IA personal</div>
+                            <div class="timeline-desc">Fundación de Fontana Digital, startup colombiana de inteligencia
+                                artificial personal que opera en 5 países (CO, MX, ES, CL, US). Plataforma de deseos
+                                impulsada por IA con flujos automatizados en Supabase y Deno.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">2026</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                                </svg></div>
+                            <div class="timeline-company">TorahIA</div>
+                            <div class="timeline-title">Plataforma de estudio Torah en español con IA</div>
+                            <div class="timeline-desc">Desarrollo de plataforma educativa para el estudio de la Torah en
+                                español, integrando modelos de lenguaje para contextualización histórica y análisis de
+                                textos sagrados.</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <span class="timeline-year-badge">Futuro</span>
+                        <div class="timeline-content reveal-on-scroll">
+                            <div class="timeline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M5 3l14 9-14 9V3z" />
+                                </svg></div>
+                            <div class="timeline-company">AWS · Google Cloud</div>
+                            <div class="timeline-title">Especialización en Ciencia de Datos o Ciberseguridad</div>
+                            <div class="timeline-desc">Profundización en certificaciones cloud (AWS / Google Cloud) y
+                                posgrado en Ciencia de Datos o Ciberseguridad para liderar proyectos de mayor escala e
+                                impacto.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- MEJORA 4: Grafo de Conocimiento -->
+        <section id="grafo" class="graph-section reveal-on-scroll">
+            <div class="container">
+                <h3>Grafo de Conocimiento</h3>
+                <p class="section-sub">Artículos conectados por afinidad temática — haz clic para leer</p>
+                <div id="knowledge-graph"></div>
+                <div class="graph-hint">Arrastra para explorar · Scroll para zoom · Clic en nodo para abrir artículo
+                </div>
+            </div>
+        </section>
+
+        <!-- P13: Stack Técnico interactivo -->
+        <section id="stack" class="stack-section reveal-on-scroll">
+            <div class="container">
+                <h3>Stack Técnico</h3>
+                <p class="section-sub">Tecnologías en producción — no en el CV</p>
+                <div class="stack-grid" id="stack-grid"></div>
+            </div>
+        </section>
+
+        <!-- P5 + P6: Actividad en tiempo real -->
+        <section id="actividad" class="activity-section reveal-on-scroll">
+            <div class="container">
+                <h3>Actividad Reciente</h3>
+                <p class="section-sub">GitHub en tiempo real · sin backend</p>
+                <div class="activity-grid">
+                    <div class="activity-col">
+                        <h4 class="activity-col-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+                            </svg>
+                            GitHub
+                        </h4>
+                        <div id="github-activity" class="activity-feed">
+                            <div class="activity-skeleton"></div>
+                            <div class="activity-skeleton"></div>
+                            <div class="activity-skeleton"></div>
+                        </div>
+                    </div>
+                    <!-- P9: Newsletter con Resend -->
+                    <div class="activity-col newsletter-col">
+                        <h4 class="activity-col-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                            Newsletter
+                        </h4>
+                        <p class="newsletter-desc">Recibe mis ensayos técnicos directamente en tu inbox. Sin spam. Sin
+                            frecuencia forzada.</p>
+                        <div class="newsletter-form" id="newsletter-form">
+                            <input type="email" id="newsletter-email" placeholder="tu@email.com" autocomplete="email">
+                            <button id="newsletter-btn" type="button">Suscribirse</button>
+                        </div>
+                        <p class="newsletter-status" id="newsletter-status" hidden></p>
+                        <p class="newsletter-note">Powered by Resend · Baja cuando quieras</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Contacto -->
         <section id="contacto" class="contact-section reveal-on-scroll">
             <div class="container">
                 <div class="contact-grid">
                     <div class="contact-info">
                         <h3>Iniciemos una conversación</h3>
-                        <p>¿Buscas colaborar en infraestructuras complejas, discutir sobre diseño de sistemas o simplemente intercambiar ideas sobre tecnología?</p>
+                        <p>¿Buscas colaborar en infraestructuras complejas, discutir sobre diseño de sistemas o
+                            simplemente intercambiar ideas sobre tecnología?</p>
+                        <div class="social-links">
+                            <a href="https://github.com/msantiago1044" class="social-link" target="_blank"
+                                rel="noopener" aria-label="GitHub">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+                                </svg>
+                                GitHub
+                            </a>
+                            <a href="https://www.linkedin.com/in/marcelo-a-barraza-s-55959b172/" class="social-link"
+                                target="_blank" rel="noopener" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                </svg>
+                                LinkedIn
+                            </a>
+                            <a href="mailto:marcelobarrazasantiago@gmail.com" class="social-link" aria-label="Email">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                Email
+                            </a>
+                        </div>
                     </div>
                     <div class="contact-cta">
-                        <a href="mailto:marcelo@ingenierosistemas.com" class="cta-button">Enviar un mensaje</a>
+                        <a href="mailto:marcelobarrazasantiago@gmail.com" class="cta-button"
+                            id="contact-email-btn">Enviar un mensaje</a>
                     </div>
                 </div>
             </div>
@@ -172,240 +794,1613 @@
         <div class="container">
             <div class="footer-content">
                 <p>&copy; 2026 Marcelo Barraza. Todos los derechos reservados.</p>
-                <p>Hecho con precisión editorial y minimalismo.</p>
+                <p class="footer-right">
+                    Hecho con precisión editorial y minimalismo.
+                    <button id="source-peek-btn" class="source-peek-btn" aria-label="Ver CSS del elemento">◈ Ver
+                        código</button>
+                </p>
             </div>
         </div>
     </footer>
 
-    <!-- Interactive Reader Drawer / Slide-out Modal Overlay -->
+    <!-- P16: Source peek tooltip -->
+    <div id="source-peek" class="source-peek" hidden>
+        <div class="source-peek-header">
+            <span id="source-peek-selector"></span>
+            <button id="source-peek-close">✕</button>
+        </div>
+        <pre id="source-peek-code"></pre>
+    </div>
+
+    <!-- Article Drawer -->
     <div class="drawer-overlay" id="articleDrawer" aria-hidden="true" role="dialog">
         <div class="drawer-content">
             <button class="drawer-close-btn" aria-label="Cerrar artículo">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
             </button>
-            <div class="drawer-body">
-                <!-- Content will be injected dynamically via JS -->
-            </div>
+            <!-- P11: TOC flotante -->
+            <nav class="drawer-toc" id="drawer-toc" aria-label="Tabla de contenidos"></nav>
+            <div class="drawer-body" id="drawer-body"></div>
         </div>
     </div>
 
-    <!-- Interactive Logic for Scroll Tracking and Micro-interactions -->
+    <!-- P18: Konami easter egg overlay -->
+    <div id="konami-overlay" hidden>
+        <canvas id="konami-canvas"></canvas>
+        <div id="konami-msg">
+            <h2>🎮 &lt;/&gt; Modo Hacker Activado</h2>
+            <p>Sabías que esto existía. Eso ya dice todo.</p>
+            <code>git commit -m "found the easter egg"</code>
+            <button id="konami-close">Volver al sistema</button>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Detailed content database for the articles (high quality and immersive)
+        (() => {
+            'use strict';
+
+            // ═══════════════════════════════════════════════════════════════
+            // P17: WEB AUDIO — micro-sonidos generados algorítmicamente
+            // ═══════════════════════════════════════════════════════════════
+            let audioCtx = null;
+            let soundEnabled = false;
+            const soundToggleBtn = document.getElementById('sound-toggle');
+            const iconSoundOff = document.getElementById('icon-sound-off');
+            const iconSoundOn = document.getElementById('icon-sound-on');
+
+            function getAudioCtx() {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                return audioCtx;
+            }
+
+            function playTone(freq = 440, type = 'sine', duration = 0.08, vol = 0.06) {
+                if (!soundEnabled) return;
+                try {
+                    const ctx = getAudioCtx();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(freq * 0.5, ctx.currentTime + duration);
+                    gain.gain.setValueAtTime(vol, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + duration);
+                } catch (e) { }
+            }
+
+            function playClick() { playTone(880, 'square', 0.05, 0.04); }
+            function playHover() { playTone(660, 'sine', 0.04, 0.02); }
+            function playSuccess() {
+                playTone(523, 'sine', 0.1, 0.05);
+                setTimeout(() => playTone(659, 'sine', 0.1, 0.05), 100);
+                setTimeout(() => playTone(784, 'sine', 0.15, 0.05), 200);
+            }
+
+            soundToggleBtn.addEventListener('click', () => {
+                soundEnabled = !soundEnabled;
+                iconSoundOff.style.display = soundEnabled ? 'none' : '';
+                iconSoundOn.style.display = soundEnabled ? '' : 'none';
+                if (soundEnabled) playSuccess();
+            });
+
+            // ═══════════════════════════════════════════════════════════════
+            // P3: CUSTOM CURSOR con spring physics
+            // ═══════════════════════════════════════════════════════════════
+            const cursor = document.getElementById('custom-cursor');
+            const halo = document.getElementById('cursor-halo');
+            let mx = -100, my = -100;
+            let hx = -100, hy = -100;
+            const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+
+            if (!isTouchDevice) {
+                let haloRafId = null;
+
+                function animHalo() {
+                    const dx = mx - hx;
+                    const dy = my - hy;
+                    if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+                        hx = mx; hy = my;
+                        halo.style.transform = `translate(${hx}px, ${hy}px)`;
+                        haloRafId = null;
+                        return;
+                    }
+                    hx += dx * 0.1;
+                    hy += dy * 0.1;
+                    halo.style.transform = `translate(${hx}px, ${hy}px)`;
+                    haloRafId = requestAnimationFrame(animHalo);
+                }
+
+                document.addEventListener('mousemove', e => {
+                    mx = e.clientX; my = e.clientY;
+                    cursor.style.transform = `translate(${mx}px, ${my}px)`;
+                    if (!haloRafId) haloRafId = requestAnimationFrame(animHalo);
+                }, { passive: true });
+
+                document.addEventListener('mousedown', () => cursor.classList.add('pressing'));
+                document.addEventListener('mouseup', () => cursor.classList.remove('pressing'));
+
+                document.querySelectorAll('a, button, [role="button"], .feed-post, .featured-post').forEach(el => {
+                    el.addEventListener('mouseenter', () => { halo.classList.add('hovering'); playHover(); });
+                    el.addEventListener('mouseleave', () => halo.classList.remove('hovering'));
+                });
+            } else {
+                cursor.style.display = 'none';
+                halo.style.display = 'none';
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // P1: WEBGL PARTICLE NETWORK
+            // ═══════════════════════════════════════════════════════════════
+            const canvas = document.getElementById('particle-canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+            if (gl) {
+                const resize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; gl.viewport(0, 0, canvas.width, canvas.height); };
+                resize();
+                window.addEventListener('resize', resize, { passive: true });
+
+                const vsSource = `
+            attribute vec2 a_position;
+            attribute float a_size;
+            attribute float a_alpha;
+            uniform vec2 u_resolution;
+            varying float v_alpha;
+            void main() {
+                vec2 clip = (a_position / u_resolution) * 2.0 - 1.0;
+                gl_Position = vec4(clip * vec2(1,-1), 0, 1);
+                gl_PointSize = a_size;
+                v_alpha = a_alpha;
+            }`;
+                const fsSource = `
+            precision mediump float;
+            varying float v_alpha;
+            void main() {
+                vec2 d = gl_PointCoord - 0.5;
+                float r = dot(d,d)*4.0;
+                if (r > 1.0) discard;
+                gl_FragColor = vec4(0.04, 0.71, 0.83, v_alpha * (1.0 - r));
+            }`;
+
+                function makeShader(type, src) {
+                    const s = gl.createShader(type);
+                    gl.shaderSource(s, src); gl.compileShader(s); return s;
+                }
+                const prog = gl.createProgram();
+                gl.attachShader(prog, makeShader(gl.VERTEX_SHADER, vsSource));
+                gl.attachShader(prog, makeShader(gl.FRAGMENT_SHADER, fsSource));
+                gl.linkProgram(prog); gl.useProgram(prog);
+
+                const N = 80;
+                const particles = Array.from({ length: N }, () => ({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    size: Math.random() * 3 + 1.5,
+                    alpha: Math.random() * 0.6 + 0.2
+                }));
+
+                const posLoc = gl.getAttribLocation(prog, 'a_position');
+                const sizeLoc = gl.getAttribLocation(prog, 'a_size');
+                const alphaLoc = gl.getAttribLocation(prog, 'a_alpha');
+                const resLoc = gl.getUniformLocation(prog, 'u_resolution');
+
+                const posBuf = gl.createBuffer();
+                const sizeBuf = gl.createBuffer();
+                const alphaBuf = gl.createBuffer();
+
+                gl.enable(gl.BLEND);
+                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+                let mouseGX = canvas.width / 2, mouseGY = canvas.height / 2;
+                document.addEventListener('mousemove', e => { mouseGX = e.clientX; mouseGY = e.clientY; }, { passive: true });
+
+                function glLoop() {
+                    gl.clearColor(0.043, 0.059, 0.098, 0);
+                    gl.clear(gl.COLOR_BUFFER_BIT);
+
+                    const W = canvas.width, H = canvas.height;
+                    particles.forEach(p => {
+                        const dx = mouseGX - p.x, dy = mouseGY - p.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist > 30 && dist < 150) { p.vx += dx / dist * 0.008; p.vy += dy / dist * 0.008; }
+                        p.vx *= 0.96; p.vy *= 0.96;
+                        p.x += p.vx; p.y += p.vy;
+                        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+                        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+                    });
+
+                    const pos = new Float32Array(N * 2);
+                    const sizes = new Float32Array(N);
+                    const alphas = new Float32Array(N);
+                    particles.forEach((p, i) => { pos[i * 2] = p.x; pos[i * 2 + 1] = p.y; sizes[i] = p.size; alphas[i] = p.alpha; });
+
+                    gl.uniform2f(resLoc, W, H);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf); gl.bufferData(gl.ARRAY_BUFFER, pos, gl.DYNAMIC_DRAW);
+                    gl.enableVertexAttribArray(posLoc); gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, sizeBuf); gl.bufferData(gl.ARRAY_BUFFER, sizes, gl.DYNAMIC_DRAW);
+                    gl.enableVertexAttribArray(sizeLoc); gl.vertexAttribPointer(sizeLoc, 1, gl.FLOAT, false, 0, 0);
+                    gl.bindBuffer(gl.ARRAY_BUFFER, alphaBuf); gl.bufferData(gl.ARRAY_BUFFER, alphas, gl.DYNAMIC_DRAW);
+                    gl.enableVertexAttribArray(alphaLoc); gl.vertexAttribPointer(alphaLoc, 1, gl.FLOAT, false, 0, 0);
+                    gl.drawArrays(gl.POINTS, 0, N);
+                    requestAnimationFrame(glLoop);
+                }
+                glLoop();
+            } else {
+                canvas.style.display = 'none';
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // P4: THEME TOGGLE — eclipse transition con View Transitions API
+            // ═══════════════════════════════════════════════════════════════
+            const themeToggle = document.getElementById('theme-toggle');
+            const iconDark = document.getElementById('icon-dark');
+            const iconLight = document.getElementById('icon-light');
+            let currentTheme = localStorage.getItem('theme') ||
+                (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+
+            function applyTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                iconDark.style.display = theme === 'dark' ? '' : 'none';
+                iconLight.style.display = theme === 'light' ? '' : 'none';
+            }
+            applyTheme(currentTheme);
+
+            themeToggle.addEventListener('click', () => {
+                const next = currentTheme === 'dark' ? 'light' : 'dark';
+                playClick();
+                if (document.startViewTransition) {
+                    document.startViewTransition(() => { currentTheme = next; applyTheme(next); });
+                } else {
+                    currentTheme = next; applyTheme(next);
+                }
+            });
+
+            // ═══════════════════════════════════════════════════════════════
+            // P2: KINETIC HEADLINE — rotación con glitch
+            // ═══════════════════════════════════════════════════════════════
+            const kineticWord = document.getElementById('kinetic-word');
+            const phrases = [
+                'arquitectura de software',
+                'automatización resiliente',
+                'cibernética corporativa',
+                'sistemas de misión crítica',
+                'gobernanza técnica',
+                'infraestructuras globales'
+            ];
+            let phraseIdx = 0;
+            const glitchChars = '█▓▒░#@&%$';
+
+            function glitchIn(el, newText) {
+                const orig = newText.split('');
+                let iters = 0;
+                let lastFrame = 0;
+                const STEP_MS = 40; // ~25fps — well under 60fps, one paint per step
+
+                function step(now) {
+                    if (now - lastFrame < STEP_MS) { requestAnimationFrame(step); return; }
+                    lastFrame = now;
+                    el.textContent = orig.map((c, i) =>
+                        i < iters ? c : (c === ' ' ? ' ' : glitchChars[Math.floor(Math.random() * glitchChars.length)])
+                    ).join('');
+                    iters++;
+                    if (iters <= orig.length) requestAnimationFrame(step);
+                }
+                requestAnimationFrame(step);
+            }
+
+            setInterval(() => {
+                phraseIdx = (phraseIdx + 1) % phrases.length;
+                glitchIn(kineticWord, phrases[phraseIdx]);
+            }, 3500);
+
+            // ═══════════════════════════════════════════════════════════════
+            // P8: GITHUB BADGES DINÁMICOS
+            // ═══════════════════════════════════════════════════════════════
+            const GH_USER = 'msantiago1044';
+
+            async function loadGithubBadges() {
+                try {
+                    const res = await fetch(`https://api.github.com/users/${GH_USER}`);
+                    if (!res.ok) throw new Error('GitHub API error');
+                    const data = await res.json();
+                    document.getElementById('badge-repos').textContent = `⚡ ${data.public_repos} repos`;
+                    document.getElementById('badge-followers').textContent = `◈ ${data.followers} seguidores`;
+                    document.getElementById('badge-repos').classList.remove('loading');
+                    document.getElementById('badge-followers').classList.remove('loading');
+
+                    // Stars: suma de repos
+                    const reposRes = await fetch(`https://api.github.com/users/${GH_USER}/repos?per_page=100`);
+                    const repos = await reposRes.json();
+                    const stars = repos.reduce((s, r) => s + r.stargazers_count, 0);
+                    document.getElementById('badge-stars').textContent = `★ ${stars} estrellas`;
+                    document.getElementById('badge-stars').classList.remove('loading');
+                } catch (e) {
+                    ['badge-repos', 'badge-followers', 'badge-stars'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) { el.classList.remove('loading'); el.style.opacity = '0.4'; }
+                    });
+                }
+            }
+            loadGithubBadges();
+
+            // ═══════════════════════════════════════════════════════════════
+            // P15: GITHUB CONTRIBUTION HEATMAP
+            // ═══════════════════════════════════════════════════════════════
+            async function buildHeatmap() {
+                const container = document.getElementById('contrib-heatmap');
+                if (!container) return;
+
+                const weeks = 26, days = 7;
+                // Build date map for last 26 weeks
+                const dateMap = {};
+                const today = new Date();
+                for (let w = 0; w < weeks; w++) {
+                    for (let d = 0; d < days; d++) {
+                        const dt = new Date(today);
+                        dt.setDate(today.getDate() - ((weeks - w - 1) * 7 + (days - d - 1)));
+                        const key = dt.toISOString().slice(0, 10);
+                        dateMap[key] = 0;
+                    }
+                }
+
+                // Try to load real GitHub events
+                try {
+                    const pages = [1, 2, 3];
+                    for (const page of pages) {
+                        const res = await fetch(`https://api.github.com/users/${GH_USER}/events/public?per_page=100&page=${page}`);
+                        if (!res.ok) break;
+                        const events = await res.json();
+                        if (!events.length) break;
+                        events.forEach(ev => {
+                            if (['PushEvent', 'CreateEvent', 'IssuesEvent', 'PullRequestEvent'].includes(ev.type)) {
+                                const key = ev.created_at.slice(0, 10);
+                                if (key in dateMap) {
+                                    const commits = ev.payload?.commits?.length || 1;
+                                    dateMap[key] = (dateMap[key] || 0) + commits;
+                                }
+                            }
+                        });
+                    }
+                } catch (e) { /* fallback: all zeros */ }
+
+                // Normalize to levels 0-4
+                const counts = Object.values(dateMap);
+                const max = Math.max(...counts, 1);
+                function toLevel(v) {
+                    if (v === 0) return 0;
+                    if (v <= max * 0.25) return 1;
+                    if (v <= max * 0.50) return 2;
+                    if (v <= max * 0.75) return 3;
+                    return 4;
+                }
+
+                // Render grid
+                const grid = document.createElement('div');
+                grid.className = 'heatmap-grid';
+                const keys = Object.keys(dateMap);
+                for (let w = 0; w < weeks; w++) {
+                    const col = document.createElement('div');
+                    col.className = 'heatmap-col';
+                    for (let d = 0; d < days; d++) {
+                        const key = keys[w * days + d];
+                        const cell = document.createElement('div');
+                        cell.className = 'heatmap-cell';
+                        const level = toLevel(dateMap[key] || 0);
+                        cell.setAttribute('data-level', level);
+                        const count = dateMap[key] || 0;
+                        cell.title = `${key} — ${count} evento${count !== 1 ? 's' : ''}`;
+                        col.appendChild(cell);
+                    }
+                    grid.appendChild(col);
+                }
+                container.appendChild(grid);
+
+                // Staggered reveal
+                container.querySelectorAll('.heatmap-cell').forEach((cell, i) => {
+                    setTimeout(() => cell.classList.add('visible'), i * 3);
+                });
+            }
+            buildHeatmap();
+
+            // ═══════════════════════════════════════════════════════════════
+            // P14: TERMINAL INTERACTIVA
+            // ═══════════════════════════════════════════════════════════════
+            const termOutput = document.getElementById('terminal-output');
+            const termInput = document.getElementById('terminal-input');
+            const termBody = document.getElementById('terminal-body');
+
+            const termCommands = {
+                help: () => `<span class="t-cyan">Comandos disponibles:</span>
+  <span class="t-green">whoami</span>       — quién soy
+  <span class="t-green">skills</span>       — stack técnico
+  <span class="t-green">contact</span>      — formas de contacto
+  <span class="t-green">blog</span>         — artículos publicados
+  <span class="t-green">groq [key]</span>   — configurar clave API para búsqueda semántica
+  <span class="t-green">github</span>       — perfil de GitHub
+  <span class="t-green">clear</span>        — limpiar terminal
+  <span class="t-green">exit</span>         — cerrar terminal`,
+                whoami: () => `<span class="t-cyan">Marcelo Barraza</span>
+  Rol        → Arquitecto Principal de Sistemas
+  Ubicación  → Colombia
+  Enfoque    → Sistemas de misión crítica · DevOps · Automatización
+  Certificaciones → ISO 27001 · ISO 9001 · Bureau Veritas`,
+                skills: () => `<span class="t-cyan">Stack técnico activo:</span>
+  Lenguajes   → <span class="t-green">Python</span> · JavaScript · Bash · SQL
+  Infra       → <span class="t-green">Docker</span> · Kubernetes · n8n · GitHub Actions
+  Cloud       → Supabase · Vercel · AWS
+  Seguridad   → <span class="t-green">ISO 27001</span> · OWASP · Zero Trust
+  Frontend    → HTML5 · CSS3 · Web APIs nativas`,
+                contact: () => `<span class="t-cyan">Canales de contacto:</span>
+  Email  → <a href="mailto:marcelobarrazasantiago@gmail.com" class="t-green">marcelobarrazasantiago@gmail.com</a>
+  GitHub → <a href="https://github.com/msantiago1044" target="_blank" class="t-green">github.com/msantiago1044</a>
+  LinkedIn → <a href="https://www.linkedin.com/in/marcelo-a-barraza-s-55959b172/" target="_blank" class="t-green">linkedin.com/in/marcelo-a-barraza-s</a>`,
+                blog: () => `<span class="t-cyan">Artículos publicados:</span>
+  [1] Cibernética y Digitalización bajo ISO · 2026-08-06
+  [2] Hiper-automatización con Python y n8n · 2026-08-05
+  [3] Despliegues Continuos y PWAs · 2026-08-04
+  [4] Software Corporativo a Medida · 2026-08-03
+  → Escribe <span class="t-green">open [número]</span> para leer`,
+                groq: (parts) => {
+                    if (parts && parts.length > 1) {
+                        const key = parts[1].trim();
+                        localStorage.setItem('groq_api_key', key);
+                        return `<span class="t-green">Clave de Groq guardada con éxito.</span>`;
+                    } else {
+                        const current = localStorage.getItem('groq_api_key');
+                        if (current) {
+                            return `Clave Groq configurada: <span class="t-green">${current.slice(0, 7)}...${current.slice(-4)}</span>`;
+                        } else {
+                            return `<span class="t-red">Clave Groq no configurada.</span> Escribe <span class="t-green">groq TU_CLAVE_AQUI</span> para configurarla.`;
+                        }
+                    }
+                },
+                github: () => {
+                    window.open('https://github.com/msantiago1044', '_blank');
+                    return '<span class="t-green">Abriendo GitHub en nueva pestaña...</span>';
+                },
+                clear: () => { termOutput.innerHTML = ''; return null; },
+                exit: () => { document.getElementById('terminal-section').style.display = 'none'; return null; }
+            };
+
+            function termPrint(html) {
+                const div = document.createElement('div');
+                div.className = 'terminal-line';
+                div.innerHTML = html;
+                termOutput.appendChild(div);
+                termBody.scrollTop = termBody.scrollHeight;
+            }
+
+            function termExec(cmd) {
+                const parts = cmd.trim().split(' ');
+                const base = parts[0].toLowerCase();
+                termPrint(`<span class="t-muted">marcelo@systems ~ $</span> ${cmd}`);
+                if (!cmd.trim()) return;
+                if (base === 'open') {
+                    const num = parseInt(parts[1]);
+                    const articles = ['cybernetics', 'automation', 'deployments', 'custom-software'];
+                    if (num >= 1 && num <= 4) { openDrawer(articles[num - 1]); termPrint('<span class="t-green">Abriendo artículo...</span>'); }
+                    else termPrint('<span class="t-red">Artículo no encontrado. Escribe "blog" para ver la lista.</span>');
+                    return;
+                }
+                const fn = termCommands[base];
+                if (fn) {
+                    const result = fn(parts);
+                    if (result !== null && result !== undefined) termPrint(result);
+                } else {
+                    termPrint(`<span class="t-red">bash: ${base}: comando no encontrado.</span> Escribe <span class="t-green">help</span> para ver los disponibles.`);
+                }
+            }
+
+            // Boot sequence
+            const bootLines = [
+                '<span class="t-cyan">MarceloOS v3.0 — Sistemas de Misión Crítica</span>',
+                '<span class="t-muted">Iniciando entorno seguro...</span>',
+                '<span class="t-muted">Cargando módulos ISO 27001... <span class="t-green">OK</span></span>',
+                '<span class="t-muted">Verificando stack técnico... <span class="t-green">OK</span></span>',
+                '<span class="t-green">Sistema listo.</span> Escribe <span class="t-cyan">help</span> para ver los comandos disponibles.',
+            ];
+            bootLines.forEach((line, i) => setTimeout(() => termPrint(line), i * 300));
+
+            let cmdHistory = []; let histIdx = -1;
+            termInput.addEventListener('keydown', e => {
+                if (e.key === 'Enter') {
+                    const val = termInput.value; termInput.value = '';
+                    if (val.trim()) { cmdHistory.unshift(val); histIdx = -1; }
+                    termExec(val); playClick();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (histIdx < cmdHistory.length - 1) { histIdx++; termInput.value = cmdHistory[histIdx]; }
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (histIdx > 0) { histIdx--; termInput.value = cmdHistory[histIdx]; }
+                    else { histIdx = -1; termInput.value = ''; }
+                }
+            });
+            termBody.addEventListener('click', () => termInput.focus());
+
+            // ═══════════════════════════════════════════════════════════════
+            // P13: STACK TÉCNICO INTERACTIVO
+            // ═══════════════════════════════════════════════════════════════
+            const stackData = [
+                { name: 'Python', icon: 'devicon-python-plain', level: 92, years: 6, project: 'Automatización GPR · hiper-flujos n8n' },
+                { name: 'JavaScript', icon: 'devicon-javascript-plain', level: 88, years: 7, project: 'PWAs · APIs web nativas · Edge Functions' },
+                { name: 'Docker', icon: 'devicon-docker-plain', level: 85, years: 4, project: 'Contenedores de producción · CI/CD' },
+                { name: 'GitHub', icon: 'devicon-github-original', level: 90, years: 7, project: 'Workflows de entrega continua' },
+                { name: 'Supabase', icon: 'devicon-supabase-plain', level: 80, years: 2, project: 'Fontana Digital · backend serverless' },
+                { name: 'Vercel', icon: 'devicon-vercel-original', level: 84, years: 3, project: 'Deploys de producción · Edge Network' },
+                { name: 'PostgreSQL', icon: 'devicon-postgresql-plain', level: 78, years: 5, project: 'Modelos de datos empresariales' },
+                { name: 'Linux', icon: 'devicon-linux-plain', level: 88, years: 8, project: 'Servidores de producción · bash scripts' },
+            ];
+
+            const stackGrid = document.getElementById('stack-grid');
+            stackData.forEach(tech => {
+                const card = document.createElement('div');
+                card.className = 'stack-card reveal-on-scroll';
+                card.innerHTML = `
+            <div class="stack-card-header">
+                <i class="${tech.icon} colored stack-icon"></i>
+                <span class="stack-name">${tech.name}</span>
+                <span class="stack-years">${tech.years} años</span>
+            </div>
+            <div class="stack-bar-wrap">
+                <div class="stack-bar" data-level="${tech.level}">
+                    <div class="stack-bar-fill" style="width:0%"></div>
+                </div>
+                <span class="stack-level">${tech.level}%</span>
+            </div>
+            <div class="stack-tooltip">${tech.project}</div>`;
+                stackGrid.appendChild(card);
+            });
+
+            // Animar barras al hacer scroll
+            const stackObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const fill = entry.target.querySelector('.stack-bar-fill');
+                        const level = entry.target.querySelector('.stack-bar').dataset.level;
+                        if (fill) setTimeout(() => { fill.style.width = level + '%'; }, 200);
+                        stackObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+            document.querySelectorAll('.stack-card').forEach(c => stackObserver.observe(c));
+
+            // ═══════════════════════════════════════════════════════════════
+            // P5: GITHUB ACTIVITY FEED
+            // ═══════════════════════════════════════════════════════════════
+            async function loadGithubActivity() {
+                const container = document.getElementById('github-activity');
+                try {
+                    const res = await fetch(`https://api.github.com/users/${GH_USER}/events/public?per_page=10`);
+                    const events = await res.json();
+                    container.innerHTML = '';
+                    const shown = events.filter(e =>
+                        ['PushEvent', 'CreateEvent', 'WatchEvent', 'ForkEvent'].includes(e.type)
+                    ).slice(0, 5);
+                    if (!shown.length) throw new Error('No events');
+                    shown.forEach(ev => {
+                        const item = document.createElement('div');
+                        item.className = 'activity-item reveal-on-scroll';
+                        const icons = { PushEvent: '⬆', CreateEvent: '✦', WatchEvent: '★', ForkEvent: '⑂' };
+                        const labels = { PushEvent: 'Push', CreateEvent: 'Creó', WatchEvent: 'Star', ForkEvent: 'Fork' };
+                        const date = new Date(ev.created_at).toLocaleDateString('es', { month: 'short', day: 'numeric' });
+                        item.innerHTML = `
+                    <span class="activity-icon">${icons[ev.type] || '◈'}</span>
+                    <div class="activity-info">
+                        <span class="activity-type">${labels[ev.type] || ev.type}</span>
+                        <a href="https://github.com/${ev.repo.name}" target="_blank" rel="noopener" class="activity-repo">${ev.repo.name.replace(GH_USER + '/', '')}</a>
+                    </div>
+                    <span class="activity-date">${date}</span>`;
+                        container.appendChild(item);
+                    });
+                } catch (e) {
+                    container.innerHTML = '<p class="activity-error">No se pudo cargar la actividad de GitHub.</p>';
+                }
+            }
+            loadGithubActivity();
+
+            // ═══════════════════════════════════════════════════════════════
+            // P9: NEWSLETTER — Resend API
+            // ═══════════════════════════════════════════════════════════════
+            const newsletterBtn = document.getElementById('newsletter-btn');
+            const newsletterEmail = document.getElementById('newsletter-email');
+            const newsletterStatus = document.getElementById('newsletter-status');
+
+            newsletterBtn.addEventListener('click', async () => {
+                const email = newsletterEmail.value.trim();
+                if (!email || !email.includes('@')) {
+                    newsletterStatus.textContent = 'Por favor ingresa un email válido.';
+                    newsletterStatus.className = 'newsletter-status error';
+                    newsletterStatus.hidden = false; return;
+                }
+                newsletterBtn.disabled = true;
+                newsletterBtn.textContent = 'Enviando...';
+                try {
+                    // Resend API: add contact + send welcome
+                    const res = await fetch('https://api.resend.com/emails', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer RESEND_API_KEY_HERE' },
+                        body: JSON.stringify({
+                            from: 'Marcelo Barraza <marcelo@ingenierosistemas.com>',
+                            to: [email],
+                            subject: '¡Bienvenido a Pensamiento y Sistemas!',
+                            html: '<p>Gracias por suscribirte. Recibirás mis próximos ensayos técnicos directamente aquí.</p><p>— Marcelo</p>'
+                        })
+                    });
+                    if (res.ok) {
+                        newsletterStatus.textContent = '✓ ¡Suscrito! Revisa tu inbox.';
+                        newsletterStatus.className = 'newsletter-status success';
+                        newsletterEmail.value = '';
+                        playSuccess();
+                    } else throw new Error('API error');
+                } catch {
+                    // Dev mode fallback — simula éxito
+                    newsletterStatus.textContent = '✓ ¡Suscrito! (demo mode)';
+                    newsletterStatus.className = 'newsletter-status success';
+                    newsletterEmail.value = '';
+                    playSuccess();
+                }
+                newsletterStatus.hidden = false;
+                newsletterBtn.disabled = false;
+                newsletterBtn.textContent = 'Suscribirse';
+            });
+
+            // ═══════════════════════════════════════════════════════════════
+            // ARTICLES DATA + DRAWER
+            // ═══════════════════════════════════════════════════════════════
             const articlesContent = {
                 cybernetics: {
-                    category: "Cibernética Industrial / Certificación ISO",
-                    title: "Cibernética y Digitalización de Procesos bajo Normativa ISO (Bureau Veritas)",
-                    date: "Publicado el 6 de agosto, 2026",
-                    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-                    html: `
-                        <p class="lead">La convergencia entre la cibernética organizacional y la digitalización de procesos representa la frontera más crítica de la eficiencia operativa moderna.</p>
-                        <p>Cuando una corporación busca estructurar una verdadera <strong>cibernética de procesos</strong>, no se trata únicamente de añadir software o automatizar tareas aisladas. Se trata de modelar un sistema cibernético de lazo cerrado (feedback-loop) donde cada proceso digitalizado alimenta un núcleo unificado de datos, asegurando la consistencia operativa y la mitigación de riesgos sistémicos.</p>
-
-                        <div class="info-block">
-                            <h4>Certificación y Cumplimiento: ISO 9001, ISO 27001 & Bureau Veritas</h4>
-                            <p>Cualquier transformación digital profunda queda vacía sin un marco normativo estricto. La integración de sistemas bajo normas internacionales certificadas por organismos de prestigio mundial como <strong>Bureau Veritas</strong> garantiza que la digitalización cumpla con:</p>
-                            <ul>
-                                <li><strong>ISO 9001 (Gestión de Calidad):</strong> Trazabilidad absoluta de cada transacción digitalizada y estandarización del control de procesos.</li>
-                                <li><strong>ISO 27001 (Seguridad de la Información):</strong> Aseguramiento de la confidencialidad, integridad y disponibilidad del activo más valioso de la organización: la información.</li>
-                            </ul>
-                        </div>
-
-                        <h3>El Diseño Socio-Técnico y la Automatización de Procesos</h3>
-                        <p>Nuestra metodología no se limita a programar scripts; analizamos exhaustivamente el comportamiento organizativo. Mediante interfaces fluidas y flujos de automatización unificados, los equipos interactúan con el software de manera intuitiva, eliminando cuellos de botella e ineficiencias humanas, logrando una gobernanza informática de excelencia y un control de calidad certificado a nivel global.</p>
-                    `
+                    category: 'Cibernética Industrial / Certificación ISO',
+                    title: 'Cibernética y Digitalización de Procesos bajo Normativa ISO (Bureau Veritas)',
+                    date: 'Publicado el 6 de agosto, 2026',
+                    readTime: '7 min de lectura',
+                    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+                    toc: ['Gobernanza técnica', 'ISO 9001 e ISO 27001', 'Diseño socio-técnico'],
+                    html: `<p class="lead">La convergencia entre la cibernética organizacional y la digitalización de procesos representa la frontera más crítica de la eficiencia operativa moderna.</p>
+                <h3 id="toc-0">Gobernanza técnica</h3>
+                <p>Cuando una corporación busca estructurar una verdadera <strong>cibernética de procesos</strong>, no se trata únicamente de añadir software. Se trata de modelar un sistema cibernético de lazo cerrado donde cada proceso digitalizado alimenta un núcleo unificado de datos.</p>
+                <div class="info-block"><h4>ISO 9001, ISO 27001 & Bureau Veritas</h4><p>La integración bajo normas internacionales certificadas garantiza trazabilidad absoluta, confidencialidad y disponibilidad del activo más valioso: la información.</p></div>
+                <h3 id="toc-1">ISO 9001 e ISO 27001</h3>
+                <p>Ambas normas operan en capas complementarias. ISO 9001 asegura la calidad del proceso; ISO 27001 protege los datos que ese proceso genera. La certificación por Bureau Veritas añade validación externa e independiente.</p>
+                <h3 id="toc-2">Diseño socio-técnico</h3>
+                <p>Nuestra metodología no se limita a programar scripts. Analizamos el comportamiento organizativo, diseñamos interfaces fluidas y construimos flujos de automatización que los equipos adoptan sin fricción.</p>`
                 },
                 automation: {
-                    category: "Automatización Avanzada / Backend",
-                    title: "Hiper-automatización Resiliente: Python & n8n",
-                    date: "Publicado el 5 de agosto, 2026",
-                    image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80",
-                    html: `
-                        <p class="lead">La hiper-automatización moderna demanda la combinación perfecta entre la potencia analítica de Python y la flexibilidad transaccional de n8n.</p>
-                        <p>A menudo, las empresas se encuentran atrapadas entre costosas herramientas propietarias de RPA y scripts aislados de Python difíciles de mantener. La solución reside en un enfoque híbrido: emplear <strong>n8n</strong> como orquestador visual de eventos, colas de mensajería y APIs, delegando la lógica compleja de negocio, el parsing avanzado, procesamiento de datos y la inteligencia artificial a microservicios optimizados en <strong>Python</strong>.</p>
-
-                        <h3>Ventajas Clave de la Arquitectura Python + n8n:</h3>
-                        <ul>
-                            <li><strong>Flexibilidad Extrema:</strong> n8n permite conectar cientos de APIs sin esfuerzo mediante flujos de trabajo asíncronos y visuales.</li>
-                            <li><strong>Lógica sin Límites:</strong> Python aborda transformaciones de datos complejas (usando Pandas o Numpy), integraciones a bajo nivel y automatización de sistemas locales.</li>
-                            <li><strong>Tolerancia a Fallos:</strong> Implementación de políticas de reintentos, colas de tareas con RabbitMQ/Redis y notificaciones inmediatas en tiempo real ante fallos imprevistos.</li>
-                        </ul>
-                        <p>Al diseñar estos flujos, logramos liberar cientos de horas de trabajo operativo semanal, garantizando una arquitectura de automatización robusta, escalable y completamente auto-mantenible.</p>
-                    `
+                    category: 'Automatización / Python',
+                    title: 'Hiper-automatización Resiliente: Python & n8n',
+                    date: '5 de agosto, 2026',
+                    readTime: '5 min de lectura',
+                    image: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80',
+                    toc: ['Por qué Python + n8n', 'Patrones de resiliencia', 'Caso real'],
+                    html: `<p class="lead">Orquestación avanzada de flujos empresariales: la combinación de Python y n8n crea una plataforma de automatización inigualable.</p>
+                <h3 id="toc-0">Por qué Python + n8n</h3>
+                <p>Python ofrece la profundidad computacional para transformar y validar datos complejos. n8n provee la orquestación visual, el manejo de triggers y la gestión de errores transaccionales. Juntos eliminan la brecha entre el script solitario y el sistema empresarial.</p>
+                <h3 id="toc-1">Patrones de resiliencia</h3>
+                <p>Un flujo de hiper-automatización resiliente incluye: reintentos con backoff exponencial, dead letter queues, alertas por canal (Telegram/Slack/email) y dashboards de salud en tiempo real.</p>
+                <h3 id="toc-2">Caso real</h3>
+                <p>En Fontana Digital implementamos un pipeline completo con Edge Functions en Deno, webhooks de pago Wompi, notificaciones Telegram y cierre automático de ciclos de 30 días — sin servidor propio.</p>`
                 },
                 deployments: {
-                    category: "CI/CD & Mobile Tech",
-                    title: "Despliegues Continuos Seguros & PWAs Corporativas",
-                    date: "Publicado el 4 de agosto, 2026",
-                    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
-                    html: `
-                        <p class="lead">El desarrollo móvil y web moderno converge en las Aplicaciones Web Progresivas (PWAs) impulsadas por pipelines inmutables y seguros de CI/CD.</p>
-                        <p>Una <strong>Progressive Web App (PWA)</strong> corporativa de alto rendimiento debe ofrecer una experiencia offline idéntica a una aplicación nativa. Para lograr esto de forma segura y constante, el ciclo de vida del software debe estar automatizado de punta a punta. Esto se logra mediante pipelines robustos de integración y entrega continua (GitLab CI, GitHub Actions) configurados bajo estrictas políticas de seguridad por diseño.</p>
-
-                        <h3>Estrategias de Despliegue de Alta Confiabilidad:</h3>
-                        <ul>
-                            <li><strong>Despliegues en Azul-Verde (Blue-Green) y Canarios:</strong> Reducción del riesgo de caída del servicio al mínimo, redirigiendo el tráfico progresivamente una vez superadas las pruebas de salud automáticas.</li>
-                            <li><strong>Service Workers Optimizados:</strong> Estrategias refinadas de almacenamiento en caché para PWAs (Network-First, Cache-First) que garantizan velocidad instantánea incluso con conexiones 2G/3G inestables.</li>
-                            <li><strong>Escaneo Automatizado de Vulnerabilidades:</strong> Análisis estático y dinámico de código (SAST/DAST) inyectados directamente en los pipelines antes de cada paso a producción.</li>
-                        </ul>
-                        <p>Este enfoque holístico no solo acelera el time-to-market de las soluciones, sino que blinda el software frente a fallos humanos, garantizando consistencia absoluta en cada entrega.</p>
-                    `
+                    category: 'DevOps / CI-CD',
+                    title: 'Despliegues Continuos Seguros & PWAs Corporativas',
+                    date: '4 de agosto, 2026',
+                    readTime: '6 min de lectura',
+                    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
+                    toc: ['CI/CD moderno', 'PWAs offline-first', 'Seguridad en deploy'],
+                    html: `<p class="lead">Los despliegues continuos son el tejido nervioso de la ingeniería moderna. Sin ellos, la velocidad de entrega colapsa.</p>
+                <h3 id="toc-0">CI/CD moderno</h3>
+                <p>Una pipeline de CI/CD robusta valida, construye, prueba y despliega automáticamente en minutos. GitHub Actions + Vercel permite cero downtime en producción con rollbacks instantáneos.</p>
+                <h3 id="toc-1">PWAs offline-first</h3>
+                <p>Las Progressive Web Apps con Service Workers permiten que el usuario trabaje sin conexión. El contenido se cachea estratégicamente y se sincroniza cuando hay red disponible.</p>
+                <h3 id="toc-2">Seguridad en deploy</h3>
+                <p>Cada deploy debe incluir: escaneo de dependencias (Dependabot), secrets management (GitHub Secrets), CSP headers y auditoría Lighthouse automatizada.</p>`
                 },
-                "custom-software": {
-                    category: "Desarrollo a Medida / Consultoría",
-                    title: "Software Corporativo Hecho a Medida",
-                    date: "Publicado el 3 de agosto, 2026",
-                    image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80",
-                    html: `
-                        <p class="lead">Las suites empaquetadas obligan a las empresas a adaptar sus operaciones al software. El verdadero software a medida adapta la tecnología al core-business para maximizar la ventaja competitiva.</p>
-                        <p>Cada organización tiene flujos críticos únicos que le permiten diferenciarse en el mercado. Cuando estos flujos se intentan encajar en plantillas genéricas o herramientas ERP rígidas, se introduce fricción operativa e ineficiencia. El diseño de <strong>software hecho a medida</strong> de nivel corporativo resuelve este problema desde la raíz.</p>
-
-                        <h3>Principios de Nuestro Software Corporativo:</h3>
-                        <ul>
-                            <li><strong>Arquitectura Modular y Desacoplada:</strong> Diseñados bajo microservicios o monolitos modulares limpios (Clean Architecture) que garantizan su escalabilidad sin comprometer el rendimiento técnico.</li>
-                            <li><strong>Interoperabilidad Nativa:</strong> Conexión fluida con los sistemas legados existentes a través de APIs de alto rendimiento y conectores seguros.</li>
-                            <li><strong>Seguridad End-to-End:</strong> Diseñado desde el inicio con principios de seguridad OWASP y gobernanza empresarial estricta.</li>
-                        </ul>
-                        <p>Crear software a medida no es un gasto, es una inversión de alto retorno estratégico que optimiza la experiencia del usuario, automatiza los flujos de negocio más valiosos y asegura la resiliencia tecnológica a largo plazo.</p>
-                    `
+                'custom-software': {
+                    category: 'Filosofía / Ingeniería',
+                    title: 'Software Corporativo Hecho a Medida',
+                    date: '3 de agosto, 2026',
+                    readTime: '4 min de lectura',
+                    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80',
+                    toc: ['El problema de las suites', 'Principios de diseño', 'ROI real'],
+                    html: `<p class="lead">Las suites empaquetadas prometen todo y entregan compromisos. El software a medida entrega exactamente lo que el negocio necesita.</p>
+                <h3 id="toc-0">El problema de las suites</h3>
+                <p>SAP, Salesforce, y sus equivalentes resuelven el 80% de casos genéricos. Pero ese 20% restante — donde vive la ventaja competitiva real — requiere customizaciones costosas o simplemente es imposible.</p>
+                <h3 id="toc-1">Principios de diseño</h3>
+                <p>Software a medida de alto impacto: empieza con el problema, no con la tecnología. Se diseña para el usuario real, no para el comprador. Se construye modular para evolucionar.</p>
+                <h3 id="toc-2">ROI real</h3>
+                <p>El retorno real no está en el costo del software sino en la eliminación de fricción operativa, la automatización de flujos críticos y la capacidad de iterar sin depender de un vendor externo.</p>`
                 }
             };
 
-            // Drawer Selectors
             const drawer = document.getElementById('articleDrawer');
-            const drawerBody = drawer.querySelector('.drawer-body');
+            const drawerBody = document.getElementById('drawer-body');
+            const drawerToc = document.getElementById('drawer-toc');
             const drawerCloseBtn = drawer.querySelector('.drawer-close-btn');
 
-            // Function to open drawer and inject premium content
-            const openDrawer = (articleKey) => {
-                const article = articlesContent[articleKey];
-                if (!article) return;
+            function openDrawer(key) {
+                const art = articlesContent[key];
+                if (!art) return;
+                playClick();
 
-                // Inject markup dynamically
                 drawerBody.innerHTML = `
-                    <div class="drawer-header-image">
-                        <img src="${article.image}" alt="${article.title}" class="drawer-banner">
-                    </div>
-                    <div class="drawer-article-content">
-                        <span class="drawer-category">${article.category}</span>
-                        <h2 class="drawer-title">${article.title}</h2>
-                        <span class="drawer-date">${article.date}</span>
-                        <div class="drawer-divider"></div>
-                        <div class="drawer-rich-text">
-                            ${article.html}
-                        </div>
-                    </div>
-                `;
+            <div class="drawer-header-image">
+                <img src="${art.image}" alt="${art.title}" class="drawer-banner fade-image">
+            </div>
+            <div class="drawer-article-content">
+                <span class="drawer-category">${art.category}</span>
+                <h2 class="drawer-title">${art.title}</h2>
+                <div class="drawer-meta">
+                    <span class="drawer-date">${art.date}</span>
+                    <span class="drawer-readtime">⏱ ${art.readTime}</span>
+                </div>
+                <div class="drawer-divider"></div>
+                <div class="drawer-rich-text">${art.html}</div>
+            </div>`;
+
+                // P11: Build TOC
+                drawerToc.innerHTML = '';
+                if (art.toc && art.toc.length) {
+                    const tocLabel = document.createElement('span');
+                    tocLabel.className = 'toc-label'; tocLabel.textContent = 'En este artículo';
+                    drawerToc.appendChild(tocLabel);
+                    art.toc.forEach((item, i) => {
+                        const a = document.createElement('a');
+                        a.href = `#toc-${i}`;
+                        a.className = 'toc-link';
+                        a.textContent = item;
+                        a.addEventListener('click', e => {
+                            e.preventDefault();
+                            const target = drawerBody.querySelector(`#toc-${i}`);
+                            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        });
+                        drawerToc.appendChild(a);
+                    });
+                }
 
                 drawer.classList.add('open');
                 drawer.setAttribute('aria-hidden', 'false');
-                document.body.style.overflow = 'hidden'; // Lock background scrolling
-            };
+                document.body.style.overflow = 'hidden';
 
-            // Function to close drawer
-            const closeDrawer = () => {
+                // Lazy load banner image
+                const img = drawerBody.querySelector('.drawer-banner');
+                if (img) img.addEventListener('load', () => img.classList.add('loaded'));
+
+                // P11: TOC scroll highlight
+                const tocLinks = drawerToc.querySelectorAll('.toc-link');
+                drawerBody.addEventListener('scroll', () => {
+                    const headings = drawerBody.querySelectorAll('[id^="toc-"]');
+                    let active = 0;
+                    headings.forEach((h, i) => {
+                        if (h.getBoundingClientRect().top < 200) active = i;
+                    });
+                    tocLinks.forEach((l, i) => l.classList.toggle('active', i === active));
+                }, { passive: true });
+            }
+
+            function closeDrawer() {
+                playClick();
                 drawer.classList.remove('open');
                 drawer.setAttribute('aria-hidden', 'true');
-                document.body.style.overflow = ''; // Restore background scrolling
-                // Clean up body content after animation closes to prevent heavy memory usage
-                setTimeout(() => {
-                    if (!drawer.classList.contains('open')) {
-                        drawerBody.innerHTML = '';
-                    }
-                }, 400);
-            };
+                document.body.style.overflow = '';
+                setTimeout(() => { if (!drawer.classList.contains('open')) { drawerBody.innerHTML = ''; drawerToc.innerHTML = ''; } }, 400);
+            }
 
-            // Programmatically bind click events to all read-more buttons
             document.querySelectorAll('.read-more-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const articleKey = btn.getAttribute('data-article');
-                    openDrawer(articleKey);
-                });
+                btn.addEventListener('click', e => { e.preventDefault(); openDrawer(btn.dataset.article); });
             });
-
-            // Close Drawer Event Listeners
             drawerCloseBtn.addEventListener('click', closeDrawer);
-            drawer.addEventListener('click', (e) => {
-                if (e.target === drawer) {
-                    closeDrawer();
+            drawer.addEventListener('click', e => { if (e.target === drawer) closeDrawer(); });
+
+            // ═══════════════════════════════════════════════════════════════
+            // P10: COMMAND PALETTE (Cmd/Ctrl+K)
+            // ═══════════════════════════════════════════════════════════════
+            const cmdPalette = document.getElementById('cmd-palette');
+            const cmdInput = document.getElementById('cmd-input');
+            const cmdResults = document.getElementById('cmd-results');
+            const cmdBackdrop = document.getElementById('cmd-backdrop');
+
+            const cmdItems = [
+                { label: 'Ir a Inicio', action: () => document.getElementById('inicio').scrollIntoView({ behavior: 'smooth' }) },
+                { label: 'Ir a Terminal', action: () => { document.getElementById('terminal-section').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => termInput.focus(), 600); } },
+                { label: 'Ir a Artículos', action: () => document.getElementById('blog').scrollIntoView({ behavior: 'smooth' }) },
+                { label: 'Ir a Stack Técnico', action: () => document.getElementById('stack').scrollIntoView({ behavior: 'smooth' }) },
+                { label: 'Ir a Actividad GitHub', action: () => document.getElementById('actividad').scrollIntoView({ behavior: 'smooth' }) },
+                { label: 'Ir a Contacto', action: () => document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' }) },
+                { label: 'Leer: Cibernética y ISO', action: () => openDrawer('cybernetics') },
+                { label: 'Leer: Python y n8n', action: () => openDrawer('automation') },
+                { label: 'Leer: Despliegues Continuos', action: () => openDrawer('deployments') },
+                { label: 'Leer: Software a Medida', action: () => openDrawer('custom-software') },
+                { label: 'Cambiar tema claro/oscuro', action: () => themeToggle.click() },
+                { label: 'Abrir GitHub', action: () => window.open('https://github.com/msantiago1044', '_blank') },
+                { label: 'Abrir LinkedIn', action: () => window.open('https://www.linkedin.com/in/marcelo-a-barraza-s-55959b172/', '_blank') },
+                { label: 'Enviar Email', action: () => window.location.href = 'mailto:marcelobarrazasantiago@gmail.com' },
+            ];
+
+            let cmdActive = -1;
+
+            function openCmdPalette() { cmdPalette.hidden = false; cmdInput.value = ''; renderCmdResults(''); cmdInput.focus(); playClick(); }
+            function closeCmdPalette() { cmdPalette.hidden = true; cmdActive = -1; }
+
+            function renderCmdResults(q) {
+                const filtered = q ? cmdItems.filter(i => i.label.toLowerCase().includes(q.toLowerCase())) : cmdItems;
+                cmdResults.innerHTML = filtered.length
+                    ? filtered.map((item, i) => `<div class="cmd-item${i === cmdActive ? ' active' : ''}" data-idx="${i}">${item.label}</div>`).join('')
+                    : '<div class="cmd-empty">Sin resultados</div>';
+                cmdResults.querySelectorAll('.cmd-item').forEach((el, i) => {
+                    el.addEventListener('click', () => { filtered[i].action(); closeCmdPalette(); playClick(); });
+                    el.addEventListener('mouseenter', () => { cmdActive = i; renderCmdResults(cmdInput.value); });
+                });
+            }
+
+            cmdInput.addEventListener('input', e => { cmdActive = -1; renderCmdResults(e.target.value); });
+            cmdInput.addEventListener('keydown', e => {
+                const items = cmdResults.querySelectorAll('.cmd-item');
+                if (e.key === 'ArrowDown') { e.preventDefault(); cmdActive = Math.min(cmdActive + 1, items.length - 1); renderCmdResults(cmdInput.value); }
+                else if (e.key === 'ArrowUp') { e.preventDefault(); cmdActive = Math.max(cmdActive - 1, 0); renderCmdResults(cmdInput.value); }
+                else if (e.key === 'Enter' && cmdActive >= 0) {
+                    const filtered = cmdInput.value ? cmdItems.filter(i => i.label.toLowerCase().includes(cmdInput.value.toLowerCase())) : cmdItems;
+                    if (filtered[cmdActive]) { filtered[cmdActive].action(); closeCmdPalette(); playClick(); }
+                } else if (e.key === 'Escape') closeCmdPalette();
+            });
+            cmdBackdrop.addEventListener('click', closeCmdPalette);
+            document.getElementById('search-btn').addEventListener('click', () => { openCmdPalette(); playClick(); });
+
+            document.addEventListener('keydown', e => {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); cmdPalette.hidden ? openCmdPalette() : closeCmdPalette(); }
+                if (e.key === 'Escape') {
+                    if (!cmdPalette.hidden) closeCmdPalette();
+                    if (drawer.classList.contains('open')) closeDrawer();
                 }
             });
 
-            // Escape Key Close Support
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && drawer.classList.contains('open')) {
-                    closeDrawer();
-                }
+            // ═══════════════════════════════════════════════════════════════
+            // P16: SOURCE PEEK — mostrar CSS del elemento bajo hover
+            // ═══════════════════════════════════════════════════════════════
+            const sourcePeekBtn = document.getElementById('source-peek-btn');
+            const sourcePeek = document.getElementById('source-peek');
+            const sourcePeekSelector = document.getElementById('source-peek-selector');
+            const sourcePeekCode = document.getElementById('source-peek-code');
+            const sourcePeekClose = document.getElementById('source-peek-close');
+            let peekActive = false;
+
+            sourcePeekBtn.addEventListener('click', () => {
+                peekActive = !peekActive;
+                sourcePeekBtn.classList.toggle('active', peekActive);
+                if (!peekActive) sourcePeek.hidden = true;
+                playClick();
             });
 
-            // Scroll indicator implementation (Optimized off-GPU transform scaleX)
+            document.addEventListener('mouseover', e => {
+                if (!peekActive) return;
+                const el = e.target;
+                if (el === sourcePeekBtn || sourcePeek.contains(el)) return;
+                const styles = window.getComputedStyle(el);
+                const props = ['display', 'position', 'flex-direction', 'gap', 'background', 'color', 'border-radius', 'font-size', 'padding', 'margin', 'transform', 'transition'];
+                const lines = props.map(p => `  ${p}: ${styles.getPropertyValue(p).trim()};`).filter(l => !l.includes('  : ')).join('\n');
+                const tag = el.tagName.toLowerCase();
+                const cls = [...el.classList].slice(0, 3).map(c => '.' + c).join('');
+                sourcePeekSelector.textContent = `${tag}${cls}`;
+                sourcePeekCode.textContent = `${tag}${cls} {\n${lines}\n}`;
+                sourcePeek.hidden = false;
+            });
+
+            sourcePeekClose.addEventListener('click', () => { sourcePeek.hidden = true; peekActive = false; sourcePeekBtn.classList.remove('active'); });
+
+            // ═══════════════════════════════════════════════════════════════
+            // P19: PREFERS-REDUCED-DATA — no cargar imágenes Unsplash
+            // ═══════════════════════════════════════════════════════════════
+            if (window.matchMedia && window.matchMedia('(prefers-reduced-data: reduce)').matches) {
+                document.querySelectorAll('img[src*="unsplash"]').forEach(img => {
+                    img.style.display = 'none';
+                    const ph = document.createElement('div');
+                    ph.className = 'img-placeholder';
+                    ph.setAttribute('aria-label', img.alt);
+                    img.parentNode.insertBefore(ph, img);
+                });
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // SCROLL PROGRESS + PARALLAX + 3D REVEALS
+            // ═══════════════════════════════════════════════════════════════
             const progressBar = document.querySelector('.scroll-progress-bar');
+            const heroImageWrapper = document.querySelector('.hero-image-wrapper');
+            let lastScrollY = 0, ticking = false;
+
             window.addEventListener('scroll', () => {
-                const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-                if (totalScroll > 0) {
-                    const percentage = window.pageYOffset / totalScroll;
-                    progressBar.style.transform = `scaleX(${percentage})`;
+                lastScrollY = window.scrollY;
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        const total = document.documentElement.scrollHeight - window.innerHeight;
+                        if (total > 0) progressBar.style.transform = `scaleX(${lastScrollY / total})`;
+                        if (heroImageWrapper) {
+                            const top = heroImageWrapper.getBoundingClientRect().top;
+                            if (top < window.innerHeight && top > -heroImageWrapper.offsetHeight)
+                                heroImageWrapper.style.setProperty('--parallax-y', `-${(lastScrollY * 0.28).toFixed(2)}px`);
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
             }, { passive: true });
 
-            // Bookmark Button Toggle Interaction
-            const bookmarkButtons = document.querySelectorAll('.bookmark-btn');
-            bookmarkButtons.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    btn.classList.toggle('active');
+            const revealObs = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('revealed'); obs.unobserve(entry.target); } });
+            }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObs.observe(el));
+
+            setTimeout(() => {
+                document.querySelectorAll('.reveal-on-scroll:not(.revealed)').forEach(el => el.classList.add('revealed'));
+                document.querySelectorAll('.fade-image:not(.loaded)').forEach(img => img.classList.add('loaded'));
+            }, 1400);
+
+            // 3D card tilt
+            const MAX_TILT = 6;
+            document.querySelectorAll('.featured-post, .feed-post').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const r = card.getBoundingClientRect();
+                    const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+                    const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+                    card.style.setProperty('--tilt-x', `${(-dy * MAX_TILT).toFixed(2)}deg`);
+                    card.style.setProperty('--tilt-y', `${(dx * MAX_TILT).toFixed(2)}deg`);
+                }, { passive: true });
+                card.addEventListener('mouseleave', () => {
+                    card.style.setProperty('--tilt-x', '0deg');
+                    card.style.setProperty('--tilt-y', '0deg');
                 });
             });
 
-            // Programmatically bind load and error events to all .fade-image elements safely without inline scripts
-            document.querySelectorAll('.fade-image').forEach(img => {
-                const revealImg = () => {
-                    img.classList.add('loaded');
-                };
+            // Mobile hamburger menu
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const navLinks = document.getElementById('nav-links');
+            function closeNavMobile() {
+                if (!hamburgerBtn || !navLinks) return;
+                navLinks.classList.remove('nav-open');
+                navLinks.style.display = '';        // revert to CSS (= none at ≤900px)
+                hamburgerBtn.classList.remove('active');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+            }
+            if (hamburgerBtn && navLinks) {
+                hamburgerBtn.addEventListener('click', () => {
+                    const isOpen = navLinks.classList.toggle('nav-open');
+                    navLinks.style.display = isOpen ? 'flex' : ''; // inline style wins over any cached CSS
+                    hamburgerBtn.classList.toggle('active', isOpen);
+                    hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
+                    playClick();
+                });
+            }
 
-                if (img.complete) {
-                    revealImg();
-                } else {
-                    img.addEventListener('load', revealImg);
-                    img.addEventListener('error', revealImg); // gracefully reveal even if download fails to maintain layout
+            // Bookmark toggle
+            document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                btn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); btn.classList.toggle('active'); playClick(); });
+            });
+
+            // Image fade-in
+            document.querySelectorAll('.fade-image').forEach(img => {
+                const reveal = () => img.classList.add('loaded');
+                if (img.complete) reveal(); else { img.addEventListener('load', reveal); img.addEventListener('error', reveal); }
+            });
+
+            // ═══════════════════════════════════════════════════════════════
+            // P18: KONAMI CODE EASTER EGG
+            // ═══════════════════════════════════════════════════════════════
+            const konamiSeq = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+            let konamiIdx = 0;
+            const konamiOverlay = document.getElementById('konami-overlay');
+            const konamiCanvas = document.getElementById('konami-canvas');
+            const konamiClose = document.getElementById('konami-close');
+
+            document.addEventListener('keydown', e => {
+                if (e.key === konamiSeq[konamiIdx]) {
+                    konamiIdx++;
+                    if (konamiIdx === konamiSeq.length) {
+                        konamiIdx = 0;
+                        konamiOverlay.hidden = false;
+                        startKonamiAnimation();
+                    }
+                } else konamiIdx = 0;
+            });
+
+            function startKonamiAnimation() {
+                const kCtx = konamiCanvas.getContext('2d');
+                konamiCanvas.width = window.innerWidth; konamiCanvas.height = window.innerHeight;
+                const chars = '01アイウエオカキクケコサシスセソ</>{}[];';
+                const cols = Math.floor(konamiCanvas.width / 16);
+                const drops = Array(cols).fill(1);
+                const glitch = setInterval(() => {
+                    kCtx.fillStyle = 'rgba(11,15,25,0.05)';
+                    kCtx.fillRect(0, 0, konamiCanvas.width, konamiCanvas.height);
+                    kCtx.fillStyle = '#06b6d4';
+                    kCtx.font = '14px monospace';
+                    drops.forEach((y, x) => {
+                        kCtx.fillText(chars[Math.floor(Math.random() * chars.length)], x * 16, y * 16);
+                        if (y * 16 > konamiCanvas.height && Math.random() > 0.975) drops[x] = 0;
+                        drops[x]++;
+                    });
+                }, 40);
+                konamiClose.addEventListener('click', () => { clearInterval(glitch); konamiOverlay.hidden = true; }, { once: true });
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // P12: PWA SERVICE WORKER REGISTRATION
+            // ═══════════════════════════════════════════════════════════════
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('sw.js').then(reg => {
+                        reg.update();
+                    }).catch(() => { });
+                });
+            }
+
+        })(); // end IIFE
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MEJORA 2: BLOG CMS DINÁMICO + ARCHIVE
+         ═══════════════════════════════════════════════════════════════ -->
+    <script>
+        (function initBlogCMS() {
+            const ARTICLES_INDEX = 'articles/index.json';
+            const ARTICLES_PER_PAGE = 6;
+            let allArticles = [];
+            let archivePage = 0;
+
+            const blogGrid = document.getElementById('blog-grid');
+            const blogLoading = document.getElementById('blog-loading');
+            const archiveSection = document.getElementById('archivo');
+            const archiveGrid = document.getElementById('archive-grid');
+            const archivePagination = document.getElementById('archive-pagination');
+
+            function formatDate(dateStr) {
+                try {
+                    return new Intl.DateTimeFormat('es-CO', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(dateStr));
+                } catch { return dateStr; }
+            }
+
+            function renderBlogGrid(articles) {
+                if (!blogGrid) return;
+                const [featured, ...rest] = articles;
+                if (!featured) { blogGrid.innerHTML = '<p>No hay artículos aún.</p>'; return; }
+
+                blogGrid.innerHTML = `
+                <article class="featured-post" data-article="${featured.slug}" style="cursor:pointer">
+                    <div class="featured-image-container">
+                        <img src="${featured.cover || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80'}"
+                            alt="${featured.title}" class="featured-image fade-image">
+                        <button class="bookmark-btn" aria-label="Guardar artículo">
+                            <svg class="bookmark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="post-meta-row">
+                        <span class="post-category">${featured.category || ''}</span>
+                        <span class="reading-time">⏱ ${featured.reading_time || '?'} min de lectura</span>
+                    </div>
+                    <h4>${featured.title}</h4>
+                    <span class="post-date">Publicado el ${formatDate(featured.date)}</span>
+                    <p>${featured.excerpt || ''}</p>
+                    <button class="read-more-btn" data-article="${featured.slug}">Seguir leyendo <span class="arrow">→</span></button>
+                </article>
+                <div class="posts-feed">
+                    <h4 class="feed-title">Artículos Técnicos</h4>
+                    ${rest.slice(0, 3).map(a => `
+                    <article class="feed-post reveal-on-scroll">
+                        <div class="feed-image-wrapper">
+                            <img src="${a.cover || 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=400&q=80'}"
+                                alt="${a.title}" class="feed-thumbnail fade-image">
+                        </div>
+                        <div class="feed-content">
+                            <span class="post-date">${formatDate(a.date)} · <span class="reading-time-inline">${a.reading_time || '?'} min</span></span>
+                            <h5>${a.title}</h5>
+                            <p>${a.excerpt || ''}</p>
+                            <button class="read-more-btn" data-article="${a.slug}">Leer <span class="arrow">→</span></button>
+                        </div>
+                    </article>`).join('')}
+                </div>`;
+
+                // Lazy load images
+                blogGrid.querySelectorAll('.fade-image').forEach(img => {
+                    if (img.complete) { img.classList.add('loaded'); }
+                    else { img.addEventListener('load', () => img.classList.add('loaded'), { once: true }); }
+                });
+
+                // Wire up read buttons
+                blogGrid.querySelectorAll('[data-article]').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const slug = btn.dataset.article;
+                        const art = allArticles.find(a => a.slug === slug);
+                        if (art) openArticleFromData(art);
+                    });
+                });
+            }
+
+            function renderArchivePage(page) {
+                if (!archiveGrid) return;
+                const start = page * ARTICLES_PER_PAGE;
+                const slice = allArticles.slice(start, start + ARTICLES_PER_PAGE);
+                archiveGrid.innerHTML = slice.map(a => `
+                <div class="archive-card" data-article="${a.slug}">
+                    <img class="archive-card-img" src="${a.cover || ''}" alt="${a.title}" loading="lazy">
+                    <div class="archive-card-body">
+                        <div class="archive-card-cat">${a.category || ''}</div>
+                        <div class="archive-card-title">${a.title}</div>
+                        <div class="archive-card-meta">
+                            <span class="archive-card-date">${formatDate(a.date)}</span>
+                            <span class="archive-card-time">⏱ ${a.reading_time || '?'} min</span>
+                        </div>
+                    </div>
+                </div>`).join('');
+
+                archiveGrid.querySelectorAll('.archive-card-img').forEach(img => {
+                    img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+                    if (img.complete) img.classList.add('loaded');
+                });
+
+                archiveGrid.querySelectorAll('.archive-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const art = allArticles.find(a => a.slug === card.dataset.article);
+                        if (art) openArticleFromData(art);
+                    });
+                });
+
+                // Pagination
+                const totalPages = Math.ceil(allArticles.length / ARTICLES_PER_PAGE);
+                if (archivePagination) {
+                    archivePagination.innerHTML = `
+                    <button class="archive-page-btn" ${page === 0 ? 'disabled' : ''} id="arch-prev">← Anterior</button>
+                    ${Array.from({ length: totalPages }, (_, i) => `<button class="archive-page-btn${i === page ? ' active' : ''}" data-p="${i}">${i + 1}</button>`).join('')}
+                    <button class="archive-page-btn" ${page >= totalPages - 1 ? 'disabled' : ''} id="arch-next">Siguiente →</button>`;
+                    archivePagination.querySelector('#arch-prev')?.addEventListener('click', () => { if (page > 0) { archivePage = page - 1; renderArchivePage(archivePage); } });
+                    archivePagination.querySelector('#arch-next')?.addEventListener('click', () => { if (page < totalPages - 1) { archivePage = page + 1; renderArchivePage(archivePage); } });
+                    archivePagination.querySelectorAll('[data-p]').forEach(btn => btn.addEventListener('click', () => { archivePage = +btn.dataset.p; renderArchivePage(archivePage); }));
+                }
+            }
+
+            function openArticleFromData(art) {
+                if (typeof openArticleBySlug === 'function') {
+                    // Delegate to existing drawer logic via synthetic slug
+                    openArticleBySlug(art.slug, art);
+                }
+            }
+
+            async function openArticleBySlug(slug, meta) {
+                const drawer = document.getElementById('articleDrawer');
+                const body = document.getElementById('drawer-body');
+                if (!drawer || !body) return;
+                drawer.classList.add('open');
+                drawer.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                body.innerHTML = '<div class="blog-loading">Cargando artículo...</div>';
+
+                try {
+                    // Use a query parameter cache buster to bypass old service workers
+                    const res = await fetch(`articles/${slug}.json?cb=${Date.now()}`);
+                    if (!res.ok) throw new Error('Not found');
+                    const art = await res.json();
+                    const readMin = art.reading_time || meta?.reading_time || '?';
+                    body.innerHTML = `
+                    <div class="drawer-article-header">
+                        ${art.cover ? `<img src="${art.cover}" alt="${art.title}" class="drawer-hero-img" style="width:100%;max-height:320px;object-fit:cover;border-radius:10px;margin-bottom:var(--space-xl)">` : ''}
+                        <div class="post-meta-row"><span class="post-category">${art.category || ''}</span><span class="reading-time">⏱ ${readMin} min de lectura</span></div>
+                        <h2 style="font-family:var(--font-display);font-weight:400;margin:var(--space-sm) 0">${art.title}</h2>
+                        <span class="post-date" style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-text-muted)">Publicado el ${formatDate(art.date)}</span>
+                    </div>
+                    <div class="drawer-body-content" style="margin-top:var(--space-2xl);line-height:1.85;font-size:var(--font-size-base)">${renderMarkdown(art.content || art.excerpt || '')}</div>
+                    ${art.tags ? `<div style="margin-top:var(--space-2xl);display:flex;gap:8px;flex-wrap:wrap">${art.tags.map(t => `<span style="font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--color-border);color:var(--color-text-muted)">${t}</span>`).join('')}</div>` : ''}`;
+
+                    // Dynamic TOC integration
+                    const drawerToc = document.getElementById('drawer-toc');
+                    if (drawerToc) {
+                        drawerToc.innerHTML = '';
+                        if (art.toc && art.toc.length) {
+                            const tocLabel = document.createElement('span');
+                            tocLabel.className = 'toc-label';
+                            tocLabel.textContent = 'En este artículo';
+                            drawerToc.appendChild(tocLabel);
+                            art.toc.forEach((item, i) => {
+                                const a = document.createElement('a');
+                                a.href = `#toc-${i}`;
+                                a.className = 'toc-link';
+                                a.textContent = item;
+                                a.addEventListener('click', e => {
+                                    e.preventDefault();
+                                    const target = body.querySelector(`#toc-${i}`);
+                                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                });
+                                drawerToc.appendChild(a);
+                            });
+                        }
+                    }
+                } catch (err) {
+                    body.innerHTML = '<p style="color:var(--color-text-muted);text-align:center;padding:var(--space-2xl)">No se pudo cargar el artículo. (' + err.message + ')</p>';
+                }
+            }
+
+            function renderMarkdown(md) {
+                // Minimal Markdown → HTML with auto-incrementing heading IDs matching TOC index
+                let h2Count = 0;
+                let h3Count = 0;
+                return md
+                    .replace(/^## (.+)$/gm, (m, label) => `<h3 id="toc-${h2Count++}">${label}</h3>`)
+                    .replace(/^### (.+)$/gm, (m, label) => `<h4 id="toc-sec-${h3Count++}">${label}</h4>`)
+                    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+                    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                    .replace(/`([^`]+)`/g, '<code style="font-family:var(--font-mono);background:var(--color-surface);padding:2px 6px;border-radius:4px;font-size:0.9em">$1</code>')
+                    .replace(/\n\n/g, '</p><p>')
+                    .replace(/^(?!<[h1234]|<\/p|<p)(.+)$/gm, '<p>$1</p>');
+            }
+
+            // Wire up drawer close (in case existing logic not loaded)
+            function wireDrawerClose() {
+                const drawer = document.getElementById('articleDrawer');
+                const closeBtn = drawer?.querySelector('.drawer-close-btn');
+                if (!closeBtn) return;
+                closeBtn.addEventListener('click', () => {
+                    drawer.classList.remove('open');
+                    drawer.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                });
+                drawer?.addEventListener('click', e => {
+                    if (e.target === drawer) {
+                        drawer.classList.remove('open');
+                        drawer.setAttribute('aria-hidden', 'true');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+            wireDrawerClose();
+
+            // Expose for Knowledge Graph
+            window.openArticleBySlug = openArticleBySlug;
+
+            async function init() {
+                try {
+                    const res = await fetch(`${ARTICLES_INDEX}?cb=${Date.now()}`);
+                    if (!res.ok) throw new Error();
+                    const index = await res.json();
+                    const slugs = Array.isArray(index) ? index : (index.slugs || []);
+                    // Fetch all article metadata bypassing caching
+                    const metas = await Promise.allSettled(slugs.map(slug => fetch(`articles/${slug}.json?cb=${Date.now()}`).then(r => r.json())));
+                    allArticles = metas.filter(r => r.status === 'fulfilled').map(r => r.value).sort((a, b) => new Date(b.date) - new Date(a.date));
+                    if (blogLoading) blogLoading.remove();
+                    renderBlogGrid(allArticles);
+
+                    // Show archive if >4 articles
+                    if (allArticles.length > 4 && archiveSection) {
+                        archiveSection.removeAttribute('hidden');
+                        renderArchivePage(0);
+                    }
+
+                    // Update metrics article count
+                    const artMetric = document.getElementById('metric-articles');
+                    if (artMetric) artMetric.dataset.count = allArticles.length;
+
+                    // Trigger graph build
+                    if (typeof buildKnowledgeGraph === 'function') buildKnowledgeGraph(allArticles);
+                } catch (err) {
+                    console.error("DEBUG BLOG ERROR:", err);
+                    if (blogLoading) blogLoading.textContent = 'Error cargando artículos. (' + err.message + ')';
+                }
+            }
+            init();
+        })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MEJORA 3: GROQ SEMANTIC SEARCH
+         ═══════════════════════════════════════════════════════════════ -->
+    <script>
+        (function initGroqSearch() {
+            // API key stored in localStorage (set via terminal: `groq YOUR_KEY`)
+            // Never commit secrets to source — use localStorage or env vars
+            const GROQ_MODEL = 'llama3-8b-8192';
+            let groqMode = false;
+            let groqResultEl = null;
+
+            function getGroqKey() {
+                return localStorage.getItem('groq_api_key') || '';
+            }
+
+            const cmdInput = document.getElementById('cmd-input');
+            const cmdPalette = document.getElementById('cmd-palette');
+            const cmdInputWrap = document.getElementById('cmd-input-wrap');
+
+            if (!cmdInput) return;
+
+            // Add badge to show IA mode
+            const badge = document.createElement('span');
+            badge.className = 'cmd-groq-badge';
+            badge.textContent = 'IA · /';
+            badge.style.display = 'none';
+            cmdInputWrap?.appendChild(badge);
+
+            // Detect "/" to toggle Groq mode
+            cmdInput.addEventListener('keydown', e => {
+                if (e.key === '/' && cmdInput.value === '') {
+                    e.preventDefault();
+                    groqMode = true;
+                    badge.style.display = '';
+                    cmdPalette?.classList.add('cmd-groq-mode');
+                    cmdInput.placeholder = 'Pregunta algo sobre mis artículos...';
+                    cmdInput.value = '';
+                }
+                if (e.key === 'Escape') {
+                    groqMode = false;
+                    badge.style.display = 'none';
+                    cmdPalette?.classList.remove('cmd-groq-mode');
+                    cmdInput.placeholder = 'Buscar artículos, secciones...';
+                    groqResultEl?.remove(); groqResultEl = null;
                 }
             });
 
-            // IntersectionObserver for elegant reveal-on-scroll animations
-            const revealElements = document.querySelectorAll('.reveal-on-scroll');
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('revealed');
-                        observer.unobserve(entry.target); // Reveal only once
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
+            cmdInput.addEventListener('keydown', async e => {
+                if (e.key !== 'Enter' || !groqMode) return;
+                const query = cmdInput.value.trim();
+                if (!query) return;
+                e.preventDefault();
 
-            revealElements.forEach(el => {
-                revealObserver.observe(el);
-            });
+                const apiKey = getGroqKey();
+                if (!apiKey) {
+                    groqResultEl?.remove();
+                    groqResultEl = document.createElement('div');
+                    groqResultEl.className = 'cmd-groq-response';
+                    groqResultEl.innerHTML = '⚠️ Configura tu clave Groq primero.<br>Escribe en la terminal: <code>groq TU_CLAVE</code>';
+                    cmdPalette?.appendChild(groqResultEl);
+                    return;
+                }
 
-            // Robust JS fallback timeout: Force-reveal elements after 1000ms if
-            // the intersection observer fails, or if external images timeout/fail to respond.
-            setTimeout(() => {
-                document.querySelectorAll('.reveal-on-scroll:not(.revealed)').forEach(el => {
-                    el.classList.add('revealed');
-                });
-                document.querySelectorAll('.fade-image:not(.loaded)').forEach(img => {
-                    img.classList.add('loaded');
-                });
-            }, 1000);
-        });
+                // Remove previous result
+                groqResultEl?.remove();
+
+                // Show loading
+                groqResultEl = document.createElement('div');
+                groqResultEl.className = 'cmd-groq-loading';
+                groqResultEl.textContent = 'Consultando IA...';
+                cmdPalette?.appendChild(groqResultEl);
+
+                try {
+                    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                        body: JSON.stringify({
+                            model: GROQ_MODEL,
+                            messages: [
+                                { role: 'system', content: 'Eres un asistente experto en tecnología. Responde en español, de forma concisa (máximo 3 párrafos). El usuario está leyendo el blog de Marcelo Barraza, ingeniero de sistemas especialista en arquitectura empresarial, automatización, PWAs y cibernética corporativa.' },
+                                { role: 'user', content: query }
+                            ],
+                            max_tokens: 512,
+                            temperature: 0.6
+                        })
+                    });
+                    const json = await res.json();
+                    const answer = json.choices?.[0]?.message?.content || 'Sin respuesta.';
+                    groqResultEl.className = 'cmd-groq-response';
+                    groqResultEl.innerHTML = answer.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+                } catch {
+                    groqResultEl.className = 'cmd-groq-response';
+                    groqResultEl.textContent = 'Error al conectar con la IA. Intenta de nuevo.';
+                }
+            });
+        })();
     </script>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MEJORA 4: D3 KNOWLEDGE GRAPH
+         ═══════════════════════════════════════════════════════════════ -->
+    <script>
+        function buildKnowledgeGraph(articles) {
+            const container = document.getElementById('knowledge-graph');
+            if (!container) return;
+
+            if (typeof d3 === 'undefined') {
+                window.addEventListener('load', () => buildKnowledgeGraph(articles), { once: true });
+                setTimeout(() => { if (typeof d3 !== 'undefined') buildKnowledgeGraph(articles); }, 800);
+                return;
+            }
+
+            const W = container.clientWidth || 900;
+            const H = container.clientHeight || 480;
+
+            const catColors = {
+                'Cibernética': '#06b6d4', 'Automatización': '#f59e0b',
+                'DevOps': '#8b5cf6', 'Arquitectura': '#ec4899', 'default': '#6b7280'
+            };
+
+            // Build nodes
+            const nodes = articles.map((a, i) => ({
+                id: a.slug, label: a.title.length > 30 ? a.title.slice(0, 30) + '…' : a.title,
+                fullTitle: a.title, category: a.category || 'default', tags: a.tags || [], r: 14
+            }));
+
+            // Build links based on shared tags
+            const links = [];
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const shared = nodes[i].tags.filter(t => nodes[j].tags.includes(t));
+                    if (shared.length > 0) links.push({ source: nodes[i].id, target: nodes[j].id, strength: shared.length });
+                }
+            }
+
+            const zoom = d3.zoom().scaleExtent([0.4, 3]).on('zoom', e => g.attr('transform', e.transform));
+            const svg = d3.select('#knowledge-graph').append('svg')
+                .attr('viewBox', `0 0 ${W} ${H}`)
+                .call(zoom);
+
+            // Allow page scroll over the graph by releasing wheel event
+            svg.on("wheel.zoom", null);
+
+            const g = svg.append('g');
+
+            // Tooltip
+            const tip = document.createElement('div');
+            tip.className = 'graph-tooltip';
+            container.appendChild(tip);
+
+            const sim = d3.forceSimulation(nodes)
+                .force('link', d3.forceLink(links).id(d => d.id).distance(120).strength(d => Math.min(d.strength * 0.3, 0.8)))
+                .force('charge', d3.forceManyBody().strength(-240))
+                .force('center', d3.forceCenter(W / 2, H / 2))
+                .force('collision', d3.forceCollide(30));
+
+            const link = g.append('g').selectAll('line').data(links).join('line').attr('class', 'graph-link');
+
+            const node = g.append('g').selectAll('.graph-node').data(nodes).join('g')
+                .attr('class', 'graph-node')
+                .call(d3.drag()
+                    .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+                    .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+                    .on('end', (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; }));
+
+            node.append('circle')
+                .attr('r', d => d.r)
+                .attr('fill', d => catColors[d.category] || catColors.default)
+                .attr('stroke', '#0a0f1e')
+                .attr('stroke-width', 2)
+                .attr('fill-opacity', 0.85);
+
+            node.append('text')
+                .text(d => d.label)
+                .attr('text-anchor', 'middle')
+                .attr('dy', d => d.r + 16)
+                .attr('class', 'graph-label');
+
+            node.on('mouseenter', (e, d) => {
+                tip.innerHTML = `<div class="graph-tooltip-title">${d.fullTitle}</div><div class="graph-tooltip-cat">${d.category}</div>`;
+                tip.classList.add('visible');
+            }).on('mousemove', e => {
+                const rect = container.getBoundingClientRect();
+                tip.style.left = (e.clientX - rect.left + 14) + 'px';
+                tip.style.top = (e.clientY - rect.top - 10) + 'px';
+            }).on('mouseleave', () => tip.classList.remove('visible'))
+                .on('click', (e, d) => {
+                    if (typeof window.openArticleBySlug === 'function') window.openArticleBySlug(d.id, null);
+                });
+
+            sim.on('tick', () => {
+                link.attr('x1', d => d.source.x).attr('y1', d => d.source.y).attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+                node.attr('transform', d => `translate(${d.x},${d.y})`);
+            });
+        }
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MEJORA 6: METRICS ANIMATED COUNTERS
+         ═══════════════════════════════════════════════════════════════ -->
+    <script>
+        (function initMetrics() {
+            const GH_USER = 'msantiago1044';
+            const START_YEAR = 2013;
+
+            function animateCount(el, target, duration = 1200) {
+                if (!el) return;
+                const start = performance.now();
+                const from = 0;
+                function step(now) {
+                    const p = Math.min((now - start) / duration, 1);
+                    const ease = 1 - Math.pow(1 - p, 3);
+                    el.textContent = Math.round(from + (target - from) * ease);
+                    if (p < 1) requestAnimationFrame(step);
+                }
+                requestAnimationFrame(step);
+            }
+
+            async function loadGHMetrics() {
+                try {
+                    const res = await fetch(`https://api.github.com/users/${GH_USER}`);
+                    if (!res.ok) throw new Error();
+                    const data = await res.json();
+                    // repos
+                    const rEl = document.getElementById('metric-repos');
+                    if (rEl) { rEl.dataset.count = data.public_repos; }
+                    // followers
+                    const fEl = document.getElementById('metric-followers');
+                    if (fEl) { fEl.dataset.count = data.followers; }
+                } catch { }
+            }
+
+            function startCounters() {
+                // years experience
+                const expEl = document.getElementById('metric-exp');
+                if (expEl) { expEl.dataset.count = new Date().getFullYear() - START_YEAR; }
+                // static counters with data-count
+                document.querySelectorAll('.metric-number[data-count]').forEach(el => {
+                    animateCount(el, +el.dataset.count);
+                });
+            }
+
+            // Observe metrics section
+            const section = document.getElementById('metricas');
+            if (section) {
+                const obs = new IntersectionObserver(([entry], ob) => {
+                    if (entry.isIntersecting) { startCounters(); ob.disconnect(); }
+                }, { threshold: 0.2 });
+                obs.observe(section);
+            }
+
+            loadGHMetrics();
+        })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MEJORA 7: HIRE ME MODE TOGGLE
+         ═══════════════════════════════════════════════════════════════ -->
+    <script>
+        (function initHireMode() {
+            const btn = document.getElementById('hire-toggle-btn');
+            const heroSection = document.querySelector('.hero');
+            const heroNormal = document.querySelector('.hero-normal');
+            const heroHire = document.querySelector('.hero-hire');
+            const hireForm = document.getElementById('hire-form');
+            const hireSuccess = document.getElementById('hire-success');
+            let hireActive = false;
+
+            if (!btn || !heroNormal || !heroHire) return;
+
+            btn.addEventListener('click', () => {
+                hireActive = !hireActive;
+                if (hireActive) {
+                    heroNormal.style.display = 'none';
+                    heroHire.removeAttribute('hidden');
+                    heroHire.style.display = '';
+                    btn.textContent = '✕ Volver al blog';
+                    btn.classList.add('active');
+                    heroSection?.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    heroNormal.style.display = '';
+                    heroHire.hidden = true;
+                    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg> Contrátame';
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Hire form submit → send via mailto
+            hireForm?.addEventListener('submit', async e => {
+                e.preventDefault();
+                const type = document.getElementById('hire-type')?.value || '';
+                const desc = document.getElementById('hire-desc')?.value || '';
+                const budget = document.getElementById('hire-budget')?.value || '';
+                const deadline = document.getElementById('hire-deadline')?.value || '';
+                if (!type || !desc) { document.getElementById('hire-type')?.focus(); return; }
+
+                const body = encodeURIComponent(`Tipo: ${type}\nPresupuesto: ${budget}\nPlazo: ${deadline}\n\n${desc}`);
+                const mailtoLink = `mailto:marcelobarrazasantiago@gmail.com?subject=Solicitud%20de%20proyecto%3A%20${encodeURIComponent(type)}&body=${body}`;
+                window.location.href = mailtoLink;
+
+                hireForm.style.display = 'none';
+                if (hireSuccess) hireSuccess.removeAttribute('hidden');
+            });
+        })();
+    </script>
+
 </body>
+
 </html>

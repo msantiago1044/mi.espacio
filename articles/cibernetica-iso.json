@@ -1,0 +1,24 @@
+{
+    "slug": "cibernetica-iso",
+    "title": "Cibernética y Digitalización de Procesos bajo Normativa ISO (Bureau Veritas)",
+    "category": "Cibernética",
+    "tags": [
+        "iso",
+        "cibernética",
+        "digitalización",
+        "bureau-veritas",
+        "normativa",
+        "gobernanza",
+        "automatización"
+    ],
+    "date": "2026-08-06",
+    "reading_time": 7,
+    "cover": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+    "excerpt": "La digitalización de procesos industriales exige una gobernanza técnica implacable. Cómo estructurar la cibernética corporativa mediante ISO 27001 e ISO 9001, auditadas por Bureau Veritas.",
+    "toc": [
+        "Gobernanza técnica",
+        "ISO 9001 e ISO 27001",
+        "Diseño socio-técnico"
+    ],
+    "content": "## Gobernanza técnica\n\nCuando una corporación busca estructurar una verdadera **cibernética de procesos**, no se trata únicamente de añadir software. Se trata de modelar un sistema cibernético de lazo cerrado donde cada proceso digitalizado alimenta un núcleo unificado de datos.\n\nEsta arquitectura garantiza que cualquier desviación del comportamiento esperado sea detectada, retroalimentada y corregida en tiempo real — el principio fundamental de la cibernética de Norbert Wiener aplicado al entorno corporativo moderno.\n\n## ISO 9001 e ISO 27001\n\nAmbas normas operan en capas complementarias. ISO 9001 asegura la calidad del proceso; ISO 27001 protege los datos que ese proceso genera.\n\nLa certificación por Bureau Veritas añade validación externa e independiente. El resultado: un sistema que no solo funciona, sino que puede demostrarse que funciona.\n\n**Componentes clave de implementación:**\n\n- Mapeo de procesos con trazabilidad completa\n- Control de versiones de procedimientos operativos\n- Gestión de activos de información bajo ISO 27001\n- Auditorías internas con ciclos Deming (PDCA)\n\n## Diseño socio-técnico\n\nNuestra metodología no se limita a programar scripts. Analizamos el comportamiento organizativo, diseñamos interfaces fluidas y construimos flujos de automatización que los equipos adoptan sin fricción.\n\nEl éxito de una implementación ISO no se mide en papeles: se mide en la reducción de incidentes, el tiempo de respuesta ante desviaciones y la capacidad de escalar sin degradar la calidad."
+}

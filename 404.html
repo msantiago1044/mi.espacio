@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!--
+ ███╗   ███╗ █████╗ ██████╗  ██████╗███████╗██╗      ██████╗
+ ████╗ ████║██╔══██╗██╔══██╗██╔════╝██╔════╝██║     ██╔═══██╗
+ ██╔████╔██║███████║██████╔╝██║     █████╗  ██║     ██║   ██║
+ ██║╚██╔╝██║██╔══██║██╔══██╗██║     ██╔══╝  ██║     ██║   ██║
+ ██║ ╚═╝ ██║██║  ██║██║  ██║╚██████╗███████╗███████╗╚██████╔╝
+ ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚══════╝ ╚═════╝
+
+ מרצלו · Marcelo Barraza · Ingeniero de Sistemas
+ "La entropía del sistema aumenta — el código la ordena."
+ "Construir sostenible es construir para siempre."
+
+ github.com/msantiago1044
+ Blog: msantiago1044.github.io/mi.espacio
+-->
+<html lang="es" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Ruta no encontrada · Marcelo Barraza</title>
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: var(--space-lg);
+        }
+
+        .error-code {
+            font-family: var(--font-mono);
+            font-size: clamp(6rem, 20vw, 10rem);
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(135deg, var(--color-accent) 0%, oklch(85% 0.18 175) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-md);
+            text-align: center;
+            letter-spacing: -0.04em;
+        }
+
+        .error-label {
+            font-family: var(--font-mono);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-muted);
+            text-align: center;
+            margin-bottom: var(--space-2xl);
+        }
+
+        .terminal-404 {
+            width: 100%;
+            max-width: 680px;
+        }
+
+        #particle-canvas {
+            opacity: 0.3;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: var(--space-xl);
+            color: var(--color-accent);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            border-bottom: 1px solid rgba(6, 182, 212, .4);
+            padding-bottom: 2px;
+            transition: gap 200ms;
+        }
+
+        .back-link:hover {
+            gap: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+    <div class="error-code">404</div>
+    <p class="error-label">bash: cd: /lo-que-buscabas: No such file or directory</p>
+
+    <div class="terminal-404">
+        <div class="terminal-window">
+            <div class="terminal-titlebar">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                <span class="terminal-title">marcelo@systems ~ zsh — 404</span>
+            </div>
+            <div class="terminal-body" id="terminal-body-404">
+                <div class="terminal-output" id="terminal-output-404"></div>
+                <div class="terminal-input-line">
+                    <span class="terminal-prompt">marcelo@systems <span class="prompt-path">~</span> $ </span>
+                    <input type="text" id="terminal-input-404" class="terminal-input" autocomplete="off"
+                        spellcheck="false" aria-label="Terminal 404">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-link">← Volver al blog <span>→</span></a>
+
+    <script>
+        (() => {
+            'use strict';
+
+            // Minimal particle canvas
+            const canvas = document.getElementById('particle-canvas');
+            const gl = canvas && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+            if (!gl) { if (canvas) canvas.style.display = 'none'; }
+
+            // Theme
+            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            const termOutput = document.getElementById('terminal-output-404');
+            const termInput = document.getElementById('terminal-input-404');
+            const termBody = document.getElementById('terminal-body-404');
+
+            const BASE = 'index.html';
+            const SECTIONS = { inicio: '#inicio', blog: '#blog', timeline: '#timeline', stack: '#stack', contacto: '#contacto', grafo: '#grafo', metricas: '#metricas', archivo: '#archivo', actividad: '#actividad' };
+
+            const commands = {
+                help: () => `<span class="t-cyan">Comandos disponibles:</span>
+  <span class="t-green">ls</span>         — listar secciones del blog
+  <span class="t-green">cd /sección</span> — ir a una sección
+  <span class="t-green">clear</span>      — limpiar terminal
+  <span class="t-green">exit</span>       — volver al blog`,
+                ls: () => `<span class="t-cyan">Secciones disponibles en msantiago1044.github.io/mi.espacio/:</span>
+  drwxr-xr-x  <span class="t-green">/inicio</span>    Hero · presentación
+  drwxr-xr-x  <span class="t-green">/blog</span>      Ensayos técnicos
+  drwxr-xr-x  <span class="t-green">/archivo</span>   Archivo de artículos
+  drwxr-xr-x  <span class="t-green">/stack</span>     Stack técnico
+  drwxr-xr-x  <span class="t-green">/metricas</span>  Dashboard de métricas
+  drwxr-xr-x  <span class="t-green">/timeline</span>  Trayectoria profesional
+  drwxr-xr-x  <span class="t-green">/grafo</span>     Grafo de conocimiento
+  drwxr-xr-x  <span class="t-green">/actividad</span> Actividad GitHub
+  drwxr-xr-x  <span class="t-green">/contacto</span>  Contacto`,
+                clear: () => { termOutput.innerHTML = ''; return null; },
+                exit: () => { window.location.href = BASE; return null; }
+            };
+
+            function termPrint(html) {
+                const div = document.createElement('div');
+                div.className = 'terminal-line';
+                div.innerHTML = html;
+                termOutput.appendChild(div);
+                termBody.scrollTop = termBody.scrollHeight;
+            }
+
+            function termExec(raw) {
+                const cmd = raw.trim();
+                termPrint(`<span class="t-muted">marcelo@systems ~ $</span> ${raw}`);
+                if (!cmd) return;
+
+                if (cmd.startsWith('cd ')) {
+                    const path = cmd.slice(3).trim().replace(/^\//, '');
+                    if (SECTIONS[path]) {
+                        termPrint(`<span class="t-green">Redirigiendo a /${path}...</span>`);
+                        setTimeout(() => { window.location.href = BASE + SECTIONS[path]; }, 600);
+                    } else {
+                        termPrint(`<span class="t-red">bash: cd: /${path}: No such file or directory</span>`);
+                    }
+                    return;
+                }
+
+                const fn = commands[cmd.toLowerCase()];
+                if (fn) {
+                    const res = fn();
+                    if (res !== null && res !== undefined) termPrint(res);
+                } else {
+                    termPrint(`<span class="t-red">bash: ${cmd}: command not found</span> — escribe <span class="t-green">help</span>`);
+                }
+            }
+
+            // Boot
+            const boot = [
+                '<span class="t-cyan">MarceloOS v3.0 — Sistema de Navegación</span>',
+                '<span class="t-muted">Analizando ruta solicitada...</span>',
+                `<span class="t-red">ERROR 404:</span> La ruta <span class="t-cyan">${location.pathname}</span> no existe en este sistema.`,
+                'Escribe <span class="t-green">ls</span> para ver las rutas disponibles o <span class="t-green">cd /inicio</span> para volver.'
+            ];
+            boot.forEach((line, i) => setTimeout(() => termPrint(line), i * 250));
+            setTimeout(() => termInput.focus(), 1200);
+
+            let history = [], histIdx = -1;
+            termInput.addEventListener('keydown', e => {
+                if (e.key === 'Enter') {
+                    const val = termInput.value; termInput.value = '';
+                    if (val.trim()) { history.unshift(val); histIdx = -1; }
+                    termExec(val);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (histIdx < history.length - 1) termInput.value = history[++histIdx];
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    histIdx > 0 ? (termInput.value = history[--histIdx]) : (histIdx = -1, termInput.value = '');
+                }
+            });
+            termBody.addEventListener('click', () => termInput.focus());
+        })();
+    </script>
+</body>
+
+</html>
