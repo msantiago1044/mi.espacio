@@ -84,7 +84,7 @@
     <!-- D3.js para Grafo de Conocimiento -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css?v=5.1.0">
+    <link rel="stylesheet" href="styles.css?v=5.2.0">
 
     <noscript>
         <style>
@@ -239,7 +239,7 @@
                         <kbd>K</kbd>
                     </button>
                     <!-- Contrátame button → servicios.html -->
-                    <a href="servicios.html" class="hire-nav-btn" id="hire-toggle-btn" aria-label="Ver servicios">
+                    <a href="servicios.html" class="hire-nav-btn" id="hire-nav-btn" aria-label="Ver servicios">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2.5">
                             <path
@@ -283,7 +283,11 @@
                             <div class="hero-image-wrapper">
                                 <img src="assets/egypt.jpg"
                                     alt="Marcelo Barraza frente a la Gran Pirámide de Guiza, Egipto"
-                                    class="hero-image fade-image">
+                                    class="hero-image fade-image"
+                                    width="1920"
+                                    height="1440"
+                                    decoding="async"
+                                    fetchpriority="high">
                             </div>
                         </div>
                         <div class="hero-bio">
@@ -318,89 +322,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- HIRE ME MODE -->
-                <div class="hero-hire" hidden>
-                    <div class="hire-grid">
-                        <div class="hire-profile">
-                            <div class="hire-identity">
-                                <img src="assets/profile.png" alt="Marcelo Barraza" class="hire-photo">
-                                <div>
-                                    <div class="hire-name">Marcelo Barraza</div>
-                                    <div class="hire-role">Arquitecto de Sistemas · Ingeniero de Software</div>
-                                </div>
-                            </div>
-                            <div class="hire-services">
-                                <h4>Servicios disponibles</h4>
-                                <div class="hire-services-list">
-                                    <span class="hire-service-tag">Automatización</span>
-                                    <span class="hire-service-tag">Arquitectura Backend</span>
-                                    <span class="hire-service-tag">PWAs</span>
-                                    <span class="hire-service-tag">IoT / ESP32</span>
-                                    <span class="hire-service-tag">Consultoría técnica</span>
-                                    <span class="hire-service-tag">Auditoría de sistemas</span>
-                                    <span class="hire-service-tag">Topografía digital</span>
-                                    <span class="hire-service-tag">Modelado 3D</span>
-                                </div>
-                            </div>
-                            <a href="https://wa.me/573162977910?text=Hola%20Marcelo%2C%20vi%20tu%20blog%20y%20me%20interesa%20contratar%20tus%20servicios"
-                                class="hire-wa-btn" target="_blank" rel="noopener">
-                                <svg viewBox="0 0 24 24" fill="currentColor">
-                                    <path
-                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                                </svg>
-                                Chatear por WhatsApp
-                            </a>
-                        </div>
-                        <div class="hire-form-wrap">
-                            <div class="hire-form-title">Cuéntame tu proyecto</div>
-                            <form class="hire-form" id="hire-form" novalidate>
-                                <div>
-                                    <label class="hire-form-label" for="hire-type">Tipo de proyecto</label>
-                                    <select id="hire-type" name="type" required>
-                                        <option value="">Selecciona...</option>
-                                        <option>Automatización</option>
-                                        <option>PWA / Aplicación Web</option>
-                                        <option>Consultoría técnica</option>
-                                        <option>IoT / Hardware</option>
-                                        <option>Auditoría de sistemas</option>
-                                        <option>Otro</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="hire-form-label" for="hire-desc">Descripción breve</label>
-                                    <textarea id="hire-desc" name="description"
-                                        placeholder="Describe qué necesitas construir o resolver..."
-                                        required></textarea>
-                                </div>
-                                <div class="hire-form-row">
-                                    <div>
-                                        <label class="hire-form-label" for="hire-budget">Presupuesto estimado</label>
-                                        <select id="hire-budget" name="budget">
-                                            <option value="">Selecciona...</option>
-                                            <option>&lt;$500 USD</option>
-                                            <option>$500 – $2,000 USD</option>
-                                            <option>$2,000 – $5,000 USD</option>
-                                            <option>+$5,000 USD</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="hire-form-label" for="hire-deadline">Plazo</label>
-                                        <select id="hire-deadline" name="deadline">
-                                            <option value="">Selecciona...</option>
-                                            <option>Urgente (&lt;2 semanas)</option>
-                                            <option>1 mes</option>
-                                            <option>3 meses</option>
-                                            <option>Flexible</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <button type="submit" class="hire-submit-btn">Enviar solicitud →</button>
-                            </form>
-                            <div class="hire-form-success" id="hire-success" hidden>✅ Solicitud recibida. Te contacto a
-                                la brevedad por WhatsApp o email.</div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </section>
 
@@ -889,50 +811,7 @@
                 if (soundEnabled) playSuccess();
             });
 
-            // ═══════════════════════════════════════════════════════════════
-            // P3: CUSTOM CURSOR con spring physics
-            // ═══════════════════════════════════════════════════════════════
-            const cursor = document.getElementById('custom-cursor');
-            const halo = document.getElementById('cursor-halo');
-            let mx = -100, my = -100;
-            let hx = -100, hy = -100;
-            const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
-
-            if (!isTouchDevice) {
-                let haloRafId = null;
-
-                function animHalo() {
-                    const dx = mx - hx;
-                    const dy = my - hy;
-                    if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
-                        hx = mx; hy = my;
-                        halo.style.transform = `translate(${hx}px, ${hy}px)`;
-                        haloRafId = null;
-                        return;
-                    }
-                    hx += dx * 0.1;
-                    hy += dy * 0.1;
-                    halo.style.transform = `translate(${hx}px, ${hy}px)`;
-                    haloRafId = requestAnimationFrame(animHalo);
-                }
-
-                document.addEventListener('mousemove', e => {
-                    mx = e.clientX; my = e.clientY;
-                    cursor.style.transform = `translate(${mx}px, ${my}px)`;
-                    if (!haloRafId) haloRafId = requestAnimationFrame(animHalo);
-                }, { passive: true });
-
-                document.addEventListener('mousedown', () => cursor.classList.add('pressing'));
-                document.addEventListener('mouseup', () => cursor.classList.remove('pressing'));
-
-                document.querySelectorAll('a, button, [role="button"], .feed-post, .featured-post').forEach(el => {
-                    el.addEventListener('mouseenter', () => { halo.classList.add('hovering'); playHover(); });
-                    el.addEventListener('mouseleave', () => halo.classList.remove('hovering'));
-                });
-            } else {
-                cursor.style.display = 'none';
-                halo.style.display = 'none';
-            }
+            window.playHover = playHover;
 
             // ═══════════════════════════════════════════════════════════════
             // P1: WEBGL PARTICLE NETWORK
@@ -1220,6 +1099,7 @@
             const termCommands = {
                 help: () => `<span class="t-cyan">Comandos disponibles:</span>
   <span class="t-green">whoami</span>       — quién soy
+  <span class="t-green">servicios</span>    — consultoría y servicios profesionales
   <span class="t-green">skills</span>       — stack técnico
   <span class="t-green">contact</span>      — formas de contacto
   <span class="t-green">blog</span>         — artículos publicados
@@ -1227,6 +1107,10 @@
   <span class="t-green">github</span>       — perfil de GitHub
   <span class="t-green">clear</span>        — limpiar terminal
   <span class="t-green">exit</span>         — cerrar terminal`,
+                servicios: () => {
+                    setTimeout(() => { window.location.href = 'servicios.html'; }, 400);
+                    return '<span class="t-green">Redirigiendo a Servicios Profesionales...</span>';
+                },
                 whoami: () => `<span class="t-cyan">Marcelo Barraza</span>
   Rol        → Arquitecto Principal de Sistemas
   Ubicación  → Colombia
@@ -1525,7 +1409,19 @@
             const drawerToc = document.getElementById('drawer-toc');
             const drawerCloseBtn = drawer.querySelector('.drawer-close-btn');
 
+            const slugMap = {
+                'cybernetics': 'cibernetica-iso',
+                'automation': 'automatizacion-python-n8n',
+                'deployments': 'despliegues-continuos-pwa',
+                'custom-software': 'software-a-medida'
+            };
+
             function openDrawer(key) {
+                const targetSlug = slugMap[key] || key;
+                if (typeof window.openArticleBySlug === 'function') {
+                    window.openArticleBySlug(targetSlug);
+                    return;
+                }
                 const art = articlesContent[key];
                 if (!art) return;
                 playClick();
@@ -1609,6 +1505,7 @@
 
             const cmdItems = [
                 { label: 'Ir a Inicio', action: () => document.getElementById('inicio').scrollIntoView({ behavior: 'smooth' }) },
+                { label: 'Ir a Servicios Profesionales', action: () => window.location.href = 'servicios.html' },
                 { label: 'Ir a Terminal', action: () => { document.getElementById('terminal-section').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => termInput.focus(), 600); } },
                 { label: 'Ir a Artículos', action: () => document.getElementById('blog').scrollIntoView({ behavior: 'smooth' }) },
                 { label: 'Ir a Stack Técnico', action: () => document.getElementById('stack').scrollIntoView({ behavior: 'smooth' }) },
@@ -1857,6 +1754,7 @@
             const archiveSection = document.getElementById('archivo');
             const archiveGrid = document.getElementById('archive-grid');
             const archivePagination = document.getElementById('archive-pagination');
+            window.openArticleBySlug = openArticleBySlug;
 
             function formatDate(dateStr) {
                 try {
@@ -1972,6 +1870,7 @@
             }
 
             async function openArticleBySlug(slug, meta) {
+                window.openArticleBySlug = openArticleBySlug;
                 const drawer = document.getElementById('articleDrawer');
                 const body = document.getElementById('drawer-body');
                 if (!drawer || !body) return;
@@ -2350,57 +2249,10 @@
         })();
     </script>
 
-    <!-- ═══════════════════════════════════════════════════════════════
-         MEJORA 7: HIRE ME MODE TOGGLE
-         ═══════════════════════════════════════════════════════════════ -->
-    <script>
-        (function initHireMode() {
-            const btn = document.getElementById('hire-toggle-btn');
-            const heroSection = document.querySelector('.hero');
-            const heroNormal = document.querySelector('.hero-normal');
-            const heroHire = document.querySelector('.hero-hire');
-            const hireForm = document.getElementById('hire-form');
-            const hireSuccess = document.getElementById('hire-success');
-            let hireActive = false;
 
-            if (!btn || !heroNormal || !heroHire) return;
 
-            btn.addEventListener('click', () => {
-                hireActive = !hireActive;
-                if (hireActive) {
-                    heroNormal.style.display = 'none';
-                    heroHire.removeAttribute('hidden');
-                    heroHire.style.display = '';
-                    btn.textContent = '✕ Volver al blog';
-                    btn.classList.add('active');
-                    heroSection?.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    heroNormal.style.display = '';
-                    heroHire.hidden = true;
-                    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg> Contrátame';
-                    btn.classList.remove('active');
-                }
-            });
-
-            // Hire form submit → send via mailto
-            hireForm?.addEventListener('submit', async e => {
-                e.preventDefault();
-                const type = document.getElementById('hire-type')?.value || '';
-                const desc = document.getElementById('hire-desc')?.value || '';
-                const budget = document.getElementById('hire-budget')?.value || '';
-                const deadline = document.getElementById('hire-deadline')?.value || '';
-                if (!type || !desc) { document.getElementById('hire-type')?.focus(); return; }
-
-                const body = encodeURIComponent(`Tipo: ${type}\nPresupuesto: ${budget}\nPlazo: ${deadline}\n\n${desc}`);
-                const mailtoLink = `mailto:marcelobarrazasantiago@gmail.com?subject=Solicitud%20de%20proyecto%3A%20${encodeURIComponent(type)}&body=${body}`;
-                window.location.href = mailtoLink;
-
-                hireForm.style.display = 'none';
-                if (hireSuccess) hireSuccess.removeAttribute('hidden');
-            });
-        })();
-    </script>
-
+    <!-- Custom Cursor -->
+    <script src="cursor.js" defer></script>
 </body>
 
 </html>

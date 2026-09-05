@@ -17,3 +17,7 @@ Thumbs.db
 # Build
 dist/
 .vercel/
+
+# Heavy raw media backups
+*-original.*
+*-orig.*

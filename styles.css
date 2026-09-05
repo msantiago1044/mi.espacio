@@ -119,15 +119,35 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    cursor: none;
-    /* hidden: replaced by P3 custom cursor */
+    cursor: auto;
+    /* Replaced by custom cursor when body has .has-custom-cursor */
     transition: background-color 400ms var(--ease-out), color 400ms var(--ease-out);
     /* Prevent browser scroll-anchor from jumping when kinetic headline changes height */
     overflow-anchor: none;
 }
 
+body.has-custom-cursor,
+body.has-custom-cursor button,
+body.has-custom-cursor a,
+body.has-custom-cursor [role="button"],
+body.has-custom-cursor select,
+body.has-custom-cursor .feed-post,
+body.has-custom-cursor .featured-post,
+body.has-custom-cursor .filter-tag,
+body.has-custom-cursor .search-post-item,
+body.has-custom-cursor .cmd-item,
+body.has-custom-cursor .theme-picker-opt,
+body.has-custom-cursor .reading-header-close,
+body.has-custom-cursor .hire-nav-btn,
+body.has-custom-cursor .audio-control-btn,
+body.has-custom-cursor .bookmark-btn,
+body.has-custom-cursor .read-more-btn {
+    cursor: none;
+}
+
 @media (pointer: coarse) {
-    body {
+    body,
+    body.has-custom-cursor {
         cursor: auto;
     }
 }
@@ -144,14 +164,15 @@ a {
 }
 
 button {
-    cursor: none;
+    cursor: pointer;
     border: none;
     background: none;
     font-family: inherit;
 }
 
 @media (pointer: coarse) {
-    button {
+    button,
+    body.has-custom-cursor button {
         cursor: pointer;
     }
 }
@@ -899,7 +920,7 @@ h3 {
     align-items: center;
     justify-content: center;
     transition: color var(--duration-hover), border-color var(--duration-hover);
-    cursor: none;
+    cursor: pointer;
 }
 
 .bookmark-btn .bookmark-icon {
@@ -1041,7 +1062,7 @@ h3 {
     padding: 0;
     border: none;
     transition: gap var(--duration-hover) var(--ease-spring);
-    cursor: none;
+    cursor: pointer;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -1307,7 +1328,7 @@ h3 {
     font-weight: 700;
     font-size: var(--font-size-sm);
     transition: background var(--duration-hover), opacity var(--duration-hover);
-    cursor: none;
+    cursor: pointer;
 }
 
 .newsletter-form button:disabled {
@@ -1460,7 +1481,7 @@ footer {
     padding: 4px 8px;
     background: transparent;
     transition: color var(--duration-hover), border-color var(--duration-hover);
-    cursor: none;
+    cursor: pointer;
 }
 
 .source-peek-btn.active,
@@ -1513,7 +1534,7 @@ footer {
 .source-peek-header button {
     color: var(--color-text-muted);
     font-size: 14px;
-    cursor: none;
+    cursor: pointer;
     transition: color var(--duration-hover);
 }
 
@@ -1709,7 +1730,7 @@ footer {
     align-items: center;
     justify-content: center;
     z-index: 10;
-    cursor: none;
+    cursor: pointer;
     transition: transform var(--duration-feedback) var(--ease-out), color var(--duration-hover), border-color var(--duration-hover);
 }
 
@@ -1942,7 +1963,7 @@ footer {
     padding: 10px 24px;
     border-radius: 6px;
     font-weight: 700;
-    cursor: none;
+    cursor: pointer;
     transition: background var(--duration-hover);
 }
 
@@ -2199,7 +2220,7 @@ footer {
     border: none;
     transition: background var(--duration-hover), transform var(--duration-feedback) var(--ease-spring), box-shadow var(--duration-hover);
     box-shadow: 0 2px 12px rgba(6, 182, 212, .3);
-    cursor: none;
+    cursor: pointer;
     flex-shrink: 0;
 }
 
@@ -2327,7 +2348,7 @@ footer {
     font-size: var(--font-size-xs);
     font-weight: 600;
     transition: all var(--duration-hover);
-    cursor: none;
+    cursor: pointer;
 }
 
 @media (pointer: coarse) {
@@ -2972,7 +2993,7 @@ footer {
     font-size: var(--font-size-sm);
     border: none;
     transition: background var(--duration-hover), transform var(--duration-feedback);
-    cursor: none;
+    cursor: pointer;
     width: 100%;
 }
 
