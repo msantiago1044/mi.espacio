@@ -324,9 +324,13 @@ header {
 }
 
 /* Hamburger-only items: hidden on desktop, shown inside hamburger dropdown */
-@media (min-width: 901px) {
+.hamburger-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
     .hamburger-only {
-        display: none;
+        display: block;
     }
 }
 
@@ -2038,7 +2042,7 @@ footer {
    HAMBURGER MENU
    ════════════════════════════════════════════════════════════════ */
 .hamburger-btn {
-    display: none;
+    display: none !important;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -2085,9 +2089,15 @@ footer {
     transform: translateY(-6.5px) rotate(-45deg);
 }
 
-@media (max-width: 900px) {
+@media (min-width: 769px) {
     .hamburger-btn {
-        display: flex;
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .hamburger-btn {
+        display: flex !important;
     }
 
     /* Nav container wraps into column so dropdown sits naturally below buttons */

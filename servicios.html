@@ -526,7 +526,17 @@
         }
 
         /* ─── RESPONSIVE ─── */
+        @media (min-width: 769px) {
+            .hamburger-btn {
+                display: none !important;
+            }
+        }
+
         @media (max-width: 768px) {
+            .hamburger-btn {
+                display: flex !important;
+            }
+
             .srv-nav .container {
                 flex-wrap: wrap;
             }
@@ -582,7 +592,7 @@
             </a>
             <ul class="srv-nav-links" id="srv-nav-links" role="list">
                 <li><a href="index.html" onclick="closeNavMobile()">Inicio</a></li>
-                <li><a href="index.html#blog" onclick="closeNavMobile()">Ensayos</a></li>
+                <li><a href="index.html#blog" onclick="closeNavMobile()">Artículos</a></li>
                 <li><a href="index.html#stack" onclick="closeNavMobile()">Stack</a></li>
                 <li><a href="servicios.html" aria-current="page" style="color:var(--color-accent)" onclick="closeNavMobile()">Servicios</a></li>
                 <li><a href="index.html#contacto" onclick="closeNavMobile()">Contacto</a></li>

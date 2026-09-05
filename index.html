@@ -27,14 +27,14 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Marcelo Barraza — Pensamiento y Sistemas">
     <meta property="og:description"
-        content="Ensayos sobre arquitectura de software, automatización, DevOps y sistemas de misión crítica.">
+        content="Artículos sobre arquitectura de software, automatización, DevOps y sistemas de misión crítica.">
     <meta property="og:image" content="https://avatars.githubusercontent.com/u/msantiago1044">
     <meta property="og:url" content="https://msantiago1044.github.io/mi.espacio/">
     <meta property="og:locale" content="es_CO">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Marcelo Barraza — Pensamiento y Sistemas">
     <meta name="twitter:description"
-        content="Ensayos sobre arquitectura de software, automatización, DevOps y sistemas de misión crítica.">
+        content="Artículos sobre arquitectura de software, automatización, DevOps y sistemas de misión crítica.">
     <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/msantiago1044">
 
     <!-- P20: JSON-LD Schema.org Person + Blog -->
@@ -60,7 +60,7 @@
           "@id": "https://msantiago1044.github.io/mi.espacio/#blog",
           "name": "Marcelo Barraza — Pensamiento y Sistemas",
           "author": { "@id": "https://msantiago1044.github.io/mi.espacio/#person" },
-          "description": "Ensayos sobre arquitectura de software, automatización y sistemas de misión crítica",
+          "description": "Artículos sobre arquitectura de software, automatización y sistemas de misión crítica",
           "inLanguage": "es"
         }
       ]
@@ -186,7 +186,7 @@
                 </div>
                 <ul class="nav-links" id="nav-links">
                     <li><a href="#inicio" onclick="closeNavMobile()">Inicio</a></li>
-                    <li><a href="#blog" onclick="closeNavMobile()">Ensayos</a></li>
+                    <li><a href="#blog" onclick="closeNavMobile()">Artículos</a></li>
                     <li><a href="#timeline" onclick="closeNavMobile()">Timeline</a></li>
                     <li><a href="#metricas" onclick="closeNavMobile()">Métricas</a></li>
                     <li><a href="#stack" onclick="closeNavMobile()">Stack</a></li>
@@ -316,7 +316,6 @@
                                 <span class="contrib-label">Eventos públicos GitHub — últimos 6 meses</span>
                                 <div id="contrib-heatmap"></div>
                             </div>
-                            <a href="#blog" class="hero-cta">Explorar ensayos <span class="arrow">→</span></a>
                             <a href="https://github.com/msantiago1044?tab=repositories" target="_blank" rel="noopener"
                                 class="hero-cta">Explorar repos <span class="arrow">→</span></a>
                         </div>
@@ -654,7 +653,7 @@
                             </svg>
                             Newsletter
                         </h4>
-                        <p class="newsletter-desc">Recibe mis ensayos técnicos directamente en tu inbox. Sin spam. Sin
+                        <p class="newsletter-desc">Recibe mis artículos técnicos directamente en tu inbox. Sin spam. Sin
                             frecuencia forzada.</p>
                         <div class="newsletter-form" id="newsletter-form">
                             <input type="email" id="newsletter-email" placeholder="tu@email.com" autocomplete="email">
@@ -1316,7 +1315,7 @@
                             from: 'Marcelo Barraza <marcelo@ingenierosistemas.com>',
                             to: [email],
                             subject: '¡Bienvenido a Pensamiento y Sistemas!',
-                            html: '<p>Gracias por suscribirte. Recibirás mis próximos ensayos técnicos directamente aquí.</p><p>— Marcelo</p>'
+                            html: '<p>Gracias por suscribirte. Recibirás mis próximos artículos técnicos directamente aquí.</p><p>— Marcelo</p>'
                         })
                     });
                     if (res.ok) {
@@ -1657,13 +1656,13 @@
             // Mobile hamburger menu
             const hamburgerBtn = document.getElementById('hamburger-btn');
             const navLinks = document.getElementById('nav-links');
-            function closeNavMobile() {
+            window.closeNavMobile = function() {
                 if (!hamburgerBtn || !navLinks) return;
                 navLinks.classList.remove('nav-open');
-                navLinks.style.display = '';        // revert to CSS (= none at ≤900px)
+                navLinks.style.display = '';        // revert to CSS (= none at ≤768px)
                 hamburgerBtn.classList.remove('active');
                 hamburgerBtn.setAttribute('aria-expanded', 'false');
-            }
+            };
             if (hamburgerBtn && navLinks) {
                 hamburgerBtn.addEventListener('click', () => {
                     const isOpen = navLinks.classList.toggle('nav-open');
