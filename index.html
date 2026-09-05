@@ -313,7 +313,7 @@
                             </div>
                             <!-- P15: GitHub contribution heatmap -->
                             <div class="contrib-heatmap-wrap reveal-on-scroll">
-                                <span class="contrib-label">Eventos públicos GitHub — últimos 6 meses</span>
+                                <span class="contrib-label" id="contrib-label">Contribuciones en GitHub — último año</span>
                                 <div id="contrib-heatmap"></div>
                             </div>
                             <a href="https://github.com/msantiago1044?tab=repositories" target="_blank" rel="noopener"
@@ -1010,80 +1010,78 @@
             loadGithubBadges();
 
             // ═══════════════════════════════════════════════════════════════
-            // P15: GITHUB CONTRIBUTION HEATMAP
+            // P15: GITHUB CONTRIBUTION HEATMAP (Sincronizado con GitHub real)
             // ═══════════════════════════════════════════════════════════════
             async function buildHeatmap() {
                 const container = document.getElementById('contrib-heatmap');
+                const label = document.getElementById('contrib-label');
                 if (!container) return;
 
-                const weeks = 26, days = 7;
-                // Build date map for last 26 weeks
-                const dateMap = {};
-                const today = new Date();
-                for (let w = 0; w < weeks; w++) {
-                    for (let d = 0; d < days; d++) {
-                        const dt = new Date(today);
-                        dt.setDate(today.getDate() - ((weeks - w - 1) * 7 + (days - d - 1)));
-                        const key = dt.toISOString().slice(0, 10);
-                        dateMap[key] = 0;
-                    }
-                }
+                let contributions = [];
+                let totalCount = 0;
 
-                // Try to load real GitHub events
                 try {
-                    const pages = [1, 2, 3];
-                    for (const page of pages) {
-                        const res = await fetch(`https://api.github.com/users/${GH_USER}/events/public?per_page=100&page=${page}`);
-                        if (!res.ok) break;
-                        const events = await res.json();
-                        if (!events.length) break;
-                        events.forEach(ev => {
-                            if (['PushEvent', 'CreateEvent', 'IssuesEvent', 'PullRequestEvent'].includes(ev.type)) {
-                                const key = ev.created_at.slice(0, 10);
-                                if (key in dateMap) {
-                                    const commits = ev.payload?.commits?.length || 1;
-                                    dateMap[key] = (dateMap[key] || 0) + commits;
-                                }
+                    const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${GH_USER}?y=last`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && Array.isArray(data.contributions) && data.contributions.length > 0) {
+                            contributions = data.contributions;
+                            totalCount = data.total?.lastYear ?? Object.values(data.total || {})[0] ?? 0;
+                            if (label && totalCount > 0) {
+                                label.innerHTML = `Contribuciones en GitHub — <span style="color:var(--color-accent);font-weight:600">${totalCount} en el último año</span>`;
                             }
+                        }
+                    }
+                } catch (e) {}
+
+                if (!contributions.length) {
+                    const days = 7, weeks = 52;
+                    const today = new Date();
+                    for (let i = 0; i < weeks * days; i++) {
+                        const dt = new Date(today);
+                        dt.setDate(today.getDate() - (weeks * days - 1 - i));
+                        contributions.push({
+                            date: dt.toISOString().slice(0, 10),
+                            count: 0,
+                            level: 0
                         });
                     }
-                } catch (e) { /* fallback: all zeros */ }
-
-                // Normalize to levels 0-4
-                const counts = Object.values(dateMap);
-                const max = Math.max(...counts, 1);
-                function toLevel(v) {
-                    if (v === 0) return 0;
-                    if (v <= max * 0.25) return 1;
-                    if (v <= max * 0.50) return 2;
-                    if (v <= max * 0.75) return 3;
-                    return 4;
                 }
 
-                // Render grid
                 const grid = document.createElement('div');
                 grid.className = 'heatmap-grid';
-                const keys = Object.keys(dateMap);
-                for (let w = 0; w < weeks; w++) {
+                const totalDays = contributions.length;
+                const numWeeks = Math.ceil(totalDays / 7);
+
+                for (let w = 0; w < numWeeks; w++) {
                     const col = document.createElement('div');
                     col.className = 'heatmap-col';
-                    for (let d = 0; d < days; d++) {
-                        const key = keys[w * days + d];
+                    for (let d = 0; d < 7; d++) {
+                        const idx = w * 7 + d;
+                        if (idx >= totalDays) break;
+                        const item = contributions[idx];
                         const cell = document.createElement('div');
                         cell.className = 'heatmap-cell';
-                        const level = toLevel(dateMap[key] || 0);
-                        cell.setAttribute('data-level', level);
-                        const count = dateMap[key] || 0;
-                        cell.title = `${key} — ${count} evento${count !== 1 ? 's' : ''}`;
+                        cell.setAttribute('data-level', item.level || 0);
+                        const c = item.count || 0;
+                        cell.title = `${item.date}: ${c} contribución${c !== 1 ? 'es' : ''}`;
                         col.appendChild(cell);
                     }
                     grid.appendChild(col);
                 }
+
+                container.innerHTML = '';
                 container.appendChild(grid);
 
-                // Staggered reveal
+                const wrap = container.closest('.contrib-heatmap-wrap');
+                if (wrap) {
+                    requestAnimationFrame(() => {
+                        wrap.scrollLeft = wrap.scrollWidth;
+                    });
+                }
+
                 container.querySelectorAll('.heatmap-cell').forEach((cell, i) => {
-                    setTimeout(() => cell.classList.add('visible'), i * 3);
+                    setTimeout(() => cell.classList.add('visible'), Math.min(i * 2, 800));
                 });
             }
             buildHeatmap();
