@@ -362,12 +362,14 @@
             </div>
         </section>
 
-        <!-- Sección de Archivo -->
-        <section id="archivo" class="archive-section reveal-on-scroll" hidden>
+        <!-- MEJORA 4: Grafo de Conocimiento -->
+        <section id="grafo" class="graph-section reveal-on-scroll">
             <div class="container">
-                <h3>Archivo de Artículos</h3>
-                <div class="archive-grid" id="archive-grid"></div>
-                <div class="archive-pagination" id="archive-pagination"></div>
+                <h3>Grafo de Conocimiento</h3>
+                <p class="section-sub">Artículos conectados por afinidad temática — haz clic para leer</p>
+                <div id="knowledge-graph"></div>
+                <div class="graph-hint">Arrastra para explorar · Scroll para zoom · Clic en nodo para abrir artículo
+                </div>
             </div>
         </section>
 
@@ -606,17 +608,6 @@
                         </div>
                     </div>
 
-                </div>
-            </div>
-        </section>
-
-        <!-- MEJORA 4: Grafo de Conocimiento -->
-        <section id="grafo" class="graph-section reveal-on-scroll">
-            <div class="container">
-                <h3>Grafo de Conocimiento</h3>
-                <p class="section-sub">Artículos conectados por afinidad temática — haz clic para leer</p>
-                <div id="knowledge-graph"></div>
-                <div class="graph-hint">Arrastra para explorar · Scroll para zoom · Clic en nodo para abrir artículo
                 </div>
             </div>
         </section>
@@ -1743,15 +1734,10 @@
     <script>
         (function initBlogCMS() {
             const ARTICLES_INDEX = 'articles/index.json';
-            const ARTICLES_PER_PAGE = 6;
             let allArticles = [];
-            let archivePage = 0;
 
             const blogGrid = document.getElementById('blog-grid');
             const blogLoading = document.getElementById('blog-loading');
-            const archiveSection = document.getElementById('archivo');
-            const archiveGrid = document.getElementById('archive-grid');
-            const archivePagination = document.getElementById('archive-pagination');
             window.openArticleBySlug = openArticleBySlug;
 
             function formatDate(dateStr) {
@@ -1818,47 +1804,6 @@
                 });
             }
 
-            function renderArchivePage(page) {
-                if (!archiveGrid) return;
-                const start = page * ARTICLES_PER_PAGE;
-                const slice = allArticles.slice(start, start + ARTICLES_PER_PAGE);
-                archiveGrid.innerHTML = slice.map(a => `
-                <div class="archive-card" data-article="${a.slug}">
-                    <img class="archive-card-img" src="${a.cover || ''}" alt="${a.title}" loading="lazy">
-                    <div class="archive-card-body">
-                        <div class="archive-card-cat">${a.category || ''}</div>
-                        <div class="archive-card-title">${a.title}</div>
-                        <div class="archive-card-meta">
-                            <span class="archive-card-date">${formatDate(a.date)}</span>
-                            <span class="archive-card-time">⏱ ${a.reading_time || '?'} min</span>
-                        </div>
-                    </div>
-                </div>`).join('');
-
-                archiveGrid.querySelectorAll('.archive-card-img').forEach(img => {
-                    img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
-                    if (img.complete) img.classList.add('loaded');
-                });
-
-                archiveGrid.querySelectorAll('.archive-card').forEach(card => {
-                    card.addEventListener('click', () => {
-                        const art = allArticles.find(a => a.slug === card.dataset.article);
-                        if (art) openArticleFromData(art);
-                    });
-                });
-
-                // Pagination
-                const totalPages = Math.ceil(allArticles.length / ARTICLES_PER_PAGE);
-                if (archivePagination) {
-                    archivePagination.innerHTML = `
-                    <button class="archive-page-btn" ${page === 0 ? 'disabled' : ''} id="arch-prev">← Anterior</button>
-                    ${Array.from({ length: totalPages }, (_, i) => `<button class="archive-page-btn${i === page ? ' active' : ''}" data-p="${i}">${i + 1}</button>`).join('')}
-                    <button class="archive-page-btn" ${page >= totalPages - 1 ? 'disabled' : ''} id="arch-next">Siguiente →</button>`;
-                    archivePagination.querySelector('#arch-prev')?.addEventListener('click', () => { if (page > 0) { archivePage = page - 1; renderArchivePage(archivePage); } });
-                    archivePagination.querySelector('#arch-next')?.addEventListener('click', () => { if (page < totalPages - 1) { archivePage = page + 1; renderArchivePage(archivePage); } });
-                    archivePagination.querySelectorAll('[data-p]').forEach(btn => btn.addEventListener('click', () => { archivePage = +btn.dataset.p; renderArchivePage(archivePage); }));
-                }
-            }
 
             function openArticleFromData(art) {
                 if (typeof openArticleBySlug === 'function') {
@@ -1970,12 +1915,6 @@
                     allArticles = metas.filter(r => r.status === 'fulfilled').map(r => r.value).sort((a, b) => new Date(b.date) - new Date(a.date));
                     if (blogLoading) blogLoading.remove();
                     renderBlogGrid(allArticles);
-
-                    // Show archive if >4 articles
-                    if (allArticles.length > 4 && archiveSection) {
-                        archiveSection.removeAttribute('hidden');
-                        renderArchivePage(0);
-                    }
 
                     // Update metrics article count
                     const artMetric = document.getElementById('metric-articles');
