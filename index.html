@@ -84,7 +84,7 @@
     <!-- D3.js para Grafo de Conocimiento -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css?v=5.2.0">
+    <link rel="stylesheet" href="styles.css?v=5.3.0">
 
     <noscript>
         <style>
@@ -122,6 +122,13 @@
             }).catch(() => { });
         }
     </script>
+    <style id="desktop-hide-hamburger">
+        @media (min-width: 769px) {
+            #hamburger-btn, .hamburger-btn {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -313,7 +320,7 @@
                             </div>
                             <!-- P15: GitHub contribution heatmap -->
                             <div class="contrib-heatmap-wrap reveal-on-scroll">
-                                <span class="contrib-label" id="contrib-label">Contribuciones en GitHub — último año</span>
+                                <span class="contrib-label" id="contrib-label">Contribuciones en GitHub — últimos 4 meses</span>
                                 <div id="contrib-heatmap"></div>
                             </div>
                             <a href="https://github.com/msantiago1044?tab=repositories" target="_blank" rel="noopener"
@@ -1010,36 +1017,37 @@
             loadGithubBadges();
 
             // ═══════════════════════════════════════════════════════════════
-            // P15: GITHUB CONTRIBUTION HEATMAP (Sincronizado con GitHub real)
+            // P15: GITHUB CONTRIBUTION HEATMAP (Últimos 4 meses)
             // ═══════════════════════════════════════════════════════════════
             async function buildHeatmap() {
                 const container = document.getElementById('contrib-heatmap');
                 const label = document.getElementById('contrib-label');
                 if (!container) return;
 
+                const displayWeeks = 18; // ~4 meses (126 días)
                 let contributions = [];
-                let totalCount = 0;
 
                 try {
                     const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${GH_USER}?y=last`);
                     if (res.ok) {
                         const data = await res.json();
                         if (data && Array.isArray(data.contributions) && data.contributions.length > 0) {
-                            contributions = data.contributions;
-                            totalCount = data.total?.lastYear ?? Object.values(data.total || {})[0] ?? 0;
-                            if (label && totalCount > 0) {
-                                label.innerHTML = `Contribuciones en GitHub — <span style="color:var(--color-accent);font-weight:600">${totalCount} en el último año</span>`;
+                            // Recortar a los últimos 4 meses
+                            contributions = data.contributions.slice(-displayWeeks * 7);
+                            const periodCount = contributions.reduce((acc, cur) => acc + (cur.count || 0), 0);
+                            if (label && periodCount > 0) {
+                                label.innerHTML = `Contribuciones en GitHub — <span style="color:var(--color-accent);font-weight:600">${periodCount} en los últimos 4 meses</span>`;
                             }
                         }
                     }
                 } catch (e) {}
 
                 if (!contributions.length) {
-                    const days = 7, weeks = 52;
+                    const days = 7;
                     const today = new Date();
-                    for (let i = 0; i < weeks * days; i++) {
+                    for (let i = 0; i < displayWeeks * days; i++) {
                         const dt = new Date(today);
-                        dt.setDate(today.getDate() - (weeks * days - 1 - i));
+                        dt.setDate(today.getDate() - (displayWeeks * days - 1 - i));
                         contributions.push({
                             date: dt.toISOString().slice(0, 10),
                             count: 0,
@@ -1073,15 +1081,8 @@
                 container.innerHTML = '';
                 container.appendChild(grid);
 
-                const wrap = container.closest('.contrib-heatmap-wrap');
-                if (wrap) {
-                    requestAnimationFrame(() => {
-                        wrap.scrollLeft = wrap.scrollWidth;
-                    });
-                }
-
                 container.querySelectorAll('.heatmap-cell').forEach((cell, i) => {
-                    setTimeout(() => cell.classList.add('visible'), Math.min(i * 2, 800));
+                    setTimeout(() => cell.classList.add('visible'), Math.min(i * 3, 600));
                 });
             }
             buildHeatmap();
