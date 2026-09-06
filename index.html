@@ -2104,35 +2104,62 @@
                 return;
             }
 
+            container.innerHTML = '';
+
             const W = container.clientWidth || 900;
-            const H = container.clientHeight || 480;
+            const H = 520;
 
             const catColors = {
-                'Cibernética': '#06b6d4', 'Automatización': '#f59e0b',
-                'DevOps': '#8b5cf6', 'Arquitectura': '#ec4899', 'default': '#6b7280'
+                'Cibernética': '#06b6d4',
+                'Automatización': '#f59e0b',
+                'DevOps': '#8b5cf6',
+                'Arquitectura': '#ec4899',
+                'Inteligencia Artificial': '#10b981',
+                'Geospatial & BIM': '#3b82f6',
+                'default': '#6b7280'
             };
 
-            // Build nodes
-            const nodes = articles.map((a, i) => ({
-                id: a.slug, label: a.title.length > 30 ? a.title.slice(0, 30) + '…' : a.title,
-                fullTitle: a.title, category: a.category || 'default', tags: a.tags || [], r: 14
+            // Build nodes dynamically from all supplied articles
+            const nodes = articles.map(a => ({
+                id: a.slug,
+                label: a.title.length > 28 ? a.title.slice(0, 28) + '…' : a.title,
+                fullTitle: a.title,
+                category: a.category || 'default',
+                tags: a.tags || [],
+                r: 16
             }));
 
-            // Build links based on shared tags
+            // Build links based on shared tags and category affinity
             const links = [];
             for (let i = 0; i < nodes.length; i++) {
                 for (let j = i + 1; j < nodes.length; j++) {
                     const shared = nodes[i].tags.filter(t => nodes[j].tags.includes(t));
-                    if (shared.length > 0) links.push({ source: nodes[i].id, target: nodes[j].id, strength: shared.length });
+                    const sameCat = nodes[i].category === nodes[j].category ? 1 : 0;
+                    const strength = shared.length + sameCat;
+                    if (strength > 0) {
+                        links.push({
+                            source: nodes[i].id,
+                            target: nodes[j].id,
+                            strength: strength
+                        });
+                    }
                 }
             }
+
+            // Ensure every node has at least one connection so no article floats isolated
+            nodes.forEach(n => {
+                const hasLink = links.some(l => l.source === n.id || l.target === n.id);
+                if (!hasLink && nodes.length > 1) {
+                    const partner = nodes.find(o => o.id !== n.id && (o.category === n.category || true));
+                    if (partner) links.push({ source: n.id, target: partner.id, strength: 1 });
+                }
+            });
 
             const zoom = d3.zoom().scaleExtent([0.4, 3]).on('zoom', e => g.attr('transform', e.transform));
             const svg = d3.select('#knowledge-graph').append('svg')
                 .attr('viewBox', `0 0 ${W} ${H}`)
                 .call(zoom);
 
-            // Allow page scroll over the graph by releasing wheel event
             svg.on("wheel.zoom", null);
 
             const g = svg.append('g');
@@ -2143,10 +2170,10 @@
             container.appendChild(tip);
 
             const sim = d3.forceSimulation(nodes)
-                .force('link', d3.forceLink(links).id(d => d.id).distance(120).strength(d => Math.min(d.strength * 0.3, 0.8)))
-                .force('charge', d3.forceManyBody().strength(-240))
+                .force('link', d3.forceLink(links).id(d => d.id).distance(135).strength(d => Math.min(d.strength * 0.25, 0.7)))
+                .force('charge', d3.forceManyBody().strength(-300))
                 .force('center', d3.forceCenter(W / 2, H / 2))
-                .force('collision', d3.forceCollide(30));
+                .force('collision', d3.forceCollide(36));
 
             const link = g.append('g').selectAll('line').data(links).join('line').attr('class', 'graph-link');
 
@@ -2161,8 +2188,8 @@
                 .attr('r', d => d.r)
                 .attr('fill', d => catColors[d.category] || catColors.default)
                 .attr('stroke', '#0a0f1e')
-                .attr('stroke-width', 2)
-                .attr('fill-opacity', 0.85);
+                .attr('stroke-width', 2.5)
+                .attr('fill-opacity', 0.9);
 
             node.append('text')
                 .text(d => d.label)

@@ -1,3 +1,12 @@
 {
-  "slugs": ["cibernetica-iso", "automatizacion-python-n8n", "despliegues-continuos-pwa", "software-a-medida"]
+  "slugs": [
+    "sistemas-distribuidos-alta-disponibilidad",
+    "ia-generativa-agentes-autonomos-pymes",
+    "gemelos-digitales-bim-nubes-puntos",
+    "sistemas-de-baja-entropia-arquitectura",
+    "cibernetica-iso",
+    "automatizacion-python-n8n",
+    "despliegues-continuos-pwa",
+    "software-a-medida"
+  ]
 }
