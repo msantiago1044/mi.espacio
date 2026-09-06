@@ -1,62 +1,54 @@
-# 📚 Blog de Ingeniería de Sistemas
+# Marcelo Barraza — Pensamiento y Sistemas
 
-## 👤 Autor
-**Marcelo Barraza** - Ingeniero de Sistemas
+Blog personal de ingeniería, arquitectura de software y automatización. **v3.0.0**
 
-## 📖 Descripción
-Blog personal dedicado a compartir conocimientos y mejores prácticas sobre:
-- Ingeniería de Sistemas
-- Desarrollo de Software
-- DevOps y Automatización
-- Seguridad Informática
-- Tecnologías Modernas
+## Features implementadas (20/20)
 
-## 🚀 Características
-✅ Diseño responsive y moderno  
-✅ Interfaz limpia e intuitiva  
-✅ Navegación fácil  
-✅ Compatible con dispositivos móviles  
-✅ Estilos CSS modernos con gradientes  
-✅ Efectos hover interactivos  
+| # | Feature | Tecnología |
+|---|---------|-----------|
+| P1  | Canvas de partículas WebGL | WebGL nativo |
+| P2  | Tipografía kinética con glitch | Web Animations API |
+| P3  | Cursor personalizado con spring physics | rAF + CSS custom props |
+| P4  | Modo claro/oscuro con transición eclipse | View Transitions API |
+| P5  | Feed de GitHub Activity en tiempo real | GitHub REST API v3 |
+| P6  | Social links (LinkedIn, GitHub) | HTML semántico |
+| P7  | Artículos con imagen, TOC y lectura | Drawer component |
+| P8  | Badges dinámicos de GitHub | GitHub REST API v3 |
+| P9  | Newsletter con Resend | Resend API |
+| P10 | Command palette Cmd+K (fuzzy search) | Fuse.js-like, nativo |
+| P11 | Tiempo de lectura + TOC flotante en drawer | IntersectionObserver |
+| P12 | PWA con Service Worker offline-first | Service Worker API |
+| P13 | Stack técnico animado con tooltips | DevIcons CDN |
+| P14 | Terminal interactiva (9 comandos) | JS puro |
+| P15 | Heatmap de contribuciones GitHub | Canvas generativo |
+| P16 | Source peek — inspector de CSS en vivo | getComputedStyle |
+| P17 | Sonido de interacción (Web Audio API) | OscillatorNode |
+| P18 | Konami Code easter egg (Matrix rain) | Canvas 2D |
+| P19 | prefers-reduced-data + prefers-reduced-motion | CSS Media Queries |
+| P20 | JSON-LD Schema.org Person + Blog | Structured Data |
 
-## 📁 Estructura del Proyecto
+## Stack
+
+- **Frontend**: HTML5 + CSS3 + JavaScript vanilla (sin frameworks)
+- **APIs**: GitHub REST v3, Resend, DevIcons CDN
+- **PWA**: Service Worker + Web App Manifest
+- **Animaciones**: WebGL, Web Animations API, View Transitions API
+- **Fuentes**: Playfair Display + Plus Jakarta Sans (Google Fonts)
+- **Deploy**: GitHub Pages / Vercel / cualquier CDN estático
+
+## Configuración
+
+### Newsletter (Resend)
+Reemplaza `RESEND_API_KEY_HERE` en `index.html` con tu API key de Resend.
+
+### Despliegue
+```bash
+# GitHub Pages: solo push a main
+git push origin main
+
+# Vercel
+vercel --prod
 ```
-blog1/
-├── index.html       # Página principal
-├── styles.css       # Estilos del blog
-└── README.md        # Este archivo
-```
 
-## 🎨 Tecnologías Utilizadas
-- **HTML5** - Estructura semántica
-- **CSS3** - Diseño responsivo y animaciones
-- **Diseño Mobile-First** - Optimizado para todos los dispositivos
-
-## 📱 Compatibilidad
-- ✅ Desktop (1920px+)
-- ✅ Tablet (768px - 1024px)
-- ✅ Mobile (320px - 767px)
-
-## 🌐 Acceso Online
-Una vez habilitado GitHub Pages, tu blog estará disponible en:
-```
-https://msantiago1044.github.io/blog1/
-```
-
-## 📝 Artículos Disponibles
-1. **Introducción a GitHub Copilot** - Herramientas de IA para desarrollo
-2. **Mejores Prácticas en Ingeniería de Sistemas** - Diseño de sistemas escalables
-3. **DevOps: Automatización de Despliegues** - CI/CD con Docker y Kubernetes
-4. **Seguridad en Aplicaciones Web** - Protección contra vulnerabilidades
-
-## 📧 Contacto
-Para consultas o colaboraciones:
-- Email: marcelo@ingenierosistemas.com
-- GitHub: [msantiago1044](https://github.com/msantiago1044)
-
-## 📄 Licencia
-© 2026 Marcelo Barraza - Todos los derechos reservados
-
----
-
-**Última actualización**: 6 de agosto, 2026
+## Licencia
+© 2026 Marcelo Barraza. Todos los derechos reservados.

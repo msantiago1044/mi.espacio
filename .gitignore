@@ -1,0 +1,23 @@
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Env
+.env
+.env.local
+
+# Build
+dist/
+.vercel/
+
+# Heavy raw media backups
+*-original.*
+*-orig.*
