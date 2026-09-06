@@ -1774,7 +1774,7 @@
                 <div class="posts-feed">
                     <h4 class="feed-title">Artículos Técnicos</h4>
                     ${rest.slice(0, 3).map(a => `
-                    <article class="feed-post reveal-on-scroll">
+                    <article class="feed-post reveal-on-scroll" data-article="${a.slug}" style="cursor:pointer">
                         <div class="feed-image-wrapper">
                             <img src="${a.cover || 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=400&q=80'}"
                                 alt="${a.title}" class="feed-thumbnail fade-image">
@@ -1794,16 +1794,19 @@
                     else { img.addEventListener('load', () => img.classList.add('loaded'), { once: true }); }
                 });
 
-                // Wire up read buttons
-                blogGrid.querySelectorAll('[data-article]').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        const slug = btn.dataset.article;
+                // Wire up click event on blogGrid for all articles (delegation)
+                blogGrid.onclick = (e) => {
+                    if (e.target.closest('.bookmark-btn')) return;
+                    const cardOrBtn = e.target.closest('[data-article]');
+                    if (cardOrBtn) {
+                        e.preventDefault();
+                        const slug = cardOrBtn.dataset.article;
                         const art = allArticles.find(a => a.slug === slug);
                         if (art) openArticleFromData(art);
-                    });
-                });
+                        else if (slug) openArticleBySlug(slug);
+                    }
+                };
             }
-
 
             function openArticleFromData(art) {
                 if (typeof openArticleBySlug === 'function') {
@@ -1823,10 +1826,13 @@
                 body.innerHTML = '<div class="blog-loading">Cargando artículo...</div>';
 
                 try {
-                    // Use a query parameter cache buster to bypass old service workers
-                    const res = await fetch(`articles/${slug}.json?cb=${Date.now()}`);
-                    if (!res.ok) throw new Error('Not found');
-                    const art = await res.json();
+                    // Use preloaded article data if available for instant render
+                    let art = (meta && meta.content) ? meta : allArticles.find(a => a.slug === slug && a.content);
+                    if (!art) {
+                        const res = await fetch(`articles/${slug}.json?cb=${Date.now()}`);
+                        if (!res.ok) throw new Error('Not found');
+                        art = await res.json();
+                    }
                     const readMin = art.reading_time || meta?.reading_time || '?';
                     body.innerHTML = `
                     <div class="drawer-article-header">
