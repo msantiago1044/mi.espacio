@@ -312,10 +312,7 @@
                                 </div>
                                 <div class="profile-details">
                                     <span class="profile-role">Arquitecto Principal</span>
-                                    <p class="profile-description">Ingeniero de Sistemas de Misión Crítica. Especialista
-                                        certificado en optimización de infraestructuras globales, automatización
-                                        resiliente
-                                        y arquitecturas empresariales de alta disponibilidad.</p>
+                                    <p class="profile-description">Ingeniero de Sistemas (Honores). Especialista en gestión de redes de valor y diseño de sistemas de baja entropía: backend resiliente, automatización de procesos e integración IoT/Cloud con IA.</p>
                                 </div>
                             </div>
                             <!-- P15: GitHub contribution heatmap -->
@@ -1116,10 +1113,11 @@
   GitHub → <a href="https://github.com/msantiago1044" target="_blank" class="t-green">github.com/msantiago1044</a>
   LinkedIn → <a href="https://www.linkedin.com/in/marcelo-a-barraza-s-55959b172/" target="_blank" class="t-green">linkedin.com/in/marcelo-a-barraza-s</a>`,
                 blog: () => `<span class="t-cyan">Artículos publicados:</span>
-  [1] Cibernética y Digitalización bajo ISO · 2026-08-06
-  [2] Hiper-automatización con Python y n8n · 2026-08-05
-  [3] Despliegues Continuos y PWAs · 2026-08-04
-  [4] Software Corporativo a Medida · 2026-08-03
+  [1] Gentle-AI y Baja Entropía · 2026-10-10
+  [2] Cibernética y Digitalización bajo ISO · 2026-08-06
+  [3] Hiper-automatización con Python y n8n · 2026-08-05
+  [4] Despliegues Continuos y PWAs · 2026-08-04
+  [5] Software Corporativo a Medida · 2026-08-03
   → Escribe <span class="t-green">open [número]</span> para leer`,
                 groq: (parts) => {
                     if (parts && parts.length > 1) {
@@ -1158,8 +1156,8 @@
                 if (!cmd.trim()) return;
                 if (base === 'open') {
                     const num = parseInt(parts[1]);
-                    const articles = ['cybernetics', 'automation', 'deployments', 'custom-software'];
-                    if (num >= 1 && num <= 4) { openDrawer(articles[num - 1]); termPrint('<span class="t-green">Abriendo artículo...</span>'); }
+                    const articles = ['gentle-ai', 'cybernetics', 'automation', 'deployments', 'custom-software'];
+                    if (num >= 1 && num <= articles.length) { openDrawer(articles[num - 1]); termPrint('<span class="t-green">Abriendo artículo...</span>'); }
                     else termPrint('<span class="t-red">Artículo no encontrado. Escribe "blog" para ver la lista.</span>');
                     return;
                 }
@@ -1399,6 +1397,7 @@
             const drawerCloseBtn = drawer.querySelector('.drawer-close-btn');
 
             const slugMap = {
+                'gentle-ai': 'gentle-ai-arquitectura-baja-entropia',
                 'cybernetics': 'cibernetica-iso',
                 'automation': 'automatizacion-python-n8n',
                 'deployments': 'despliegues-continuos-pwa',
@@ -1500,6 +1499,7 @@
                 { label: 'Ir a Stack Técnico', action: () => document.getElementById('stack').scrollIntoView({ behavior: 'smooth' }) },
                 { label: 'Ir a Actividad GitHub', action: () => document.getElementById('actividad').scrollIntoView({ behavior: 'smooth' }) },
                 { label: 'Ir a Contacto', action: () => document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' }) },
+                { label: 'Leer: Gentle-AI y Baja Entropía', action: () => openDrawer('gentle-ai') },
                 { label: 'Leer: Cibernética y ISO', action: () => openDrawer('cybernetics') },
                 { label: 'Leer: Python y n8n', action: () => openDrawer('automation') },
                 { label: 'Leer: Despliegues Continuos', action: () => openDrawer('deployments') },
