@@ -1746,6 +1746,71 @@
                 } catch { return dateStr; }
             }
 
+            // Sharing & Diffusing Utilities
+            function getArticleShareUrl(slug) {
+                const base = window.location.origin + window.location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '');
+                return `${base}/?article=${encodeURIComponent(slug)}`;
+            }
+
+            window.showToast = function(msg) {
+                let toast = document.getElementById('toast-notify');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'toast-notify';
+                    toast.className = 'toast-notify';
+                    toast.setAttribute('role', 'status');
+                    toast.setAttribute('aria-live', 'polite');
+                    toast.innerHTML = '<span class="toast-icon">✓</span><span id="toast-text" class="toast-text"></span>';
+                    document.body.appendChild(toast);
+                }
+                const text = toast.querySelector('#toast-text');
+                if (text) text.textContent = msg;
+                toast.classList.add('show');
+                clearTimeout(window._toastTimer);
+                window._toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+            };
+
+            window.copyArticleLink = function(slug) {
+                const url = getArticleShareUrl(slug);
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(url).then(() => {
+                        showToast('Enlace copiado al portapapeles');
+                    }).catch(() => prompt('Copia este enlace para compartir:', url));
+                } else {
+                    prompt('Copia este enlace para compartir:', url);
+                }
+            };
+
+            window.handleShareClick = async function(slug, encodedTitle) {
+                const title = decodeURIComponent(encodedTitle || 'Artículo Técnico');
+                const url = getArticleShareUrl(slug);
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            title: `${title} — Marcelo Barraza`,
+                            text: `Lee "${title}" por Marcelo Barraza`,
+                            url: url
+                        });
+                        showToast('¡Artículo compartido con éxito!');
+                        return;
+                    } catch (err) {
+                        if (err.name !== 'AbortError') copyArticleLink(slug);
+                    }
+                } else {
+                    copyArticleLink(slug);
+                }
+            };
+
+            window.getSocialShareUrl = function(network, slug, title) {
+                const url = getArticleShareUrl(slug);
+                const safeTitle = encodeURIComponent((title || 'Artículo Técnico') + ' — Marcelo Barraza');
+                const safeUrl = encodeURIComponent(url);
+                if (network === 'linkedin') return `https://www.linkedin.com/sharing/share-offsite/?url=${safeUrl}`;
+                if (network === 'x') return `https://twitter.com/intent/tweet?text=${safeTitle}&url=${safeUrl}`;
+                if (network === 'whatsapp') return `https://api.whatsapp.com/send?text=${safeTitle}%20${safeUrl}`;
+                return url;
+            };
+
             function renderBlogGrid(articles) {
                 if (!blogGrid) return;
                 const [featured, ...rest] = articles;
@@ -1756,11 +1821,18 @@
                     <div class="featured-image-container">
                         <img src="${featured.cover || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80'}"
                             alt="${featured.title}" class="featured-image fade-image">
-                        <button class="bookmark-btn" aria-label="Guardar artículo">
-                            <svg class="bookmark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-                            </svg>
-                        </button>
+                        <div class="card-actions-top">
+                            <button class="share-btn" data-share-slug="${featured.slug}" data-share-title="${encodeURIComponent(featured.title)}" aria-label="Compartir artículo" title="Compartir artículo">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                                </svg>
+                            </button>
+                            <button class="bookmark-btn" aria-label="Guardar artículo">
+                                <svg class="bookmark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                     <div class="post-meta-row">
                         <span class="post-category">${featured.category || ''}</span>
@@ -1769,7 +1841,13 @@
                     <h4>${featured.title}</h4>
                     <span class="post-date">Publicado el ${formatDate(featured.date)}</span>
                     <p>${featured.excerpt || ''}</p>
-                    <button class="read-more-btn" data-article="${featured.slug}">Seguir leyendo <span class="arrow">→</span></button>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:var(--space-md);gap:8px">
+                        <button class="read-more-btn" data-article="${featured.slug}">Seguir leyendo <span class="arrow">→</span></button>
+                        <button class="share-btn-inline" data-share-slug="${featured.slug}" data-share-title="${encodeURIComponent(featured.title)}" aria-label="Compartir" title="Compartir enlace">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                            <span>Compartir</span>
+                        </button>
+                    </div>
                 </article>
                 <div class="posts-feed">
                     <h4 class="feed-title">Artículos Técnicos</h4>
@@ -1783,7 +1861,13 @@
                             <span class="post-date">${formatDate(a.date)} · <span class="reading-time-inline">${a.reading_time || '?'} min</span></span>
                             <h5>${a.title}</h5>
                             <p>${a.excerpt || ''}</p>
-                            <button class="read-more-btn" data-article="${a.slug}">Leer <span class="arrow">→</span></button>
+                            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;gap:8px">
+                                <button class="read-more-btn" data-article="${a.slug}">Leer <span class="arrow">→</span></button>
+                                <button class="share-btn-inline" data-share-slug="${a.slug}" data-share-title="${encodeURIComponent(a.title)}" aria-label="Compartir" title="Compartir enlace">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                                    <span>Compartir</span>
+                                </button>
+                            </div>
                         </div>
                     </article>`).join('')}
                 </div>`;
@@ -1796,6 +1880,15 @@
 
                 // Wire up click event on blogGrid for all articles (delegation)
                 blogGrid.onclick = (e) => {
+                    const shareBtn = e.target.closest('.share-btn, .share-btn-inline');
+                    if (shareBtn) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const slug = shareBtn.dataset.shareSlug;
+                        const title = shareBtn.dataset.shareTitle;
+                        handleShareClick(slug, title);
+                        return;
+                    }
                     if (e.target.closest('.bookmark-btn')) return;
                     const cardOrBtn = e.target.closest('[data-article]');
                     if (cardOrBtn) {
@@ -1836,13 +1929,61 @@
                     const readMin = art.reading_time || meta?.reading_time || '?';
                     body.innerHTML = `
                     <div class="drawer-article-header">
-                        ${art.cover ? `<img src="${art.cover}" alt="${art.title}" class="drawer-hero-img" style="width:100%;max-height:320px;object-fit:cover;border-radius:10px;margin-bottom:var(--space-xl)">` : ''}
+                        ${art.cover ? `<img src="${art.cover}" alt="${art.title}" class="drawer-hero-img" style="width:100%;max-height:320px;object-fit:cover;border-radius:10px;margin-bottom:var(--space-xl);background:radial-gradient(circle at center, #231221 0%, #0d0a11 100%)">` : ''}
                         <div class="post-meta-row"><span class="post-category">${art.category || ''}</span><span class="reading-time">⏱ ${readMin} min de lectura</span></div>
                         <h2 style="font-family:var(--font-display);font-weight:400;margin:var(--space-sm) 0">${art.title}</h2>
                         <span class="post-date" style="font-family:var(--font-mono);font-size:var(--font-size-xs);color:var(--color-text-muted)">Publicado el ${formatDate(art.date)}</span>
+                        
+                        <!-- Barra de difusión superior -->
+                        <div class="drawer-share-bar">
+                            <span class="drawer-share-label">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                                Difundir:
+                            </span>
+                            <button class="share-action-btn share-native" onclick="handleShareClick('${art.slug}', '${encodeURIComponent(art.title)}')">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                                <span>Compartir</span>
+                            </button>
+                            <button class="share-action-btn" onclick="copyArticleLink('${art.slug}')" title="Copiar enlace">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                                <span>Copiar enlace</span>
+                            </button>
+                            <a href="${getSocialShareUrl('linkedin', art.slug, art.title)}" target="_blank" rel="noopener" class="share-action-btn" title="Compartir en LinkedIn">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24z"/></svg>
+                                <span>LinkedIn</span>
+                            </a>
+                            <a href="${getSocialShareUrl('x', art.slug, art.title)}" target="_blank" rel="noopener" class="share-action-btn" title="Compartir en X">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                <span>X</span>
+                            </a>
+                            <a href="${getSocialShareUrl('whatsapp', art.slug, art.title)}" target="_blank" rel="noopener" class="share-action-btn" title="Compartir en WhatsApp">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.01-1.24-.74-.66-1.24-1.48-1.39-1.73-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.43.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29"/></svg>
+                                <span>WhatsApp</span>
+                            </a>
+                        </div>
                     </div>
-                    <div class="drawer-body-content" style="margin-top:var(--space-2xl);line-height:1.85;font-size:var(--font-size-base)">${renderMarkdown(art.content || art.excerpt || '')}</div>
-                    ${art.tags ? `<div style="margin-top:var(--space-2xl);display:flex;gap:8px;flex-wrap:wrap">${art.tags.map(t => `<span style="font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--color-border);color:var(--color-text-muted)">${t}</span>`).join('')}</div>` : ''}`;
+                    <div class="drawer-body-content" style="margin-top:var(--space-2xl);line-height:1.85;font-size:var(--font-size-base)">
+                        ${renderMarkdown(art.content || art.excerpt || '')}
+                        
+                        <!-- Barra de difusión inferior -->
+                        <div class="drawer-share-bar" style="margin-top:var(--space-2xl);justify-content:space-between">
+                            <div>
+                                <strong style="display:block;font-size:14px;color:var(--color-text)">¿Te pareció valioso este artículo?</strong>
+                                <span style="font-size:12px;color:var(--color-text-muted)">Difúndelo con tu equipo y red profesional</span>
+                            </div>
+                            <div style="display:flex;gap:6px;flex-wrap:wrap">
+                                <button class="share-action-btn share-native" onclick="handleShareClick('${art.slug}', '${encodeURIComponent(art.title)}')">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                                    <span>Compartir</span>
+                                </button>
+                                <button class="share-action-btn" onclick="copyArticleLink('${art.slug}')">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                                    <span>Copiar enlace</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    ${art.tags ? `<div style="margin-top:var(--space-xl);display:flex;gap:8px;flex-wrap:wrap">${art.tags.map(t => `<span style="font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--color-border);color:var(--color-text-muted)">${t}</span>`).join('')}</div>` : ''}`;
 
                     // Dynamic TOC integration
                     const drawerToc = document.getElementById('drawer-toc');
@@ -1928,6 +2069,13 @@
 
                     // Trigger graph build
                     if (typeof buildKnowledgeGraph === 'function') buildKnowledgeGraph(allArticles);
+
+                    // Check URL for direct article link (?article=slug)
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const sharedSlug = urlParams.get('article');
+                    if (sharedSlug) {
+                        setTimeout(() => openArticleBySlug(sharedSlug), 350);
+                    }
                 } catch (err) {
                     console.error("DEBUG BLOG ERROR:", err);
                     if (blogLoading) blogLoading.textContent = 'Error cargando artículos. (' + err.message + ')';

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'marcelo-blog-v6.1';
+const CACHE_NAME = 'marcelo-blog-v6.2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -7,7 +7,8 @@ const STATIC_ASSETS = [
   '/styles.css',
   '/cursor.js',
   '/manifest.json',
-  '/articles/index.json'
+  '/articles/index.json',
+  '/assets/gentle-ai-banner.webp'
 ];
 
 self.addEventListener('install', e => {
