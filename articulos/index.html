@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artículos Técnicos & Arquitectura · Marcelo Barraza</title>
+    <meta name="description" content="Publicaciones y análisis técnicos sobre sistemas de baja entropía, Gentle-AI, cibernética aplicada, DevOps y arquitecturas de misión crítica por Marcelo Barraza.">
+    <meta name="author" content="Marcelo Barraza">
+    <link rel="canonical" href="https://msantiago1044.github.io/mi.espacio/articulos/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Marcelo Barraza | Espacio Técnico">
+    <meta property="og:title" content="Artículos Técnicos & Arquitectura · Marcelo Barraza">
+    <meta property="og:description" content="Publicaciones técnicas sobre sistemas de baja entropía, Gentle-AI, cibernética y misión crítica.">
+    <meta property="og:url" content="https://msantiago1044.github.io/mi.espacio/articulos/">
+    <meta property="og:image" content="https://msantiago1044.github.io/mi.espacio/assets/gentle-ai-banner.webp">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Artículos Técnicos & Arquitectura · Marcelo Barraza">
+    <meta name="twitter:description" content="Publicaciones técnicas sobre sistemas de baja entropía, Gentle-AI, cibernética y misión crítica.">
+    <meta name="twitter:image" content="https://msantiago1044.github.io/mi.espacio/assets/gentle-ai-banner.webp">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css?v=6.2.0">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+    <!-- Theme detection before render (prevents flash) -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:12px var(--space-md)">
+            <a href="../" class="brand-title">
+                <span>Marcelo Barraza</span>
+            </a>
+            <nav style="display:flex;align-items:center;gap:16px">
+                <a href="../#inicio" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Inicio</a>
+                <a href="../#blog" style="text-decoration:none;color:var(--color-text);font-weight:600;font-size:13px">Artículos</a>
+                <a href="../#grafo" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Grafo D3</a>
+                <a href="../#terminal-section" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Terminal</a>
+                <a href="../servicios.html" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Servicios</a>
+                <a href="../#contacto" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Contacto</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" style="margin-left:8px">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="max-width:1100px;margin:0 auto;padding:var(--space-2xl) var(--space-md) var(--space-3xl)">
+        <div style="margin-bottom:var(--space-2xl);text-align:center">
+            <span style="font-family:var(--font-mono);font-size:var(--font-size-xs);text-transform:uppercase;letter-spacing:0.15em;color:var(--color-accent);font-weight:700">Bitácora Técnica</span>
+            <h1 style="font-family:var(--font-display);font-size:clamp(2.2rem, 5vw, 3.2rem);margin:8px 0 var(--space-sm)">Archivo de Artículos</h1>
+            <p style="color:var(--color-text-muted);max-width:620px;margin:0 auto;font-size:15px">Análisis de arquitectura, diseño de sistemas de baja entropía, orquestación de agentes con Gentle-AI y resiliencia en entornos de misión crítica.</p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:var(--space-lg)">
+            <article class="archive-card" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all var(--duration-hover)">
+            <div style="aspect-ratio:16/9;overflow:hidden;background:#110d14"><img src="../assets/gentle-ai-banner.webp" alt="Gentle-AI y Arquitecturas de Baja Entropía: Memoria, Proceso y Evidencia en Agentes de IA" style="width:100%;height:100%;object-fit:cover"></div>
+            <div style="padding:var(--space-md);display:flex;flex-direction:column;flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <span style="font-size:11px;color:var(--color-accent);font-weight:700;text-transform:uppercase">Inteligencia Artificial</span>
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">⏱ 10 min</span>
+                </div>
+                <h3 style="font-family:var(--font-display);font-size:1.25rem;margin:0 0 8px;line-height:1.3"><a href="./gentle-ai-arquitectura-baja-entropia/" style="color:var(--color-text);text-decoration:none">Gentle-AI y Arquitecturas de Baja Entropía: Memoria, Proceso y Evidencia en Agentes de IA</a></h3>
+                <p style="font-size:13px;color:var(--color-text-muted);line-height:1.6;margin-bottom:var(--space-md);flex:1">Cómo el stack Gentle-AI (Engram, gentle-pi, GGA) transforma agentes de codificación en ingenieros disciplinados: reduciendo la entropía del software mediante memoria persistente, Spec-Driven Development y pruebas como evidencia.</p>
+                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--color-border);padding-top:12px">
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">10 de octubre de 2026</span>
+                    <a href="./gentle-ai-arquitectura-baja-entropia/" style="font-size:12px;color:var(--color-accent);text-decoration:none;font-weight:600">Leer artículo →</a>
+                </div>
+            </div>
+        </article>
+<article class="archive-card" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all var(--duration-hover)">
+            <div style="aspect-ratio:16/9;overflow:hidden;background:#110d14"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80" alt="IA Generativa y Agentes Autónomos Aplicados a Operaciones Industriales" style="width:100%;height:100%;object-fit:cover"></div>
+            <div style="padding:var(--space-md);display:flex;flex-direction:column;flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <span style="font-size:11px;color:var(--color-accent);font-weight:700;text-transform:uppercase">Inteligencia Artificial</span>
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">⏱ 8 min</span>
+                </div>
+                <h3 style="font-family:var(--font-display);font-size:1.25rem;margin:0 0 8px;line-height:1.3"><a href="./ia-generativa-agentes-autonomos-pymes/" style="color:var(--color-text);text-decoration:none">IA Generativa y Agentes Autónomos Aplicados a Operaciones Industriales</a></h3>
+                <p style="font-size:13px;color:var(--color-text-muted);line-height:1.6;margin-bottom:var(--space-md);flex:1">Más allá del chat conversacional: cómo orquestar redes de agentes autónomos con LLMs locales y en la nube para automatizar flujos complejos de decisión operativa y backoffice.</p>
+                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--color-border);padding-top:12px">
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">2 de septiembre de 2026</span>
+                    <a href="./ia-generativa-agentes-autonomos-pymes/" style="font-size:12px;color:var(--color-accent);text-decoration:none;font-weight:600">Leer artículo →</a>
+                </div>
+            </div>
+        </article>
+<article class="archive-card" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all var(--duration-hover)">
+            <div style="aspect-ratio:16/9;overflow:hidden;background:#110d14"><img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80" alt="Gemelos Digitales y Nubes de Puntos: La Fusión entre Topografía de Precisión y Software" style="width:100%;height:100%;object-fit:cover"></div>
+            <div style="padding:var(--space-md);display:flex;flex-direction:column;flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <span style="font-size:11px;color:var(--color-accent);font-weight:700;text-transform:uppercase">Geospatial &amp; BIM</span>
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">⏱ 8 min</span>
+                </div>
+                <h3 style="font-family:var(--font-display);font-size:1.25rem;margin:0 0 8px;line-height:1.3"><a href="./gemelos-digitales-bim-nubes-puntos/" style="color:var(--color-text);text-decoration:none">Gemelos Digitales y Nubes de Puntos: La Fusión entre Topografía de Precisión y Software</a></h3>
+                <p style="font-size:13px;color:var(--color-text-muted);line-height:1.6;margin-bottom:var(--space-md);flex:1">Procesamiento de terabytes de nubes de puntos LiDAR y fotogrametría con drones. De coordenadas geodésicas crudas a modelos BIM interactivos para obras de gran escala.</p>
+                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--color-border);padding-top:12px">
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">28 de agosto de 2026</span>
+                    <a href="./gemelos-digitales-bim-nubes-puntos/" style="font-size:12px;color:var(--color-accent);text-decoration:none;font-weight:600">Leer artículo →</a>
+                </div>
+            </div>
+        </article>
+<article class="archive-card" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all var(--duration-hover)">
+            <div style="aspect-ratio:16/9;overflow:hidden;background:#110d14"><img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=1200&q=80" alt="Arquitecturas de Baja Entropía: Cibernética y Control del Caos en Sistemas de Información" style="width:100%;height:100%;object-fit:cover"></div>
+            <div style="padding:var(--space-md);display:flex;flex-direction:column;flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <span style="font-size:11px;color:var(--color-accent);font-weight:700;text-transform:uppercase">Cibernética</span>
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">⏱ 9 min</span>
+                </div>
+                <h3 style="font-family:var(--font-display);font-size:1.25rem;margin:0 0 8px;line-height:1.3"><a href="./sistemas-de-baja-entropia-arquitectura/" style="color:var(--color-text);text-decoration:none">Arquitecturas de Baja Entropía: Cibernética y Control del Caos en Sistemas de Información</a></h3>
+                <p style="font-size:13px;color:var(--color-text-muted);line-height:1.6;margin-bottom:var(--space-md);flex:1">La segunda ley de la termodinámica aplicada al software: todo sistema tiende al desorden a menos que introduzca trabajo cibernético correctivo. Cómo diseñar arquitecturas con lazos cerrados y estados inmutables.</p>
+                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--color-border);padding-top:12px">
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">20 de agosto de 2026</span>
+                    <a href="./sistemas-de-baja-entropia-arquitectura/" style="font-size:12px;color:var(--color-accent);text-decoration:none;font-weight:600">Leer artículo →</a>
+                </div>
+            </div>
+        </article>
+<article class="archive-card" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all var(--duration-hover)">
+            <div style="aspect-ratio:16/9;overflow:hidden;background:#110d14"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80" alt="Cibernética y Digitalización de Procesos bajo Normativa ISO (Bureau Veritas)" style="width:100%;height:100%;object-fit:cover"></div>
+            <div style="padding:var(--space-md);display:flex;flex-direction:column;flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <span style="font-size:11px;color:var(--color-accent);font-weight:700;text-transform:uppercase">Cibernética</span>
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">⏱ 7 min</span>
+                </div>
+                <h3 style="font-family:var(--font-display);font-size:1.25rem;margin:0 0 8px;line-height:1.3"><a href="./cibernetica-iso/" style="color:var(--color-text);text-decoration:none">Cibernética y Digitalización de Procesos bajo Normativa ISO (Bureau Veritas)</a></h3>
+                <p style="font-size:13px;color:var(--color-text-muted);line-height:1.6;margin-bottom:var(--space-md);flex:1">La digitalización de procesos industriales exige una gobernanza técnica implacable. Cómo estructurar la cibernética corporativa mediante ISO 27001 e ISO 9001, auditadas por Bureau Veritas.</p>
+                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--color-border);padding-top:12px">
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">6 de agosto de 2026</span>
+                    <a href="./cibernetica-iso/" style="font-size:12px;color:var(--color-accent);text-decoration:none;font-weight:600">Leer artículo →</a>
+                </div>
+            </div>
+        </article>
+<article class="archive-card" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all var(--duration-hover)">
+            <div style="aspect-ratio:16/9;overflow:hidden;background:#110d14"><img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80" alt="Hiper-automatización Resiliente: Python &amp; n8n" style="width:100%;height:100%;object-fit:cover"></div>
+            <div style="padding:var(--space-md);display:flex;flex-direction:column;flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <span style="font-size:11px;color:var(--color-accent);font-weight:700;text-transform:uppercase">Automatización</span>
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">⏱ 5 min</span>
+                </div>
+                <h3 style="font-family:var(--font-display);font-size:1.25rem;margin:0 0 8px;line-height:1.3"><a href="./automatizacion-python-n8n/" style="color:var(--color-text);text-decoration:none">Hiper-automatización Resiliente: Python &amp; n8n</a></h3>
+                <p style="font-size:13px;color:var(--color-text-muted);line-height:1.6;margin-bottom:var(--space-md);flex:1">Orquestación avanzada de flujos empresariales integrando scripts robustos de Python con la flexibilidad visual y transaccional de n8n.</p>
+                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--color-border);padding-top:12px">
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">5 de agosto de 2026</span>
+                    <a href="./automatizacion-python-n8n/" style="font-size:12px;color:var(--color-accent);text-decoration:none;font-weight:600">Leer artículo →</a>
+                </div>
+            </div>
+        </article>
+<article class="archive-card" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all var(--duration-hover)">
+            <div style="aspect-ratio:16/9;overflow:hidden;background:#110d14"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80" alt="Despliegues Continuos Seguros &amp; PWAs Corporativas" style="width:100%;height:100%;object-fit:cover"></div>
+            <div style="padding:var(--space-md);display:flex;flex-direction:column;flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <span style="font-size:11px;color:var(--color-accent);font-weight:700;text-transform:uppercase">DevOps</span>
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">⏱ 6 min</span>
+                </div>
+                <h3 style="font-family:var(--font-display);font-size:1.25rem;margin:0 0 8px;line-height:1.3"><a href="./despliegues-continuos-pwa/" style="color:var(--color-text);text-decoration:none">Despliegues Continuos Seguros &amp; PWAs Corporativas</a></h3>
+                <p style="font-size:13px;color:var(--color-text-muted);line-height:1.6;margin-bottom:var(--space-md);flex:1">Estrategias modernas de CI/CD para arquitecturas híbridas y despliegues de PWAs seguras con offline-first de nivel empresarial.</p>
+                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--color-border);padding-top:12px">
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">4 de agosto de 2026</span>
+                    <a href="./despliegues-continuos-pwa/" style="font-size:12px;color:var(--color-accent);text-decoration:none;font-weight:600">Leer artículo →</a>
+                </div>
+            </div>
+        </article>
+<article class="archive-card" style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;transition:all var(--duration-hover)">
+            <div style="aspect-ratio:16/9;overflow:hidden;background:#110d14"><img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80" alt="Software Corporativo Hecho a Medida" style="width:100%;height:100%;object-fit:cover"></div>
+            <div style="padding:var(--space-md);display:flex;flex-direction:column;flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <span style="font-size:11px;color:var(--color-accent);font-weight:700;text-transform:uppercase">Arquitectura</span>
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">⏱ 4 min</span>
+                </div>
+                <h3 style="font-family:var(--font-display);font-size:1.25rem;margin:0 0 8px;line-height:1.3"><a href="./software-a-medida/" style="color:var(--color-text);text-decoration:none">Software Corporativo Hecho a Medida</a></h3>
+                <p style="font-size:13px;color:var(--color-text-muted);line-height:1.6;margin-bottom:var(--space-md);flex:1">Por qué las suites empaquetadas fallan frente a problemas no estándar. Filosofía de diseño de software a medida de alto impacto operativo.</p>
+                <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--color-border);padding-top:12px">
+                    <span style="font-size:11px;color:var(--color-text-muted);font-family:var(--font-mono)">3 de agosto de 2026</span>
+                    <a href="./software-a-medida/" style="font-size:12px;color:var(--color-accent);text-decoration:none;font-weight:600">Leer artículo →</a>
+                </div>
+            </div>
+        </article>
+        </div>
+    </main>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../sw.js').then(reg => reg.update()).catch(() => {});
+            });
+        }
+
+        // Theme toggle sync
+        const htmlEl = document.documentElement;
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn?.addEventListener('click', () => {
+            const current = htmlEl.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
+            htmlEl.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        });
+    </script>
+</body>
+</html>

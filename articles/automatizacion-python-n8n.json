@@ -1,0 +1,23 @@
+{
+    "slug": "automatizacion-python-n8n",
+    "title": "Hiper-automatización Resiliente: Python & n8n",
+    "category": "Automatización",
+    "tags": [
+        "python",
+        "n8n",
+        "automatización",
+        "orquestación",
+        "workflows",
+        "gobernanza"
+    ],
+    "date": "2026-08-05",
+    "reading_time": 5,
+    "cover": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80",
+    "excerpt": "Orquestación avanzada de flujos empresariales integrando scripts robustos de Python con la flexibilidad visual y transaccional de n8n.",
+    "toc": [
+        "Por qué hiper-automatización",
+        "Python como motor",
+        "n8n como orquestador"
+    ],
+    "content": "## Por qué hiper-automatización\n\nLa **automatización tradicional** resuelve tareas repetitivas aisladas. La hiper-automatización conecta procesos completos, integra sistemas heterogéneos y aprende de sus propios datos de ejecución.\n\nEn entornos empresariales reales, esto se traduce en flujos que se adaptan a excepciones, generan alertas inteligentes y mantienen auditorías de cada decisión automatizada.\n\n## Python como motor\n\nPython aporta la potencia de cómputo: transformación de datos, integración con APIs, procesamiento de archivos, lógica de negocio compleja y conexión con modelos de IA.\n\n```python\ndef process_event(event: dict) -> dict:\n    # Validar, transformar, enriquecer\n    validated = validate_schema(event)\n    enriched = enrich_with_context(validated)\n    return route_to_workflow(enriched)\n```\n\nCada script está diseñado para ser **idempotente** — ejecutarlo múltiples veces produce el mismo resultado, garantía fundamental en sistemas distribuidos.\n\n## n8n como orquestador\n\nn8n actúa como la capa de coordinación visual: conecta los scripts Python con webhooks, colas de mensajes, bases de datos y servicios externos mediante nodos configurables.\n\nLa arquitectura resultante separa claramente la **lógica de negocio** (Python) de la **coordinación de flujos** (n8n), facilitando el mantenimiento y la escalabilidad independiente de cada capa."
+}
