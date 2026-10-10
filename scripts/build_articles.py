@@ -244,7 +244,72 @@ def build_article_page(art, all_articles, root_rel="../../"):
 {json.dumps(json_ld, ensure_ascii=False, indent=2)}
     </script>
 
+    <!-- Theme detection before render (prevents flash) -->
+    <script>
+        (function() {{
+            const saved = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', saved);
+        }})();
+    </script>
+
     <style>
+        .site-header {{
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background-color: rgba(11, 15, 25, 0.88);
+            border-bottom: 1px solid var(--color-border);
+            transition: background-color 300ms ease, border-color 300ms ease;
+        }}
+        [data-theme="light"] .site-header {{
+            background-color: rgba(248, 250, 252, 0.92);
+            border-bottom: 1px solid var(--color-border);
+        }}
+        .site-header a {{
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 200ms ease;
+        }}
+        .site-header a:hover {{
+            color: var(--color-accent);
+        }}
+        .site-header .brand-title {{
+            color: var(--color-text);
+            font-weight: 700;
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }}
+        .theme-toggle {{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            cursor: pointer;
+            transition: color 200ms, border-color 200ms, background 200ms;
+        }}
+        .theme-toggle:hover {{
+            color: var(--color-accent);
+            border-color: var(--color-accent);
+            background: var(--color-accent-subtle);
+        }}
+        [data-theme="dark"] .sun-icon {{ display: block; }}
+        [data-theme="dark"] .moon-icon {{ display: none; }}
+        [data-theme="light"] .sun-icon {{ display: none; }}
+        [data-theme="light"] .moon-icon {{ display: block; }}
+
         .article-page {{
             max-width: 860px;
             margin: 0 auto;
@@ -451,10 +516,10 @@ def build_article_page(art, all_articles, root_rel="../../"):
 
 <body>
     <!-- Top Navigation -->
-    <header class="site-header" style="position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);background:rgba(11,15,25,0.85);border-bottom:1px solid var(--color-border)">
+    <header class="site-header">
         <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:12px var(--space-md)">
-            <a href="{root_rel}" style="text-decoration:none;display:flex;align-items:center;gap:10px;color:var(--color-text)">
-                <span style="font-weight:700;font-family:var(--font-display);font-size:1.1rem">{AUTHOR_NAME}</span>
+            <a href="{root_rel}" class="brand-title">
+                <span>{AUTHOR_NAME}</span>
             </a>
             <nav style="display:flex;align-items:center;gap:16px">
                 <a href="{root_rel}#inicio" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Inicio</a>
@@ -735,13 +800,21 @@ def build_archive_page(all_articles, root_rel="../"):
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{root_rel}styles.css?v=6.2.0">
     <link rel="icon" type="image/svg+xml" href="{root_rel}favicon.svg">
+
+    <!-- Theme detection before render (prevents flash) -->
+    <script>
+        (function() {{
+            const saved = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', saved);
+        }})();
+    </script>
 </head>
 
 <body>
-    <header class="site-header" style="position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);background:rgba(11,15,25,0.85);border-bottom:1px solid var(--color-border)">
+    <header class="site-header">
         <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:12px var(--space-md)">
-            <a href="{root_rel}" style="text-decoration:none;display:flex;align-items:center;gap:10px;color:var(--color-text)">
-                <span style="font-weight:700;font-family:var(--font-display);font-size:1.1rem">{AUTHOR_NAME}</span>
+            <a href="{root_rel}" class="brand-title">
+                <span>{AUTHOR_NAME}</span>
             </a>
             <nav style="display:flex;align-items:center;gap:16px">
                 <a href="{root_rel}#inicio" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Inicio</a>
@@ -750,6 +823,10 @@ def build_archive_page(all_articles, root_rel="../"):
                 <a href="{root_rel}#terminal-section" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Terminal</a>
                 <a href="{root_rel}servicios.html" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Servicios</a>
                 <a href="{root_rel}#contacto" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Contacto</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" style="margin-left:8px">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
             </nav>
         </div>
     </header>
@@ -772,6 +849,16 @@ def build_archive_page(all_articles, root_rel="../"):
                 navigator.serviceWorker.register('{root_rel}sw.js').then(reg => reg.update()).catch(() => {{}});
             }});
         }}
+
+        // Theme toggle sync
+        const htmlEl = document.documentElement;
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn?.addEventListener('click', () => {{
+            const current = htmlEl.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
+            htmlEl.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        }});
     </script>
 </body>
 </html>

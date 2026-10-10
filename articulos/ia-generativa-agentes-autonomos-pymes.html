@@ -66,7 +66,72 @@
 }
     </script>
 
+    <!-- Theme detection before render (prevents flash) -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+
     <style>
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background-color: rgba(11, 15, 25, 0.88);
+            border-bottom: 1px solid var(--color-border);
+            transition: background-color 300ms ease, border-color 300ms ease;
+        }
+        [data-theme="light"] .site-header {
+            background-color: rgba(248, 250, 252, 0.92);
+            border-bottom: 1px solid var(--color-border);
+        }
+        .site-header a {
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 200ms ease;
+        }
+        .site-header a:hover {
+            color: var(--color-accent);
+        }
+        .site-header .brand-title {
+            color: var(--color-text);
+            font-weight: 700;
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            border-radius: 8px;
+            width: 34px;
+            height: 34px;
+            cursor: pointer;
+            transition: color 200ms, border-color 200ms, background 200ms;
+        }
+        .theme-toggle:hover {
+            color: var(--color-accent);
+            border-color: var(--color-accent);
+            background: var(--color-accent-subtle);
+        }
+        [data-theme="dark"] .sun-icon { display: block; }
+        [data-theme="dark"] .moon-icon { display: none; }
+        [data-theme="light"] .sun-icon { display: none; }
+        [data-theme="light"] .moon-icon { display: block; }
+
         .article-page {
             max-width: 860px;
             margin: 0 auto;
@@ -273,10 +338,10 @@
 
 <body>
     <!-- Top Navigation -->
-    <header class="site-header" style="position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);background:rgba(11,15,25,0.85);border-bottom:1px solid var(--color-border)">
+    <header class="site-header">
         <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:12px var(--space-md)">
-            <a href="../" style="text-decoration:none;display:flex;align-items:center;gap:10px;color:var(--color-text)">
-                <span style="font-weight:700;font-family:var(--font-display);font-size:1.1rem">Marcelo Barraza</span>
+            <a href="../" class="brand-title">
+                <span>Marcelo Barraza</span>
             </a>
             <nav style="display:flex;align-items:center;gap:16px">
                 <a href="../#inicio" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Inicio</a>

@@ -26,13 +26,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css?v=6.2.0">
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+    <!-- Theme detection before render (prevents flash) -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
 </head>
 
 <body>
-    <header class="site-header" style="position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);background:rgba(11,15,25,0.85);border-bottom:1px solid var(--color-border)">
+    <header class="site-header">
         <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:12px var(--space-md)">
-            <a href="../" style="text-decoration:none;display:flex;align-items:center;gap:10px;color:var(--color-text)">
-                <span style="font-weight:700;font-family:var(--font-display);font-size:1.1rem">Marcelo Barraza</span>
+            <a href="../" class="brand-title">
+                <span>Marcelo Barraza</span>
             </a>
             <nav style="display:flex;align-items:center;gap:16px">
                 <a href="../#inicio" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Inicio</a>
@@ -41,6 +49,10 @@
                 <a href="../#terminal-section" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Terminal</a>
                 <a href="../servicios.html" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Servicios</a>
                 <a href="../#contacto" style="text-decoration:none;color:var(--color-text-muted);font-size:13px">Contacto</a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" style="margin-left:8px">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </button>
             </nav>
         </div>
     </header>
@@ -182,6 +194,16 @@
                 navigator.serviceWorker.register('../sw.js').then(reg => reg.update()).catch(() => {});
             });
         }
+
+        // Theme toggle sync
+        const htmlEl = document.documentElement;
+        const themeBtn = document.getElementById('theme-toggle');
+        themeBtn?.addEventListener('click', () => {
+            const current = htmlEl.getAttribute('data-theme') || 'dark';
+            const next = current === 'dark' ? 'light' : 'dark';
+            htmlEl.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        });
     </script>
 </body>
 </html>
