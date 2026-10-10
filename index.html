@@ -1112,13 +1112,20 @@
   Email  → <a href="mailto:marcelobarrazasantiago@gmail.com" class="t-green">marcelobarrazasantiago@gmail.com</a>
   GitHub → <a href="https://github.com/msantiago1044" target="_blank" class="t-green">github.com/msantiago1044</a>
   LinkedIn → <a href="https://www.linkedin.com/in/marcelo-a-barraza-s-55959b172/" target="_blank" class="t-green">linkedin.com/in/marcelo-a-barraza-s</a>`,
-                blog: () => `<span class="t-cyan">Artículos publicados:</span>
-  [1] Gentle-AI y Baja Entropía · 2026-10-10
-  [2] Cibernética y Digitalización bajo ISO · 2026-08-06
-  [3] Hiper-automatización con Python y n8n · 2026-08-05
-  [4] Despliegues Continuos y PWAs · 2026-08-04
-  [5] Software Corporativo a Medida · 2026-08-03
-  → Escribe <span class="t-green">open [número]</span> para leer`,
+                blog: () => {
+                    const list = (window._allArticles && window._allArticles.length) ? window._allArticles : [
+                        { slug: 'gentle-ai-arquitectura-baja-entropia', title: 'Gentle-AI y Baja Entropía', date: '2026-10-10' },
+                        { slug: 'ia-generativa-agentes-autonomos-pymes', title: 'IA Generativa y Agentes Autónomos', date: '2026-09-02' },
+                        { slug: 'gemelos-digitales-bim-nubes-puntos', title: 'Gemelos Digitales y BIM', date: '2026-08-28' },
+                        { slug: 'sistemas-de-baja-entropia-arquitectura', title: 'Arquitecturas de Baja Entropía', date: '2026-08-20' },
+                        { slug: 'cibernetica-iso', title: 'Cibernética y Digitalización bajo ISO', date: '2026-08-06' },
+                        { slug: 'automatizacion-python-n8n', title: 'Hiper-automatización con Python y n8n', date: '2026-08-05' },
+                        { slug: 'despliegues-continuos-pwa', title: 'Despliegues Continuos y PWAs', date: '2026-08-04' },
+                        { slug: 'software-a-medida', title: 'Software Corporativo a Medida', date: '2026-08-03' }
+                    ];
+                    const rows = list.map((a, i) => `  [${i + 1}] ${a.title} · ${a.date || ''}`).join('\n');
+                    return `<span class="t-cyan">Artículos publicados (${list.length}):</span>\n${rows}\n  → Escribe <span class="t-green">open [número o slug]</span> para leer`;
+                },
                 groq: (parts) => {
                     if (parts && parts.length > 1) {
                         const key = parts[1].trim();
@@ -1155,10 +1162,31 @@
                 termPrint(`<span class="t-muted">marcelo@systems ~ $</span> ${cmd}`);
                 if (!cmd.trim()) return;
                 if (base === 'open') {
-                    const num = parseInt(parts[1]);
-                    const articles = ['gentle-ai', 'cybernetics', 'automation', 'deployments', 'custom-software'];
-                    if (num >= 1 && num <= articles.length) { openDrawer(articles[num - 1]); termPrint('<span class="t-green">Abriendo artículo...</span>'); }
-                    else termPrint('<span class="t-red">Artículo no encontrado. Escribe "blog" para ver la lista.</span>');
+                    const arg = parts.slice(1).join(' ').trim();
+                    const list = (window._allArticles && window._allArticles.length) ? window._allArticles : [
+                        { slug: 'gentle-ai-arquitectura-baja-entropia' },
+                        { slug: 'ia-generativa-agentes-autonomos-pymes' },
+                        { slug: 'gemelos-digitales-bim-nubes-puntos' },
+                        { slug: 'sistemas-de-baja-entropia-arquitectura' },
+                        { slug: 'cibernetica-iso' },
+                        { slug: 'automatizacion-python-n8n' },
+                        { slug: 'despliegues-continuos-pwa' },
+                        { slug: 'software-a-medida' }
+                    ];
+                    const num = parseInt(arg);
+                    let targetSlug = null;
+                    if (!isNaN(num) && num >= 1 && num <= list.length) {
+                        targetSlug = list[num - 1].slug;
+                    } else if (arg) {
+                        const found = list.find(a => a.slug === arg || a.slug.includes(arg) || (a.title && a.title.toLowerCase().includes(arg.toLowerCase())));
+                        if (found) targetSlug = found.slug;
+                    }
+                    if (targetSlug && typeof window.openArticleBySlug === 'function') {
+                        window.openArticleBySlug(targetSlug);
+                        termPrint(`<span class="t-green">Abriendo "${targetSlug}" en el drawer...</span>`);
+                    } else {
+                        termPrint('<span class="t-red">Artículo no encontrado. Escribe "blog" para ver la lista.</span>');
+                    }
                     return;
                 }
                 const fn = termCommands[base];
@@ -1491,7 +1519,7 @@
             const cmdResults = document.getElementById('cmd-results');
             const cmdBackdrop = document.getElementById('cmd-backdrop');
 
-            const cmdItems = [
+            const cmdItems = window.cmdItems = [
                 { label: 'Ir a Inicio', action: () => document.getElementById('inicio').scrollIntoView({ behavior: 'smooth' }) },
                 { label: 'Ir a Servicios Profesionales', action: () => window.location.href = 'servicios.html' },
                 { label: 'Ir a Terminal', action: () => { document.getElementById('terminal-section').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => termInput.focus(), 600); } },
@@ -1749,7 +1777,7 @@
             // Sharing & Diffusing Utilities
             function getArticleShareUrl(slug) {
                 const base = window.location.origin + window.location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '');
-                return `${base}/?article=${encodeURIComponent(slug)}`;
+                return `${base}/articulos/${encodeURIComponent(slug)}/`;
             }
 
             window.showToast = function(msg) {
@@ -2060,6 +2088,21 @@
                     // Fetch all article metadata bypassing caching
                     const metas = await Promise.allSettled(slugs.map(slug => fetch(`articles/${slug}.json?cb=${Date.now()}`).then(r => r.json())));
                     allArticles = metas.filter(r => r.status === 'fulfilled').map(r => r.value).sort((a, b) => new Date(b.date) - new Date(a.date));
+                    window._allArticles = allArticles;
+
+                    // Dynamically articulate articles with Command Palette (Ctrl+K)
+                    if (window.cmdItems && Array.isArray(window.cmdItems)) {
+                        allArticles.forEach(a => {
+                            if (!window.cmdItems.some(item => item.slug === a.slug)) {
+                                window.cmdItems.push({
+                                    slug: a.slug,
+                                    label: `Leer: ${a.title}`,
+                                    action: () => openArticleBySlug(a.slug)
+                                });
+                            }
+                        });
+                    }
+
                     if (blogLoading) blogLoading.remove();
                     renderBlogGrid(allArticles);
 
